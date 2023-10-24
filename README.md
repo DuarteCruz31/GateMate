@@ -24,7 +24,7 @@ The documentation for this project is available at the reports folder.
 
 | NMec | Name | Email | Roles |
 |--:|---|---|---|
-| 98474| Duarte Cruz | duarteccruz@ua.pt | Team Manager |
-| 97631| Sara Almeida | sarafalmeida@ua.pt| Product Owner |
-| 97673| Bruno Páscoa | brunopascoa03@ua.pt | Architect |
-| 98388| André Oliveira| andreaoliveira@ua.pt| Dev0ps Master |
+| 107359| Duarte Cruz | duarteccruz@ua.pt | Team Manager |
+| 108796| Sara Almeida | sarafalmeida@ua.pt| Product Owner |
+| 107418| Bruno Páscoa | brunopascoa03@ua.pt | Architect |
+| 107637| André Oliveira| andreaoliveira@ua.pt| Dev0ps Master |
