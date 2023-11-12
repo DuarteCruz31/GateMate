@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>230</y>
+      <w>210</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Flight
+--
+-IATA:String
+-ICAO:String
+-Aircraft:Aircraft
+-Departure:AirportFlight
+-Arrival:AirportFlight
+-Latitude:Float
+-Longitude:Float</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>230</y>
+      <w>210</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>AirportFlight
+--
+-Airport:Airport
+-Scheduled:Date
+-Estimated:Date
+-Actual:Date
+-Terminal:String
+-Gate:String
+-Baggage:String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>270</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=2
+m2=1
+-Arrival / -Departure
+</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>460</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Airport
+--
+- IATA:String
+- ICAO:String
+- Name:String
+- Timezone:String
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>370</y>
+      <w>70</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..*
+-Airport</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>250</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Aircraft
+--
+-IATA:String
+-ICAO:String
+-Registration:String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>10</y>
+      <w>270</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>User
+--
+-Email:String
+-Password:String
+-Flights:List&lt;Flight&gt;
+--
++Login(String email,String password)
++Register(String email,String password)
++AddFlight(Flight flight)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>130</y>
+      <w>70</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=0..*
+-Flights
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>280</y>
+      <w>190</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=1
+-Aircraft</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>480</y>
+      <w>230</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Airline
+--
+-IATA:String
+-ICAO:String
+-Name: String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>380</y>
+      <w>70</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..*
+m2=1
+-Airline</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+</diagram>
