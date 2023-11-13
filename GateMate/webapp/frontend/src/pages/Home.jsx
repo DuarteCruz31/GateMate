@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import logo from "../assets/logo.png";
+import "../css/home.css";
 import image1 from "../assets/home/1.jpeg";
 import image2 from "../assets/home/2.png";
 import image3 from "../assets/home/3.png";
@@ -12,7 +13,6 @@ import image7 from "../assets/home/7.png";
 import image8 from "../assets/home/8.png";
 import image9 from "../assets/home/9.png";
 import image10 from "../assets/home/10.png";
-import "../css/home.css";
 
 function Home() {
   return (
@@ -131,7 +131,7 @@ function Home() {
                   </div>
                   <div className="text-gray-600 text-base font-normal leading-7 tracking-tight">
                     Subscribe to your flights for personalized notifications.
-                    FlightMate keeps you updated on changes, ensuring a
+                    GateMate keeps you updated on changes, ensuring a
                     stress-free travel experience
                   </div>
                 </div>
