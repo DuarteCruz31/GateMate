@@ -117,7 +117,7 @@ function AllFlights() {
               </select>
             </div>
 
-            <div class="w-1/5 ml-1">
+            <div className="w-1/5 ml-1">
               <button
                 className="w-full bg-blue-700 rounded justify-center items-center inline-flex px-12 py-2 text-center text-white text-base font-bold leading-normal"
                 onClick={applyFilters}

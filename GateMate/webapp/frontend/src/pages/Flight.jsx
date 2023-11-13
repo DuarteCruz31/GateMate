@@ -42,21 +42,26 @@ function Flight() {
           <div className="h-10 bg-white"></div>
           {/* {isPending && <div>Loading...</div>}
           {error && <div>{error}</div>} */}
-          <div className="bg-sky-950 text-white flex flex-col items-center justify-center mx-5">
-            <div className="mt-7">
-              <p className="text-4xl">
-                {flight.origin} - {flight.destination}
-              </p>
+
+          {flight && (
+            <div>
+              <div className="bg-sky-950 text-white flex flex-col items-center justify-center mx-5">
+                <div className="mt-7">
+                  <p className="text-4xl">
+                    {flight.origin} - {flight.destination}
+                  </p>
+                </div>
+                <div className="mt-2 mb-16">
+                  <p className="text-xs">
+                    {flight.flightCode} - {flight.airline}
+                  </p>
+                </div>
+              </div>
+              <div>
+                {/* {flight && <InfoFlightCard flight={flight}></InfoFlightCard>} */}
+              </div>
             </div>
-            <div className="mt-2 mb-16">
-              <p className="text-xs">
-                {flight.flightCode} - {flight.airline}
-              </p>
-            </div>
-          </div>
-          <div>
-            {/* {flight && <InfoFlightCard flight={flight}></InfoFlightCard>} */}
-          </div>
+          )}
         </div>
 
         <div>
