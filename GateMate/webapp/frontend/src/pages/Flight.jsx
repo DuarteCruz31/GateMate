@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import useFetch from "../hooks/useFetch";
+import FlightInfo from "../components/FlightInfo";
 
 function Flight() {
   const { id } = useParams();
@@ -59,6 +60,9 @@ function Flight() {
               </div>
               <div>
                 {/* {flight && <InfoFlightCard flight={flight}></InfoFlightCard>} */}
+              </div>
+              <div>
+                <FlightInfo flight={flight} />
               </div>
             </div>
           )}
