@@ -1,6 +1,5 @@
 import React from "react";
 import plane from "../assets/plane.png";
-import arrow from "../assets/arrow.png";
 
 function FlightInfo({ flight }) {
   return (

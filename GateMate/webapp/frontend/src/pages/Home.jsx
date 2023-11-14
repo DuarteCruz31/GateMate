@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import logo from "../assets/logo.png";
-import "../css/home.css";
 import image1 from "../assets/home/1.jpeg";
 import image2 from "../assets/home/2.png";
 import image3 from "../assets/home/3.png";
