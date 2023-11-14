@@ -14,12 +14,12 @@ function FlightCard({ flight }) {
         <div className="mb-5">
           <p className="text-base">{flight.flightCode}</p>
         </div>
-        <div className="flex felx-row items-center">
+        <div className="flex flex-row items-center">
           <img src={plane} alt="Plane" />
           <p className="text-base">{flight.airline}</p>
         </div>
       </div>
-      <div className="">
+      <div>
         <img src={arrow} alt="arrow" />
       </div>
     </div>

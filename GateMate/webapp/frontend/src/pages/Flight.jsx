@@ -43,7 +43,6 @@ function Flight() {
           <div className="h-10 bg-white"></div>
           {/* {isPending && <div>Loading...</div>}
           {error && <div>{error}</div>} */}
-
           {flight && (
             <div>
               <div className="bg-sky-950 text-white flex flex-col items-center justify-center mx-5">
@@ -59,13 +58,10 @@ function Flight() {
                 </div>
               </div>
               <div>
-                {/* {flight && <InfoFlightCard flight={flight}></InfoFlightCard>} */}
-              </div>
-              <div>
                 <FlightInfo flight={flight} />
-                <div className="flex justify-center">
-                  <button className="btn btn-primary"> Subscribe Flight </button>
-                </div>
+              </div>
+              <div className="flex justify-center">
+                <button className="btn btn-primary"> Subscribe Flight </button>
               </div>
             </div>
           )}
