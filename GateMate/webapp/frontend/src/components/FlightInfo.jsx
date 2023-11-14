@@ -16,12 +16,25 @@ function FlightInfo({ flight }) {
                   <p className="font text-4xl">{flight.origin}</p>
                   <p className="font text-md">Left 1h 04 m ago</p>
               </div>
-              <div>
-                    <p className="font text-4xl">2h 34 m</p>
-                    <div>
-                        <img src={plane} alt="Plane" />
+              <div className=" items-center">
+                    <div className="font text-4xl">2h 34 m</div>
+                    <div className="flex flex-row items-center">
+                        <p
+                          style={{
+                              background: 'black',
+                              height: '3px',
+                              width: '300px',
+                          }}
+                      />
+                      <img src={plane} alt="Plane" />
+                        <p
+                          style={{
+                              background: 'black',
+                              height: '3px',
+                              width: '400px',
+                          }}
+                      />
                     </div>
-                    
                     <p className="font text-blue-400 text-2xl">Direct</p>
                     <p className="font text-blue-950 text-xl">{flight.flightCode}</p>
               </div>

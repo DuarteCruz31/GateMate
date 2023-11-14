@@ -63,6 +63,9 @@ function Flight() {
               </div>
               <div>
                 <FlightInfo flight={flight} />
+                <div className="flex justify-center">
+                  <button className="btn btn-primary"> Subscribe Flight </button>
+                </div>
               </div>
             </div>
           )}
