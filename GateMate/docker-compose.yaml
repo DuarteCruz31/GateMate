@@ -82,18 +82,13 @@ services:
     volumes: 
       - ./api_consumer:/app
     depends_on:
-      mysqldb:
-        condition: service_healthy
       rabbitmq:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-        
+        condition: service_healthy   
     working_dir: /app
     env_file: .env
     environment:
       RABBITMQ_USER: ${RABBITMQ_USER}
-      RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     command: sh -c "pip install -r requirements.txt && python app.py"
 
   database_adaptor:
@@ -102,13 +97,40 @@ services:
     volumes: 
       - ./database_adaptor:/app
     depends_on:
+      mysqldb:
+        condition: service_healthy
       rabbitmq:
+        condition: service_healthy  
+    working_dir: /app
+    env_file: .env
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    command: sh -c "pip install -r requirements.txt && python app.py"
+
+  notification_manager:
+    container_name: notification_manager
+    image: python:3.10-alpine
+    volumes: 
+      - ./notification_manager:/app
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     working_dir: /app
     env_file: .env
     environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       RABBITMQ_USER: ${RABBITMQ_USER}
-      RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       EMAIL_USERNAME: ${EMAIL}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
     command: sh -c "pip install -r requirements.txt && python app.py"
