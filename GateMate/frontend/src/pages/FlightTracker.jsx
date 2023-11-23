@@ -60,7 +60,11 @@ function FlightTracker() {
           </div>
           {flights &&
             flights.map((flight) => (
-              <Link to={`/allflights/${flight.id}`}>
+              <Link
+                to={`/flightInfo/${flight.id}`}
+                key={flight.id}
+                state={{ flightData: flight }}
+              >
                 <FlightCard flight={flight}></FlightCard>
               </Link>
             ))}
