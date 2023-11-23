@@ -1,20 +1,19 @@
 version: '2.23.0'
 services:
-  mysqldb:
-    container_name: mysql
-    image: mysql:5.7
-    env_file: .env
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
     environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 5
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+
     volumes:
-      - ../data/MySQL:/var/lib/mysql
+      - ../data/MongoDB:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 50s
+      retries: 5
 
   redis:
     container_name: redis
@@ -52,7 +51,7 @@ services:
     ports: 
       - "${SPRING_PORT}:8080"
     depends_on:
-      mysqldb:
+      mongodb:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -60,7 +59,7 @@ services:
         condition: service_healthy
 
     environment:
-      SPRING_APPLICATION_JSON: '{"spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/$MYSQL_DATABASE?useSSL=false","spring.datasource,username" : "$MYSQL_USER","spring.datasource.password" : "$MYSQL_PASSWORD","spring.jpa.hibernate.ddl-auto" : "update"}'
+      SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:27017/${MONGODB_DATABASE}?authSource=admin"}'
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
       
@@ -97,16 +96,16 @@ services:
     volumes: 
       - ./database_adaptor:/app
     depends_on:
-      mysqldb:
+      mongodb:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy  
     working_dir: /app
     env_file: .env
     environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     command: sh -c "pip install -r requirements.txt && python app.py"
@@ -117,7 +116,7 @@ services:
     volumes: 
       - ./notification_manager:/app
     depends_on:
-      mysqldb:
+      mongodb:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -126,13 +125,14 @@ services:
     working_dir: /app
     env_file: .env
     environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       EMAIL_USERNAME: ${EMAIL}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      API_KEY: ${API_KEY}
     command: sh -c "pip install -r requirements.txt && python app.py"
 
 

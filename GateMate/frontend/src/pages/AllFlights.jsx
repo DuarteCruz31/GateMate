@@ -57,13 +57,13 @@ function AllFlights() {
         <div>
           <img className="h-full w-full object-cover" src={image1} />
         </div>
-        <div class="p-20">
-          <div class="justify-start items-center inline-flex">
-            <div class="text-sky-950 text-5xl font-bold leading-10">
+        <div className="p-20">
+          <div className="justify-start items-center inline-flex">
+            <div className="text-sky-950 text-5xl font-bold leading-10">
               Find and subscribe flights here
             </div>
           </div>
-          <div class="relative mt-5 flex items-center">
+          <div className="relative mt-5 flex items-center">
             <div className="w-1/5 mr-1">
               <input
                 className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
@@ -79,7 +79,7 @@ function AllFlights() {
             </div>
             <div className="w-1/5 mx-1">
               <select
-                class="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
+                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
                 value={filter.from}
                 onChange={(e) => setFilter({ ...filter, from: e.target.value })}
               >
@@ -92,7 +92,7 @@ function AllFlights() {
 
             <div className="w-1/5 mx-1">
               <select
-                class="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
+                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
                 value={filter.to}
                 onChange={(e) => setFilter({ ...filter, to: e.target.value })}
               >
@@ -104,7 +104,7 @@ function AllFlights() {
             </div>
             <div className="w-1/5 mx-1">
               <select
-                class="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
+                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
                 value={filter.company}
                 onChange={(e) =>
                   setFilter({ ...filter, company: e.target.value })
@@ -131,8 +131,12 @@ function AllFlights() {
             {error && <div>{error}</div>} */}
             {flights &&
               flights.map((flight) => (
-                <Link to={`/allflights/${flight.id}`}>
-                  <FlightCard flight={flight}></FlightCard>
+                <Link
+                  to={`/flightInfo/${flight.id}`}
+                  key={flight.id}
+                  state={{ flightData: flight }}
+                >
+                  <FlightCard flight={flight} />
                 </Link>
               ))}
           </div>

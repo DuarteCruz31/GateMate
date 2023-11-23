@@ -14,8 +14,8 @@ function App() {
         <Route path="/register" Component={Register} />
         <Route path="/login" Component={Login} />
         <Route path="/allflights" Component={AllFlights} />
-        <Route path="/allflights/:id" Component={Flight}></Route>
         <Route path="/flighttracker" Component={FlightTracker}></Route>
+        <Route path="/flightInfo/:id" element={<Flight />} />
       </Routes>
     </BrowserRouter>
   );
