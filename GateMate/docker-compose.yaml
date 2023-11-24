@@ -1,4 +1,4 @@
-version: '2.23.0'
+version: "2.23.0"
 services:
   mongodb:
     container_name: mongodb
@@ -44,11 +44,11 @@ services:
   spring:
     container_name: spring
     image: maven:3-openjdk-17
-    volumes: 
+    volumes:
       - ./webapp:/webapp
-    env_file: 
+    env_file:
       - .env
-    ports: 
+    ports:
       - "${SPRING_PORT}:8080"
     depends_on:
       mongodb:
@@ -62,14 +62,14 @@ services:
       SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:27017/${MONGODB_DATABASE}?authSource=admin"}'
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
-      
+
   react:
     container_name: react
     image: node:21-alpine
     volumes:
       - ./frontend:/app
     working_dir: /app
-    depends_on: 
+    depends_on:
       - spring
     ports:
       - "${REACT_PORT}:3000"
@@ -78,28 +78,28 @@ services:
   api_consumer:
     container_name: api_consumer
     image: python:3.10-alpine
-    volumes: 
+    volumes:
       - ./api_consumer:/app
     depends_on:
       rabbitmq:
-        condition: service_healthy   
+        condition: service_healthy
     working_dir: /app
     env_file: .env
     environment:
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-    command: sh -c "pip install -r requirements.txt && python app.py"
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
   database_adaptor:
     container_name: database_adaptor
     image: python:3.10-alpine
-    volumes: 
+    volumes:
       - ./database_adaptor:/app
     depends_on:
       mongodb:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy  
+        condition: service_healthy
     working_dir: /app
     env_file: .env
     environment:
@@ -108,12 +108,12 @@ services:
       MONGODB_DATABASE: ${MONGODB_DATABASE}
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-    command: sh -c "pip install -r requirements.txt && python app.py"
+    command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
   notification_manager:
     container_name: notification_manager
     image: python:3.10-alpine
-    volumes: 
+    volumes:
       - ./notification_manager:/app
     depends_on:
       mongodb:
@@ -133,13 +133,4 @@ services:
       EMAIL_USERNAME: ${EMAIL}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       API_KEY: ${API_KEY}
-    command: sh -c "pip install -r requirements.txt && python app.py"
-
-
-    
-
-  
-
-  
-
-  
+    command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
