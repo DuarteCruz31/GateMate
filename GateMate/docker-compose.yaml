@@ -108,7 +108,7 @@ services:
       MONGODB_DATABASE: ${MONGODB_DATABASE}
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-    command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
   notification_manager:
     container_name: notification_manager
