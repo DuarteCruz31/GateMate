@@ -1,4 +1,4 @@
-package projetoIES.webapp;
+package projetoIES.webapp.entities;
 
 import java.sql.Date;
 import java.util.List;

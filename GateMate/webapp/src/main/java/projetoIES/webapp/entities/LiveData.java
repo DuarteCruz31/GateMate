@@ -1,4 +1,4 @@
-package projetoIES.webapp;
+package projetoIES.webapp.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
