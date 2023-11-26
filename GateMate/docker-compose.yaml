@@ -1,19 +1,20 @@
 version: "2.23.0"
 services:
   mongodb:
-    container_name: mongodb
     image: mongo:latest
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
-
+    container_name: mongodb
+    hostname: mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
     volumes:
       - ../data/MongoDB:/data/db
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: 10s
-      timeout: 50s
+      test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
+      interval: 30s
+      timeout: 30s
       retries: 5
+      start_period: 15s
 
   redis:
     container_name: redis
