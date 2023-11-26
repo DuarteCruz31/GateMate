@@ -66,17 +66,18 @@ services:
 
     command: sh -c "cd webapp && mvn clean install && java -jar target/webapp-0.0.1-SNAPSHOT.jar"
 
-  react:
-    container_name: react
-    image: node:21-alpine
-    volumes:
-      - ./frontend:/app
-    working_dir: /app
-    depends_on:
-      - spring
+  frontend:
+    build: ./frontend
+    container_name: frontend
     ports:
-      - "${REACT_PORT}:3000"
-    command: sh -c "npm install && npm start"
+      - "4300:4300"
+    volumes:
+      - ./src:/app/src
+      - ./public/assets:/app/public/assets
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    env_file: .env
 
   api_consumer:
     container_name: api_consumer

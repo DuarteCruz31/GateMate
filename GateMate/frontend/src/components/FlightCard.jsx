@@ -8,15 +8,15 @@ function FlightCard({ flight }) {
       <div className="flex flex-col">
         <div className="mr-6">
           <h3 className="text-3xl font-semibold">
-            {flight.origin} - {flight.destination}
+            {flight.departure.airport} - {flight.arrival.airport}
           </h3>
         </div>
         <div className="mb-5">
-          <p className="text-base">{flight.flightCode}</p>
+          <p className="text-base">{flight.flight_number}</p>
         </div>
         <div className="flex flex-row items-center">
           <img src={plane} alt="Plane" />
-          <p className="text-base">{flight.airline}</p>
+          <p className="text-base">{flight.airline_name}</p>
         </div>
       </div>
       <div>

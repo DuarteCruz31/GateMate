@@ -5,28 +5,15 @@ import Footer from "../components/Footer";
 import FlightCard from "../components/FlightCard";
 import useFetch from "../hooks/useFetch";
 import image1 from "../assets/allflights/1.jpeg";
+import { data } from "autoprefixer";
 
 function AllFlights() {
-  /* const { error, isPending, data: flights } = useFetch(""); */
+  const {
+    error,
+    isPending,
+    data: flights,
+  } = useFetch("http://localhost:8080/api/allflights");
 
-  const flightsData = [
-    {
-      id: 1,
-      origin: "LIS",
-      destination: "FRA",
-      flightCode: "TP474",
-      airline: "TAP Air Portugal",
-    },
-    {
-      id: 2,
-      origin: "MAD",
-      destination: "US",
-      flightCode: "UX1157",
-      airline: "Air EUROPA",
-    },
-  ];
-
-  const [flights, setFlights] = useState(flightsData);
   const [filter, setFilter] = useState({
     flightCode: "",
     from: "",
@@ -127,13 +114,13 @@ function AllFlights() {
             </div>
           </div>
           <div>
-            {/* {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>} */}
+            {isPending && <div>Loading...</div>}
+            {error && <div>{error}</div>}
             {flights &&
               flights.map((flight) => (
                 <Link
-                  to={`/flightInfo/${flight.id}`}
-                  key={flight.id}
+                  to={`/flightInfo/${flight.flight_number}`}
+                  key={flight.flight_number}
                   state={{ flightData: flight }}
                 >
                   <FlightCard flight={flight} />
