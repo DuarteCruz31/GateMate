@@ -1,14 +1,8 @@
 package projetoIES.webapp.entities;
 
-import java.sql.Timestamp;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class AirportFlight {
     private String airport;
     private String timezone;
@@ -17,9 +11,9 @@ public class AirportFlight {
     private String terminal;
     private String gate;
     private int delay;
-    private Timestamp scheduled;
-    private Timestamp estimated;
-    private Timestamp actual;
-    private Timestamp estimated_runway;
-    private Timestamp actual_runway;
+    private String scheduled;
+    private String estimated;
+    private String actual;
+    private String estimated_runway;
+    private String actual_runway;
 }

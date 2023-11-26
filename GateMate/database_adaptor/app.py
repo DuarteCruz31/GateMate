@@ -24,6 +24,18 @@ async def db_adaptor(channel, collection):
                     else:
                         aircraft_registration = None
 
+                    live_data = flight["live"]
+                    if live_data is not None:
+                        live_data["latitude"] = float(live_data["latitude"])
+                        live_data["longitude"] = float(live_data["longitude"])
+                        live_data["altitude"] = float(live_data["altitude"])
+                        live_data["direction"] = float(live_data["speed"])
+                        live_data["speed_horizontal"] = float(
+                            live_data["speed_horizontal"]
+                        )
+                        live_data["speed_vertical"] = float(live_data["speed_vertical"])
+                        live_data["is_ground"] = bool(live_data["speed"])
+
                     existing_flight = collection.find_one(
                         {"flight_number": flight_number}
                     )
@@ -69,6 +81,8 @@ async def db_adaptor(channel, collection):
 if __name__ == "__main__":
     mongo_client = MongoClientmongo_client = MongoClient(f"mongodb://mongodb:27017/")
     db = mongo_client["my_mongodb_database"]
+    if "flights" not in db.list_collection_names():
+        db.create_collection("flights")
     collection = db["flights"]
 
     connection = pika.BlockingConnection(
