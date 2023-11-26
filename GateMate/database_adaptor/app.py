@@ -67,9 +67,7 @@ async def db_adaptor(channel, collection):
 
 
 if __name__ == "__main__":
-    mongo_client = MongoClientmongo_client = MongoClient(
-        f"mongodb://{os.environ['MONGODB_USER']}:{os.environ['MONGODB_PASSWORD']}@mongodb:27017/"
-    )
+    mongo_client = MongoClientmongo_client = MongoClient(f"mongodb://mongodb:27017/")
     db = mongo_client["my_mongodb_database"]
     collection = db["flights"]
 

@@ -60,7 +60,7 @@ services:
         condition: service_healthy
 
     environment:
-      SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:27017/${MONGODB_DATABASE}"}'
+      SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://mongodb:27017/${MONGODB_DATABASE}"}'
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
 
