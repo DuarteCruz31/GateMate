@@ -11,30 +11,33 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-async def data_grabber(api_key, channel, connection):
+async def data_grabber(api_key, channel, connection, airlines_icao):
     while True:
         try:
-            response = requests.get(
-                f"http://api.aviationstack.com/v1/flights?access_key={api_key}"
-            )
-
-            data = json.loads(response.text)
-            total = data["pagination"]["total"]
-            num_pages = total // 100 + 1
-
-            for i in range(num_pages):
+            for icao in airlines_icao:
                 response = requests.get(
-                    f"http://api.aviationstack.com/v1/flights?access_key={api_key}&offset={i*100}"
+                    f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_iata={icao}"
                 )
 
-                # send data to RabbitMQ
-                channel.basic_publish(
-                    exchange="",
-                    routing_key="aviation_data",
-                    body=json.dumps(response.json()),
-                )
+                data = json.loads(response.text)
+                total = data["pagination"]["total"]
+                num_pages = total // 100 + 1
+                if total % 100 == 0:
+                    num_pages -= 1
 
-                logger.info("Data successfully grabbed at %s", datetime.datetime.now())
+                for i in range(num_pages):
+                    response = requests.get(
+                        f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_iata={icao}&offset={i*100}"
+                    )
+
+                    # send data to RabbitMQ
+                    channel.basic_publish(
+                        exchange="",
+                        routing_key="aviation_data",
+                        body=json.dumps(response.json()),
+                    )
+
+            logger.info("Data successfully grabbed at %s", datetime.datetime.now())
 
             await asyncio.sleep(300)
         except ChannelWrongStateError as e:
@@ -47,6 +50,8 @@ async def data_grabber(api_key, channel, connection):
 
 
 if __name__ == "__main__":
+    airlines_icao = ["TAP", "AFR", "AAL", "FPO", "BAW", "QTR"]
+
     api_key = os.environ["API_KEY"]
 
     connection = pika.BlockingConnection(
@@ -62,6 +67,6 @@ if __name__ == "__main__":
     channel.queue_declare(queue="aviation_data")
 
     try:
-        asyncio.run(data_grabber(api_key, channel, connection))
+        asyncio.run(data_grabber(api_key, channel, connection, airlines_icao))
     except KeyboardInterrupt:
         connection.close()
