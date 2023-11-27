@@ -16,7 +16,7 @@ async def data_grabber(api_key, channel, connection, airlines_icao):
         try:
             for icao in airlines_icao:
                 response = requests.get(
-                    f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_iata={icao}"
+                    f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_icao={icao}"
                 )
 
                 data = json.loads(response.text)
@@ -27,7 +27,7 @@ async def data_grabber(api_key, channel, connection, airlines_icao):
 
                 for i in range(num_pages):
                     response = requests.get(
-                        f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_iata={icao}&offset={i*100}"
+                        f"http://api.aviationstack.com/v1/flights?access_key={api_key}&flight_status=active&airline_icao={icao}&offset={i*100}"
                     )
 
                     # send data to RabbitMQ
