@@ -22,19 +22,18 @@ function Flight(props) {
 
         <div className="flex-1">
           <div className="h-10 bg-white"></div>
-          {/* {isPending && <div>Loading...</div>}
-          {error && <div>{error}</div>} */}
           {flightData && (
             <div>
               <div className="bg-sky-950 text-white flex flex-col items-center justify-center mx-5">
                 <div className="mt-7">
                   <p className="text-4xl">
-                    {flightData.origin} - {flightData.destination}
+                    {flightData.departure.airport} -{" "}
+                    {flightData.arrival.airport}
                   </p>
                 </div>
                 <div className="mt-2 mb-16">
                   <p className="text-xs">
-                    {flightData.flightCode} - {flightData.airline}
+                    {flightData.flight_number} - {flightData.airline_name}
                   </p>
                 </div>
               </div>

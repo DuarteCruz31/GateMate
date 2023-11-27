@@ -1,0 +1,140 @@
+version: "2.23.0"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    hostname: mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ../data/MongoDB:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 15s
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 50s
+      retries: 5
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: heidiks/rabbitmq-delayed-message-exchange:latest
+    env_file: .env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "node_health_check"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ../data/RabbitMQ:/var/lib/rabbitmq
+
+  spring:
+    container_name: spring
+    image: maven:3-openjdk-17
+    volumes:
+      - ./webapp:/webapp
+    env_file:
+      - .env
+    ports:
+      - "${SPRING_PORT}:8080"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    environment:
+      SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://mongodb:27017/${MONGODB_DATABASE}"}'
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
+
+    command: sh -c "cd webapp && mvn clean install && java -jar target/webapp-0.0.1-SNAPSHOT.jar"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "4300:4300"
+    volumes:
+      - ./src:/app/src
+      - ./public/assets:/app/public/assets
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    env_file: .env
+
+  api_consumer:
+    container_name: api_consumer
+    image: python:3.10-alpine
+    volumes:
+      - ./api_consumer:/app
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    working_dir: /app
+    env_file: .env
+    environment:
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+
+  database_adaptor:
+    container_name: database_adaptor
+    image: python:3.10-alpine
+    volumes:
+      - ./database_adaptor:/app
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    working_dir: /app
+    env_file: .env
+    environment:
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+
+  notification_manager:
+    container_name: notification_manager
+    image: python:3.10-alpine
+    volumes:
+      - ./notification_manager:/app
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    working_dir: /app
+    env_file: .env
+    environment:
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      EMAIL_USERNAME: ${EMAIL}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      API_KEY: ${API_KEY}
+    command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
