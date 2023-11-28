@@ -70,7 +70,7 @@ services:
     build: ./frontend
     container_name: frontend
     ports:
-      - "4300:4300"
+      - 5173:5173
     volumes:
       - ./src:/app/src
       - ./public/assets:/app/public/assets
