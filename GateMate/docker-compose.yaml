@@ -66,6 +66,19 @@ services:
 
     command: sh -c "cd webapp && mvn clean install && java -jar target/webapp-0.0.1-SNAPSHOT.jar"
 
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 8083:8083
+    volumes:
+      - ./src:/app/src
+      - ./public/assets:/app/public/assets
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    env_file: .env
+
   api_consumer:
     container_name: api_consumer
     image: python:3.10-alpine
