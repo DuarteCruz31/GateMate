@@ -3,9 +3,6 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FlightInfo from "../components/FlightInfo";
-import FlightInfoArrival from "../components/FlightInfoArrival";
-import FlightInfoDeparture from "../components/FlightInfoDeparture";
-import FlightLiveDataTable from "../components/FlightLiveDataTable";
 
 function Flight(props) {
   const location = useLocation();
@@ -42,30 +39,13 @@ function Flight(props) {
               <div>
                 <FlightInfo flight={flightData} />
               </div>
-              <div className="flex flex-row gap-10 mb-10">
-                <div className="overflow-x-auto w-1/3 ml-10">
-                  <p className="text-center text-4xl font-bold mb-5">
-                    Departure
-                  </p>
-                  <FlightInfoDeparture flight={flightData} />
-                </div>
-                <div className="overflow-x-auto w-1/3">
-                  <p className="text-center text-4xl font-bold mb-5">
-                    Live Data
-                  </p>
-                  <FlightLiveDataTable flight={flightData} />
-                </div>
-                <div className="overflow-x-auto w-1/3 mr-10">
-                  <p className="text-center text-4xl font-bold mb-5">Arrival</p>
-                  <FlightInfoArrival flight={flightData} />
-                </div>
-              </div>
               <div className="flex justify-center mb-10">
                 <button className="btn btn-primary"> Subscribe Flight </button>
               </div>
             </div>
           )}
         </div>
+
         <div>
           <Footer />
         </div>
