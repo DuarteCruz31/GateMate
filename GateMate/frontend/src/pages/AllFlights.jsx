@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FlightCard from "../components/FlightCard";
 import useFetch from "../hooks/useFetch";
 import image1 from "../assets/allflights/1.jpeg";
-import { data } from "autoprefixer";
 
 function AllFlights() {
   const {
@@ -13,26 +12,6 @@ function AllFlights() {
     isPending,
     data: flights,
   } = useFetch("http://localhost:8080/api/allflights");
-
-  const [filter, setFilter] = useState({
-    flightCode: "",
-    from: "",
-    to: "",
-    company: "",
-  });
-
-  // Função para filtrar os voos com base nos filtros selecionados
-  const applyFilters = () => {
-    const filteredFlights = flightsData.filter((flight) => {
-      return (
-        flight.flightCode.includes(filter.flightCode) &&
-        (filter.from === "" || flight.origin === filter.from) &&
-        (filter.to === "" || flight.destination === filter.to) &&
-        (filter.company === "" || flight.airline === filter.company)
-      );
-    });
-    setFlights(filteredFlights);
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -58,18 +37,10 @@ function AllFlights() {
                 name="flightCode"
                 id="flightCode"
                 placeholder=" Code"
-                value={filter.flightCode}
-                onChange={(e) =>
-                  setFilter({ ...filter, flightCode: e.target.value })
-                }
               />
             </div>
             <div className="w-1/5 mx-1">
-              <select
-                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
-                value={filter.from}
-                onChange={(e) => setFilter({ ...filter, from: e.target.value })}
-              >
+              <select className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex">
                 <option value="" selected>
                   From
                 </option>
@@ -78,11 +49,7 @@ function AllFlights() {
             </div>
 
             <div className="w-1/5 mx-1">
-              <select
-                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
-                value={filter.to}
-                onChange={(e) => setFilter({ ...filter, to: e.target.value })}
-              >
+              <select className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle">
                 <option value="" selected>
                   To
                 </option>
@@ -90,13 +57,7 @@ function AllFlights() {
               </select>
             </div>
             <div className="w-1/5 mx-1">
-              <select
-                className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle"
-                value={filter.company}
-                onChange={(e) =>
-                  setFilter({ ...filter, company: e.target.value })
-                }
-              >
+              <select className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-fle">
                 <option value="" selected>
                   Company
                 </option>
@@ -105,10 +66,7 @@ function AllFlights() {
             </div>
 
             <div className="w-1/5 ml-1">
-              <button
-                className="w-full bg-blue-700 rounded justify-center items-center inline-flex px-12 py-2 text-center text-white text-base font-bold leading-normal"
-                onClick={applyFilters}
-              >
+              <button className="w-full bg-blue-700 rounded justify-center items-center inline-flex px-12 py-2 text-center text-white text-base font-bold leading-normal">
                 Search
               </button>
             </div>
