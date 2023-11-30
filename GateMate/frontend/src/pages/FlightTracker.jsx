@@ -1,43 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Icon } from "leaflet"; // Import the Icon component
+import "../../node_modules/leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Filter from "../components/Filter";
-import FlightCard from "../components/FlightCard";
-import mapa from "../assets/flighttracker/mapa.png";
+import useFetch from "../hooks/useFetch";
 
 function FlightTracker() {
-  const flights = [
-    {
-      id: 1,
-      origin: "LIS",
-      destination: "JFK",
-      flightCode: "TP574",
-      airline: "TAP Air Portugal",
-    },
-    {
-      id: 2,
-      origin: "FRA",
-      destination: "JFK",
-      flightCode: "FR124",
-      airline: "Air France",
-    },
-    {
-      id: 3,
-      origin: "JFK",
-      destination: "MDR",
-      flightCode: "AMR535",
-      airline: "American Airlines",
-    },
-  ];
+  const [map, setMap] = useState(null);
+  const { error, isPending, data: flights } = useFetch("http://localhost:8080/api/livedata");
+  const position = [38.7800, -9.1350];
+
+  const planeIcon = new Icon({
+    iconUrl: "../plane.webp",
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  });
+
+  useEffect(() => {
+    // console.log(flights);
+  }, [flights]);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div>
+      <div className="mb-10">
         <Navbar />
       </div>
-
-      <div className="flex-1 flex flex-row">
+      <div className="flex flex-row">
         <div className="w-1/3 p-5 mt-7 flex flex-col">
           <div>
             <button className="text-blue-400">
@@ -54,24 +45,42 @@ function FlightTracker() {
             <Filter type={"City"} />
           </div>
         </div>
-        <div className="w-2/3 flex flex-col">
-          <div className="p-12">
-            <img src={mapa} alt="" />
-          </div>
-          {flights &&
-            flights.map((flight) => (
-              <Link
-                to={`/flightInfo/${flight.id}`}
-                key={flight.id}
-                state={{ flightData: flight }}
-              >
-                <FlightCard flight={flight}></FlightCard>
-              </Link>
+        <div className="flex-1 ml-4 mr-10" style={{ height: '768px', width: '50%'}}>
+          <MapContainer center={[38.7800, -9.1350]} zoom={13} scrollWheelZoom={false}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {flights && flights.map((flight) => (
+              console.log(flight),
+              <Marker
+              key={flight.flight_number}
+              position={[flight.latitude, flight.longitude]}
+              icon={planeIcon}
+            >
+              <Popup>
+                <Link to={`/flightInfo/${flight.flight_number}`} state={{ flightData: flight }}>
+                  <div className="flex flex-col">
+                    <div className="text-xl font-bold">{flight.flight_number}</div>
+                    <div className="text-sm">{flight.airline}</div>
+                    <div className="text-sm">{flight.plane_type}</div>
+                    <div className="text-sm">{flight.city}</div>
+                    <div className="text-sm">Altitude: {flight.altitude}</div>
+                    <div className="text-sm">Arrival Airport: {flight.arrival_airport}</div>
+                    <div className="text-sm">Departure Airport: {flight.departure_airport}</div>
+                    <div className="text-sm">Direction: {flight.direction}</div>
+                    <div className="text-sm">Speed: {flight.speed}</div>
+                    <div className="text-sm">Vertical Speed: {flight.vertical_speed}</div>
+                  </div>
+                </Link>
+              </Popup>
+            </Marker>
+            
             ))}
-          <div></div>
+          </MapContainer>
         </div>
       </div>
-      <div>
+      <div className="mt-10">
         <Footer />
       </div>
     </div>

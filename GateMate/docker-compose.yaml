@@ -94,6 +94,21 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
+  live_data_consumer:
+    container_name: live_data_consumer
+    image: python:3.10-alpine
+    volumes:
+      - ./live_data_consumer:/app
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    working_dir: /app
+    env_file: .env
+    environment:
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+
   database_adaptor:
     container_name: database_adaptor
     image: python:3.10-alpine
