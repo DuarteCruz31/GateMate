@@ -17,6 +17,15 @@ user-friendly functionalities. Our application is designed to be more than just 
 tracker; it's a travel companion that offers an intelligent, context-aware experience for
 travelers.
 
+## How to run
+
+cd into the root directory and run the following commands:
+
+```bash
+cd GateMate
+```
+Read the README.md file in the root directory for more information.
+
 ## Bookmarks
 The documentation for this project is available at the reports folder.
 
