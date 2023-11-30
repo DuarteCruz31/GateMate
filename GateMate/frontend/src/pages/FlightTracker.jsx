@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Filter from "../components/Filter";
 import useFetch from "../hooks/useFetch";
+import "leaflet-rotatedmarker";
 
 function FlightTracker() {
   const [map, setMap] = useState(null);
@@ -18,6 +19,12 @@ function FlightTracker() {
     iconSize: [32, 32],
     iconAnchor: [16, 16],
   });
+
+  const calculateRotation = (direction) => {
+    direction = (direction + 180) % 360 - 180;
+  
+    return direction;
+  }
 
   useEffect(() => {
     // console.log(flights);
@@ -52,11 +59,12 @@ function FlightTracker() {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {flights && flights.map((flight) => (
-              console.log(flight),
+              //console.log(flight),
               <Marker
               key={flight.flight_number}
               position={[flight.latitude, flight.longitude]}
               icon={planeIcon}
+              rotationAngle={calculateRotation(flight.direction + 45)}
             >
               <Popup>
                 <Link to={`/flightInfo/${flight.flight_number}`} state={{ flightData: flight }}>
