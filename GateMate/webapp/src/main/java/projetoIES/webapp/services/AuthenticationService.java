@@ -22,6 +22,7 @@ public class AuthenticationService {
         this.generator=new SecureRandom();
     }
 
+    // get token from user
     public String generateToken(User user){
         String email=user.getEmail();
         String token="";
@@ -36,6 +37,7 @@ public class AuthenticationService {
         return token;
     }
 
+    //get user from token
     public User validateToken(String token){
         if(jedis.exists("token:"+token)){
             String email=jedis.get("token:"+token);
@@ -45,14 +47,30 @@ public class AuthenticationService {
         }
     }
 
-    public User register(String email,String password){
+    public String register(String email,String password){
         if(repository.existsByEmail(email)){
             return null;
         }else{
+            User user=new User(email, password);
+            repository.save(user);
+            return this.generateToken(user);
         }
     }
+    
+    public String login(String email,String password){
+        User user=repository.findByEmailAndPassword(email, password);
+        if(user!=null){
+            return this.generateToken(user);
+        }
+        return null;
+    }
 
-    public void logout(String token){
-        jedis.del("token:"+token);
+    //remove token
+    public boolean logout(String token){
+        if(jedis.exists("token:"+token)){
+            jedis.del("token:"+token);
+            return true;
+        }
+        return false;
     }
 }
