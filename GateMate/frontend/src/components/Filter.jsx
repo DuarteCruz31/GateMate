@@ -11,7 +11,7 @@ function Filter({ type }) {
   ];
   const planeTypes = [
     "Boeing 747-400",
-    "Airbus A-350-900",
+    "Airbus A350-900",
     "Airbus A380-800",
     "Boeing 787-9 Dreamliner",
     "Boeing 737-800",

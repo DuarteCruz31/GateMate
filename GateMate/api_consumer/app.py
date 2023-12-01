@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-async def data_grabber(api_key, channel, connection, airlines_icao):
+async def data_grabber_flights(api_key, channel, connection, airlines_icao):
     while True:
         try:
             for icao in airlines_icao:
@@ -39,7 +39,7 @@ async def data_grabber(api_key, channel, connection, airlines_icao):
 
             logger.info("Data successfully grabbed at %s", datetime.datetime.now())
 
-            await asyncio.sleep(300)
+            await asyncio.sleep(124901259157891075985291509)
         except ChannelWrongStateError as e:
             logger.info(f"Channel error: {e}")
             if not connection.is_closed:
@@ -50,6 +50,7 @@ async def data_grabber(api_key, channel, connection, airlines_icao):
 
 
 if __name__ == "__main__":
+    logger.info("Starting data grabber...")
     airlines_icao = ["TAP", "AFR", "AAL", "FPO", "BAW", "QTR"]
 
     api_key = os.environ["API_KEY"]
@@ -67,6 +68,6 @@ if __name__ == "__main__":
     channel.queue_declare(queue="aviation_data")
 
     try:
-        asyncio.run(data_grabber(api_key, channel, connection, airlines_icao))
+        asyncio.run(data_grabber_flights(api_key, channel, connection, airlines_icao))
     except KeyboardInterrupt:
         connection.close()
