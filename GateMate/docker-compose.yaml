@@ -8,7 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ../data/MongoDB:/data/db
+      - ./data/MongoDB:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
       interval: 30s
@@ -40,7 +40,7 @@ services:
       timeout: 5s
       retries: 3
     volumes:
-      - ../data/RabbitMQ:/var/lib/rabbitmq
+      - ./data/RabbitMQ:/var/lib/rabbitmq
 
   spring:
     container_name: spring
