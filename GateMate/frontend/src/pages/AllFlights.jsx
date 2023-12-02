@@ -12,6 +12,7 @@ function AllFlights() {
     isPending,
     data: flights,
   } = useFetch("http://localhost:8080/api/allflights");
+  console.log(flights);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -77,11 +78,11 @@ function AllFlights() {
             {flights &&
               flights.map((flight) => (
                 <Link
-                  to={`/flightInfo/${flight.flight_number}`}
-                  key={flight.flight_number}
-                  state={{ flightData: flight }}
+                  to={`/flightInfo/${flight.flightNumber}`}
+                  key={flight.flightNumber}
+                  state={{ flightIata: flight.flightIata }}
                 >
-                  <FlightCard flight={flight.flight_number} />
+                  <FlightCard flight={flight} />
                 </Link>
               ))}
           </div>
