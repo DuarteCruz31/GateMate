@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import projetoIES.webapp.repositories.FlightRepository;
-import projetoIES.webapp.repositories.LiveDataRepository;
 import projetoIES.webapp.repositories.UserRepository;
 
 @SpringBootApplication
@@ -22,9 +21,6 @@ public class WebappApplication {
 
 	@Autowired
 	UserRepository userRepository;
-
-	@Autowired
-	LiveDataRepository liveDataRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebappApplication.class, args);
