@@ -1,14 +1,30 @@
 package projetoIES.webapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import projetoIES.webapp.repositories.FlightRepository;
+import projetoIES.webapp.repositories.LiveDataRepository;
+import projetoIES.webapp.repositories.UserRepository;
+
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = "projetoIES.webapp.repositories")
 public class WebappApplication {
+
+	@Autowired
+	FlightRepository flightRepository;
+
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	LiveDataRepository liveDataRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(WebappApplication.class, args);

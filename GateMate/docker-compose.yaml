@@ -43,6 +43,7 @@ services:
       - ./data/RabbitMQ:/var/lib/rabbitmq
 
   spring:
+    build: ./webapp
     container_name: spring
     image: maven:3-openjdk-17
     volumes:
@@ -65,7 +66,7 @@ services:
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
       API_KEY: ${API_KEY}
 
-    command: sh -c "cd webapp && mvn clean install && java -jar target/webapp-0.0.1-SNAPSHOT.jar"
+    command: sh -c "./mvnw spring-boot:run"
 
   frontend:
     build: ./frontend

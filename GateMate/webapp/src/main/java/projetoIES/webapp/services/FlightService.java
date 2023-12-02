@@ -31,27 +31,27 @@ public class FlightService {
         return flightRepository.findAll();
     }
 
-    public Flight getFlightInfo(String flight_iata){
-        Flight old_data=flightRepository.findByFlight_iata(flight_iata);
+    public Flight getFlightInfo(String flightIata){
+        Flight old_data=flightRepository.findByFlightIata(flightIata);
 
-        if(jedis.exists("info:"+flight_iata)){ //if the info is updated
+        if(jedis.exists("info:"+flightIata)){ //if the info is updated
             return old_data;
         }else{ //never asked or expired
-            JsonNode jsonNode=fetchInfo(flight_iata);
+            JsonNode jsonNode=fetchInfo(flightIata);
             if(jsonNode!=null){
-                Flight new_data=new Flight(jsonNode,old_data.getLive_data());
+                Flight new_data=new Flight(jsonNode,old_data.getLiveData());
                 flightRepository.save(new_data);
-                jedis.setex("info:"+flight_iata,(long)5*60,new_data.getDeparture().getEstimated()); //the value is meaningless here but may be useful in the notification manager
+                jedis.setex("info:"+flightIata,(long)5*60,new_data.getDeparture().getEstimated()); //the value is meaningless here but may be useful in the notification manager
                 return new_data;
             }
         }
         return null;
     }
 
-    public JsonNode fetchInfo(String flight_iata){
+    public JsonNode fetchInfo(String flightIata){
         RestTemplate rest=new RestTemplate();
         String api_key=System.getenv("API_KEY");
-        String url="https://airlabs.co/api/v9/flight?flight_iata="+flight_iata+"&api_key="+api_key;
+        String url="https://airlabs.co/api/v9/flight?flight_iata="+flightIata+"&api_key="+api_key;
 
         ResponseEntity<String> response = rest.getForEntity(url, String.class);
         if(response.getStatusCode().is2xxSuccessful()){
