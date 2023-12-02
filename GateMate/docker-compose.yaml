@@ -63,6 +63,7 @@ services:
       SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://mongodb:27017/${MONGODB_DATABASE}"}'
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
+      API_KEY: ${API_KEY}
 
     command: sh -c "cd webapp && mvn clean install && java -jar target/webapp-0.0.1-SNAPSHOT.jar"
 

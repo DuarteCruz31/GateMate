@@ -40,7 +40,7 @@ public class Flight {
         departure.setTerminal(json.get("dep_terminal").asText());
         departure.setGate(json.get("dep_gate").asText());
         departure.setDelay(json.get("dep_delayed").asInt(0));
-        departure.setActual(json.get("dep_time").asString());
+        departure.setActual(json.get("dep_time").asText());
         departure.setEstimated(json.get("dep_estimated").asText(departure.getActual()));
 
         arrival=new AirportFlight();
@@ -49,7 +49,7 @@ public class Flight {
         arrival.setTerminal(json.get("arr_terminal").asText());
         arrival.setGate(json.get("arr_gate").asText());
         arrival.setDelay(json.get("arr_delayed").asInt(0));
-        arrival.setActual(json.get("arr_time").asString());
+        arrival.setActual(json.get("arr_time").asText());
         arrival.setEstimated(json.get("arr_estimated").asText(arrival.getActual()));        
     }
 }
