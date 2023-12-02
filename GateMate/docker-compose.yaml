@@ -73,9 +73,7 @@ services:
     ports:
       - 8083:8083
     volumes:
-      - ./src:/app/src
-      - ./public/assets:/app/public/assets
-      - /app/node_modules
+      - ./frontend:/app
     stdin_open: true
     tty: true
     env_file: .env
