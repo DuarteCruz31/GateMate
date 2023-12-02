@@ -9,8 +9,6 @@ import lombok.Setter;
 @Data
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class AirportFlight {
-    private String airport;
-    private String timezone;
     private String iata;
     private String icao;
     private String terminal;
@@ -19,6 +17,4 @@ public class AirportFlight {
     private String scheduled;
     private String estimated;
     private String actual;
-    private String estimated_runway;
-    private String actual_runway;
 }
