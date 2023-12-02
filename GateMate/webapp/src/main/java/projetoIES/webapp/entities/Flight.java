@@ -25,6 +25,7 @@ public class Flight {
     @Field("arrival")
     private AirportFlight arrival;
     private String airlineIata;
+    private String airlineName;
     private String aircraftRegistration;
     @Field("live_data")
     private LiveData liveData;
@@ -34,6 +35,7 @@ public class Flight {
         this.flightNumber = json.get("flight_number").asInt();
         this.flightIata = json.get("flight_iata").asText();
         this.airlineIata = json.get("airline_iata").asText();
+        this.airlineName = json.get("airline_name").asText();
         this.aircraftRegistration = json.get("reg_number").asText();
         // no need to change the live data
         this.liveData = liveData;

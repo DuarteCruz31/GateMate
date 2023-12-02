@@ -33,11 +33,23 @@ async def db_adaptor_live_data(channel, collection):
                 arrive_iata = flight["arr_iata"]
                 airline_iata = flight["airline_iata"]
 
+                if airline_iata == "QR":
+                    airline_name = "Qatar Airways"
+                elif airline_iata == "BA":
+                    airline_name = "British Airways"
+                elif airline_iata == "TP":
+                    airline_name = "TAP Air Portugal"
+                elif airline_iata == "AF":
+                    airline_name = "Air France"
+                elif airline_iata == "AA":
+                    airline_name = "American Airlines"
+
                 existing_flight = collection.find_one({"flight_number": flight_number})
 
                 data_to_insert = {
                     "flightIata": flight_iata,
                     "airlineIata": airline_iata,
+                    "airlineName": airline_name,
                     "aircraftRegistration": reg_number,
                     "departure": {
                         "iata": departure_iata,

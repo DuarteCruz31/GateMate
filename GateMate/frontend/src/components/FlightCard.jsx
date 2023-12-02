@@ -17,7 +17,7 @@ function FlightCard({ flight }) {
         </div>
         <div className="flex flex-row items-center">
           <img src={plane} alt="Plane" />
-          <p className="text-base">{flight.airlineIata}</p>
+          <p className="text-base">{flight.airlineName}</p>
         </div>
       </div>
       <div>
