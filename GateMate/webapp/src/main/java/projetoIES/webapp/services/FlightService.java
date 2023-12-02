@@ -1,11 +1,9 @@
 package projetoIES.webapp.services;
 
-import lombok.AllArgsConstructor;
 import projetoIES.webapp.entities.Flight;
 import projetoIES.webapp.repositories.FlightRepository;
 import redis.clients.jedis.Jedis;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
