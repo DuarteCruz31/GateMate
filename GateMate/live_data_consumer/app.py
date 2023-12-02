@@ -22,7 +22,7 @@ async def data_grabber_live_data(api_key, channel, connection, airlines_icao):
                 # send data to RabbitMQ
                 channel.basic_publish(
                     exchange="",
-                    routing_key="live_data",
+                    routing_key="flights",
                     body=json.dumps(response.json()),
                 )
 
@@ -33,7 +33,7 @@ async def data_grabber_live_data(api_key, channel, connection, airlines_icao):
             logger.info(f"Channel error: {e}")
             if not connection.is_closed:
                 channel = connection.channel()
-                channel.queue_declare(queue="live_data")
+                channel.queue_declare(queue="flights")
         except Exception as e:
             logger.error(f"Error: {e}")
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     )
 
     channel = connection.channel()
-    channel.queue_declare(queue="live_data")
+    channel.queue_declare(queue="flights")
 
     try:
         asyncio.run(

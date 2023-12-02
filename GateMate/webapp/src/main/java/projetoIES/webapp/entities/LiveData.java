@@ -12,17 +12,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@Document(collection = "live_data")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LiveData {
-    private String flight_number;
     private float latitude;
     private float longitude;
     private float altitude;
     private float direction;
     private float speed;
     private float vertical_speed;
-    private String departure_airport;
-    private String arrival_airport;
-    private String airline_icao;
 }
