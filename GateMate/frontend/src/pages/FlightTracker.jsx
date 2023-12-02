@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon } from "leaflet"; // Import the Icon component
+import { Icon } from "leaflet";
 import "../../node_modules/leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Filter from "../components/Filter";
 import useFetch from "../hooks/useFetch";
+import airplaneIcon from "../assets/plane.webp";
 import "leaflet-rotatedmarker";
 
 function FlightTracker() {
@@ -16,11 +17,11 @@ function FlightTracker() {
     isPending,
     data: flights,
   } = useFetch("http://localhost:8080/api/allflights");
-  console.log(flights);
+
   const position = [38.78, -9.135];
 
   const planeIcon = new Icon({
-    iconUrl: "../plane.webp",
+    iconUrl: airplaneIcon,
     iconSize: [32, 32],
     iconAnchor: [16, 16],
   });
@@ -30,10 +31,6 @@ function FlightTracker() {
 
     return direction;
   };
-
-  useEffect(() => {
-    // console.log(flights);
-  }, [flights]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -72,7 +69,6 @@ function FlightTracker() {
             />
             {flights &&
               flights.map((flight) => (
-                //console.log(flight),
                 <Marker
                   key={flight.flightNumber}
                   position={[
