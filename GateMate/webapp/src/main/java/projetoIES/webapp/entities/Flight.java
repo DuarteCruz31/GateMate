@@ -15,25 +15,25 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Document(collection = "flights")
 public class Flight {
-    private int flight_number;
-    private String flight_iata;
+    private int flightNumber;
+    private String flightIata;
     @Field("departure")
     private AirportFlight departure;
     @Field("arrival")
     private AirportFlight arrival;
-    private String airline_iata;
-    private String aircraft_registration;
+    private String airlineIata;
+    private String aircraftRegistration;
     @Field("live_data")
-    private LiveData live_data;
+    private LiveData liveData;
 
     //object mapping from api response
-    public Flight(JsonNode json, LiveData live_data){
-        this.flight_number=json.get("flight_number").asInt();
-        this.flight_iata=json.get("flight_iata").asText();
-        this.airline_iata=json.get("airline_iata").asText();
-        this.aircraft_registration=json.get("reg_number").asText();
+    public Flight(JsonNode json, LiveData liveFata){
+        this.flightNumber=json.get("flight_number").asInt();
+        this.flightIata=json.get("flight_iata").asText();
+        this.airlineIata=json.get("airline_iata").asText();
+        this.aircraftRegistration=json.get("reg_number").asText();
         //no need to change the live data
-        this.live_data=live_data;
+        this.liveData=liveData;
         departure=new AirportFlight();
         departure.setIata(json.get("dep_iata").asText());
         departure.setIcao(json.get("dep_icao").asText());
