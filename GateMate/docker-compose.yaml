@@ -8,7 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ../data/MongoDB:/data/db
+      - ./data/MongoDB:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
       interval: 30s
@@ -40,7 +40,7 @@ services:
       timeout: 5s
       retries: 3
     volumes:
-      - ../data/RabbitMQ:/var/lib/rabbitmq
+      - ./data/RabbitMQ:/var/lib/rabbitmq
 
   spring:
     build: ./webapp
@@ -74,27 +74,10 @@ services:
     ports:
       - 8083:8083
     volumes:
-      - ./src:/app/src
-      - ./public/assets:/app/public/assets
-      - /app/node_modules
+      - ./frontend:/app
     stdin_open: true
     tty: true
     env_file: .env
-
-  api_consumer:
-    container_name: api_consumer
-    image: python:3.10-alpine
-    volumes:
-      - ./api_consumer:/app
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    working_dir: /app
-    env_file: .env
-    environment:
-      RABBITMQ_USER: ${RABBITMQ_USER}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
   live_data_consumer:
     container_name: live_data_consumer

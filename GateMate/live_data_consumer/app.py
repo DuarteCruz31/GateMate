@@ -42,7 +42,7 @@ if __name__ == "__main__":
     logger.info("Starting data grabber...")
     airlines_icao = ["TAP", "AFR", "AAL", "FPO", "BAW", "QTR"]
 
-    live_data_key = os.environ["FLIGHT_TRACKER_API_KEY"]
+    live_data_key = os.environ["API_KEY"]
 
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(

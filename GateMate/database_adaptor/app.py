@@ -11,73 +11,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-async def db_adaptor_flights(channel, collection):
-    def callback(ch, method, properties, body):
-        try:
-            data = json.loads(body)
-
-            for flight in data["data"]:
-                flight_number = flight["flight"]["number"]
-                if flight_number is not None:
-                    if flight["aircraft"] is not None:
-                        aircraft_registration = flight["aircraft"]["registration"]
-                    else:
-                        aircraft_registration = None
-
-                    live_data = flight["live"]
-                    if live_data is not None:
-                        live_data["latitude"] = float(live_data["latitude"])
-                        live_data["longitude"] = float(live_data["longitude"])
-                        live_data["altitude"] = float(live_data["altitude"])
-                        live_data["direction"] = float(live_data["speed"])
-                        live_data["speed_horizontal"] = float(
-                            live_data["speed_horizontal"]
-                        )
-                        live_data["speed_vertical"] = float(live_data["speed_vertical"])
-                        live_data["is_ground"] = bool(live_data["speed"])
-
-                    existing_flight = collection.find_one(
-                        {"flight_number": flight_number}
-                    )
-
-                    data_to_insert = {
-                        "flight_date": flight["flight_date"],
-                        "departure": flight["departure"],
-                        "arrival": flight["arrival"],
-                        "airline_name": flight["airline"]["name"],
-                        "aircraft_registration": aircraft_registration,
-                        "live_data": flight["live"],
-                    }
-
-                    if existing_flight is not None:
-                        collection.update_one(
-                            {"flight_number": flight_number},
-                            {"$set": data_to_insert},
-                        )
-                        logger.info(
-                            "Updated document for flight number: %s", flight_number
-                        )
-                    else:
-                        data_to_insert["flight_number"] = flight_number
-
-                        collection.insert_one(data_to_insert)
-                        logger.info(
-                            "Inserted new document for flight number: %s", flight_number
-                        )
-
-        except json.JSONDecodeError as e:
-            logger.error(f"Error decoding JSON: {e}")
-        except Exception as e:
-            logger.error(f"Error processing message: {e}")
-
-    channel.basic_consume(
-        queue="aviation_data", on_message_callback=callback, auto_ack=True
-    )
-
-    logger.info("Waiting for messages. To exit, press CTRL+C")
-    channel.start_consuming()
-
-
 async def db_adaptor_live_data(channel, collection):
     def callback(ch, method, properties, body):
         try:
@@ -85,29 +18,49 @@ async def db_adaptor_live_data(channel, collection):
 
             for flight in data["response"]:
                 # logger.info(flight)
-                flight_number = flight["flight_number"]
+                hex = flight["hex"]
+                reg_number = flight["reg_number"]
+                flag = flight["flag"]
                 latitude = float(flight["lat"])
                 longitude = float(flight["lng"])
                 altitude = float(flight["alt"])
                 direction = float(flight["dir"])
                 speed = float(flight["speed"])
                 vertical_speed = float(flight["v_speed"])
-                departure_airport = flight["dep_iata"]
-                arrival_airport = flight["arr_iata"]
+                squawk = flight["squawk"]
+                flight_number = flight["flight_number"]
+                flight_icao = flight["flight_icao"]
+                flight_iata = flight["flight_iata"]
+                departure_icao = flight["dep_icao"]
+                departure_iata = flight["dep_iata"]
+                arrive_icao = flight["arr_icao"]
+                arrive_iata = flight["arr_iata"]
                 airline_icao = flight["airline_icao"]
+                airline_iata = flight["airline_iata"]
+                aircraft_icao = flight["aircraft_icao"]
 
                 existing_flight = collection.find_one({"flight_number": flight_number})
 
                 data_to_insert = {
+                    "hex": hex,
+                    "reg_number": reg_number,
+                    "flag": flag,
                     "latitude": latitude,
                     "longitude": longitude,
                     "altitude": altitude,
                     "direction": direction,
                     "speed": speed,
                     "vertical_speed": vertical_speed,
-                    "departure_airport": departure_airport,
-                    "arrival_airport": arrival_airport,
+                    "squawk": squawk,
+                    "flight_icao": flight_icao,
+                    "flight_iata": flight_iata,
+                    "departure_icao": departure_icao,
+                    "departure_iata": departure_iata,
+                    "arrive_icao": arrive_icao,
+                    "arrive_iata": arrive_iata,
                     "airline_icao": airline_icao,
+                    "airline_iata": airline_iata,
+                    "aircraft_icao": aircraft_icao,
                 }
 
                 if existing_flight is not None:
@@ -139,9 +92,9 @@ async def db_adaptor_live_data(channel, collection):
 if __name__ == "__main__":
     mongo_client = MongoClientmongo_client = MongoClient(f"mongodb://mongodb:27017/")
     db = mongo_client["my_mongodb_database"]
-    if "flights" not in db.list_collection_names():
-        db.create_collection("flights")
-    collection = db["flights"]
+    if "live_data" not in db.list_collection_names():
+        db.create_collection("live_data")
+    collection = db["live_data"]
 
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(
@@ -153,15 +106,6 @@ if __name__ == "__main__":
     )
 
     channel = connection.channel()
-    channel.queue_declare(queue="aviation_data")
+    channel.queue_declare(queue="live_data")
 
-    asyncio.run(db_adaptor_flights(channel, collection))
-
-    if "live_data" not in db.list_collection_names():
-        db.create_collection("live_data")
-    collection = db["live_data"]
-
-    channel2 = connection.channel()
-    channel2.queue_declare(queue="live_data")
-
-    asyncio.run(db_adaptor_live_data(channel2, collection))
+    asyncio.run(db_adaptor_live_data(channel, collection))
