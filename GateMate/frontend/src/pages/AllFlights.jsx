@@ -81,7 +81,7 @@ function AllFlights() {
                   key={flight.flight_number}
                   state={{ flightData: flight }}
                 >
-                  <FlightCard flight={flight} />
+                  <FlightCard flight={flight.flight_number} />
                 </Link>
               ))}
           </div>
