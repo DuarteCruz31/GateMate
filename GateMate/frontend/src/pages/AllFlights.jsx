@@ -103,11 +103,9 @@ function AllFlights() {
                 <option value="" selected>
                   From
                 </option>
-                {flightsData &&
+                {flights &&
                   [
-                    ...new Set(
-                      flightsData.map((flight) => flight.departure.iata)
-                    ),
+                    ...new Set(flights.map((flight) => flight.departure.iata)),
                   ].map((uniqueIata) => (
                     <option key={uniqueIata} value={uniqueIata}>
                       {uniqueIata}
@@ -125,11 +123,9 @@ function AllFlights() {
                 <option value="" selected>
                   To
                 </option>
-                {flightsData &&
+                {flights &&
                   [
-                    ...new Set(
-                      flightsData.map((flight) => flight.arrival.iata)
-                    ),
+                    ...new Set(flights.map((flight) => flight.arrival.iata)),
                   ].map((uniqueIata) => (
                     <option key={uniqueIata} value={uniqueIata}>
                       {uniqueIata}
@@ -148,14 +144,14 @@ function AllFlights() {
                 <option value="" selected>
                   Company
                 </option>
-                {flightsData &&
-                  [
-                    ...new Set(flightsData.map((flight) => flight.airlineName)),
-                  ].map((uniqueName) => (
-                    <option key={uniqueName} value={uniqueName}>
-                      {uniqueName}
-                    </option>
-                  ))}
+                {flights &&
+                  [...new Set(flights.map((flight) => flight.airlineName))].map(
+                    (uniqueName) => (
+                      <option key={uniqueName} value={uniqueName}>
+                        {uniqueName}
+                      </option>
+                    )
+                  )}
               </select>
             </div>
 
