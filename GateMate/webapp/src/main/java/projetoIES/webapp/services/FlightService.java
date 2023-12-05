@@ -71,7 +71,13 @@ public class FlightService {
             ResponseEntity<String> response = rest.getForEntity(url, String.class);
             if(response.getStatusCode().is2xxSuccessful()){
                 ObjectMapper mapper = new ObjectMapper();
-                    return mapper.readTree(response.getBody());
+                    JsonNode json =mapper.readTree(response.getBody());
+                    if(!json.has("response")){
+                        return null;
+                    }else{
+                        return json.get("response");
+                    }
+                    
             }
             return null;
         }catch(RestClientException e){

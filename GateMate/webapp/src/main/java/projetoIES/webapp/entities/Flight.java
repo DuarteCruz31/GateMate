@@ -32,6 +32,7 @@ public class Flight {
 
     // object mapping from api response
     public Flight(JsonNode json, LiveData liveData) {
+        System.err.println("json: "+json.toPrettyString());
         this.flightNumber = json.get("flight_number").asInt();
         this.flightIata = json.get("flight_iata").asText();
         this.airlineIata = json.get("airline_iata").asText();
