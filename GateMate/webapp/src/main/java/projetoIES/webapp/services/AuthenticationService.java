@@ -8,41 +8,48 @@ import org.springframework.stereotype.Service;
 import projetoIES.webapp.entities.User;
 import projetoIES.webapp.repositories.UserRepository;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisException;
 
 @Service
 public class AuthenticationService {
     private UserRepository repository;
-    private Jedis jedis;
+    private JedisPool pool;
     private SecureRandom generator;
 
-    public AuthenticationService(UserRepository repository) {
-        this.repository = repository;
-        this.jedis = new Jedis("redis://redis:6379");
-        this.generator = new SecureRandom();
+    public AuthenticationService(UserRepository repository){
+        this.repository=repository;
+        this.pool=new JedisPool("redis",6379);
+        this.generator=new SecureRandom();
     }
 
     // get token from user
-    public String generateToken(User user) {
-        String email = user.getEmail();
-        String token = "";
-        do {
-            byte[] bytes = new byte[32];
-            generator.nextBytes(bytes);
-            token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-            new SecureRandom().nextBytes(bytes);
-        } while (jedis.exists("token:" + token));
+    public String generateToken(User user) throws JedisException{
+        String email=user.getEmail();
+        String token="";
+        try(Jedis jedis = pool.getResource()){
+            do{
+                byte[] bytes = new byte[32];
+                generator.nextBytes(bytes);
+                token=Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+                new SecureRandom().nextBytes(bytes);
+            }while(jedis.exists("token:"+token));
 
-        jedis.setex("token:" + token, (long) 2 * 3600, email);
+            jedis.setex("token:"+token,(long)2*3600,email);
+        }
         return token;
+
     }
 
-    // get user from token
-    public User validateToken(String token) {
-        if (jedis.exists("token:" + token)) {
-            String email = jedis.get("token:" + token);
-            return repository.findByEmail(email);
-        } else {
-            return null;
+    //get user from token
+    public User validateToken(String token) throws JedisException{
+        try(Jedis jedis=pool.getResource()){
+            if(jedis.exists("token:"+token)){
+                String email=jedis.get("token:"+token);
+                return repository.findByEmail(email);
+            }else{
+                return null;
+            }
         }
     }
 
@@ -64,12 +71,14 @@ public class AuthenticationService {
         return null;
     }
 
-    // remove token
-    public boolean logout(String token) {
-        if (jedis.exists("token:" + token)) {
-            jedis.del("token:" + token);
-            return true;
+    //remove token
+    public boolean logout(String token) throws JedisException{
+        try(Jedis jedis=pool.getResource()){
+            if(jedis.exists("token:"+token)){
+                jedis.del("token:"+token);
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 }
