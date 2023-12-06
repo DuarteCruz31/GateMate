@@ -44,7 +44,7 @@ async def db_adaptor_live_data(channel, collection):
                 elif airline_iata == "AA":
                     airline_name = "American Airlines"
 
-                existing_flight = collection.find_one({"flight_number": flight_number})
+                existing_flight = collection.find_one({"flighNumber": flight_number})
 
                 data_to_insert = {
                     "flightIata": flight_iata,

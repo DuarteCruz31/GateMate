@@ -70,12 +70,14 @@ services:
     command: sh -c "./mvnw spring-boot:run"
 
   frontend:
-    build: ./frontend
+    build:
+      context: frontend
     container_name: frontend
     ports:
       - 8083:8083
     volumes:
-      - ./frontend:/app
+      - node_modules:/frontend/node_modules
+      - ./frontend:/frontend
     stdin_open: true
     tty: true
     env_file: .env
@@ -139,3 +141,7 @@ services:
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       API_KEY: ${API_KEY}
     command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+
+volumes:
+  node_modules:
+    driver: local
