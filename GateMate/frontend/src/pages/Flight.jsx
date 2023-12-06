@@ -3,8 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FlightInfo from "../components/FlightInfo";
-import FlightInfoArrival from "../components/FlightInfoArrival";
-import FlightInfoDeparture from "../components/FlightInfoDeparture";
+import FlightInfoTable from "../components/FlightInfoTable";
 import FlightLiveDataTable from "../components/FlightLiveDataTable";
 import useFetch from "../hooks/useFetch";
 
@@ -16,7 +15,7 @@ function Flight(props) {
     error,
     isPending,
     data: flightInfo,
-  } = useFetch("http://localhost:8080/api/" + flightIata);
+  } = useFetch("http://localhost:8080/api/flight/" + flightIata);
 
   return (
     <>
@@ -49,17 +48,17 @@ function Flight(props) {
                   <p className="text-center text-4xl font-bold mb-5">
                     Departure
                   </p>
-                  <FlightInfoDeparture flight={flightInfo} />
+                  <FlightInfoTable flight={flightInfo.departure} />
                 </div>
                 <div className="overflow-x-auto w-1/3">
                   <p className="text-center text-4xl font-bold mb-5">
                     Live Data
                   </p>
-                  <FlightLiveDataTable flight={flightInfo} />
+                  <FlightLiveDataTable flight={flightInfo.liveData} />
                 </div>
                 <div className="overflow-x-auto w-1/3 mr-10">
                   <p className="text-center text-4xl font-bold mb-5">Arrival</p>
-                  <FlightInfoArrival flight={flightInfo} />
+                  <FlightInfoTable flight={flightInfo.arrival} />
                 </div>
               </div>
               <div className="flex justify-center mb-10">

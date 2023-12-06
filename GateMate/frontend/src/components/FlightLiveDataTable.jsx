@@ -3,75 +3,46 @@ import React from "react";
 function FlightLiveDataTable({ flight }) {
   return (
     <>
-      {flight.live_data == null && (
+      {flight == null && (
         <div className="alert bg-base-200" role="alert">
           No live data available for this flight
         </div>
       )}
-      {flight.live_data != null && (
+      {flight != null && (
         <table className="table">
           <tbody>
             <tr className="bg-base-200">
               <th>Latitude</th>
-              {flight.live_data.latitude == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.latitude != null && (
-                <td>{flight.live_data.latitude}</td>
-              )}
+              {flight.latitude == null && <td>Unavailable information</td>}
+              {flight.latitude != null && <td>{flight.latitude}</td>}
             </tr>
             <tr>
               <th>Longitude</th>
-              {flight.live_data.longitude == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.longitude != null && (
-                <td>{flight.live_data.longitude}</td>
-              )}
+              {flight.longitude == null && <td>Unavailable information</td>}
+              {flight.longitude != null && <td>{flight.longitude}</td>}
             </tr>
             <tr className="bg-base-200">
               <th>Altitude</th>
-              {flight.live_data.altitude == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.altitude != null && (
-                <td>{flight.live_data.altitude}</td>
-              )}
+              {flight.altitude == null && <td>Unavailable information</td>}
+              {flight.altitude != null && <td>{flight.altitude}</td>}
             </tr>
             <tr>
               <th>Direction</th>
-              {flight.live_data.direction == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.direction != null && (
-                <td>{flight.live_data.direction}</td>
-              )}
+              {flight.direction == null && <td>Unavailable information</td>}
+              {flight.direction != null && <td>{flight.direction}</td>}
             </tr>
             <tr className="bg-base-200">
               <th>Horizontal Speed</th>
-              {flight.live_data.speed_horizontal == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.speed_horizontal != null && (
-                <td>{flight.live_data.speed_horizontal}</td>
-              )}
+              {flight.speed == null && <td>Unavailable information</td>}
+              {flight.speed != null && <td>{flight.speed}</td>}
             </tr>
             <tr>
               <th>Vertical Speed</th>
-              {flight.live_data.speed_vertical == null && (
+              {flight.vertical_speed == null && (
                 <td>Unavailable information</td>
               )}
-              {flight.live_data.speed_vertical != null && (
-                <td>{flight.live_data.speed_vertical}</td>
-              )}
-            </tr>
-            <tr className="bg-base-200">
-              <th>Is Ground</th>
-              {flight.live_data.is_ground == null && (
-                <td>Unavailable information</td>
-              )}
-              {flight.live_data.is_ground != null && (
-                <td>{flight.live_data.is_ground}</td>
+              {flight.vertical_speed != null && (
+                <td>{flight.vertical_speed}</td>
               )}
             </tr>
           </tbody>
