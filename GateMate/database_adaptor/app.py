@@ -44,7 +44,7 @@ async def db_adaptor_live_data(channel, collection):
                 elif airline_iata == "AA":
                     airline_name = "American Airlines"
 
-                existing_flight = collection.find_one({"flighNumber": flight_number})
+                existing_flight = collection.find_one({"flightNumber": flight_number})
 
                 data_to_insert = {
                     "flightIata": flight_iata,
@@ -71,7 +71,7 @@ async def db_adaptor_live_data(channel, collection):
 
                 if existing_flight is not None:
                     collection.update_one(
-                        {"flighNumber": flight_number}, {"$set": data_to_insert}
+                        {"flightNumber": flight_number}, {"$set": data_to_insert}
                     )
                     logger.info("Updated document for flight number: %s", flight_number)
                 else:
