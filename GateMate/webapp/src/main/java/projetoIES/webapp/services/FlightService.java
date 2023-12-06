@@ -52,7 +52,7 @@ public class FlightService {
             }else{ //never asked or expired
                 JsonNode jsonNode=fetchInfo(flightIata);
                 if(jsonNode!=null){
-                    Flight new_data=new Flight(jsonNode,old_data.getLiveData());
+                    Flight new_data=new Flight(jsonNode,old_data.getId(),old_data.getLiveData());
                     flightRepository.save(new_data);
                     jedis.setex("info:"+flightIata,(long)5*60,new_data.getDeparture().getEstimated()); //the value is meaningless here but may be useful in the notification manager
                     return new_data;
