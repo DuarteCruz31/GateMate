@@ -22,13 +22,14 @@ import lombok.Setter;
 public class Flight {
     @Id
     private ObjectId id;
-    private int flightNumber;
+    private String flightNumber;
     private String flightIata;
     @Field("departure")
     private AirportFlight departure;
     @Field("arrival")
     private AirportFlight arrival;
     private String airlineIata;
+    private String airlineIcao;
     private String airlineName;
     private String aircraftRegistration;
     @Field("live_data")
@@ -36,11 +37,12 @@ public class Flight {
 
     // object mapping from api response
     public Flight(JsonNode json, ObjectId id, LiveData liveData) {
-        System.err.println("json: "+json.toPrettyString());
-        this.id=id;
-        this.flightNumber = json.get("flight_number").asInt();
+        System.err.println("json: " + json.toPrettyString());
+        this.id = id;
+        this.flightNumber = json.get("flight_number").asText();
         this.flightIata = json.get("flight_iata").asText();
         this.airlineIata = json.get("airline_iata").asText();
+        this.airlineIcao = json.get("airline_icao").asText();
         this.airlineName = json.get("airline_name").asText();
         this.aircraftRegistration = json.get("reg_number").asText();
         // no need to change the live data

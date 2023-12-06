@@ -36,7 +36,7 @@ function Flight(props) {
                 </div>
                 <div className="mt-2 mb-16">
                   <p className="text-xs">
-                    {flightInfo.flightNumber} - {flightInfo.airlineIata}
+                    {flightInfo.flightIata} - {flightInfo.airlineName}
                   </p>
                 </div>
               </div>
