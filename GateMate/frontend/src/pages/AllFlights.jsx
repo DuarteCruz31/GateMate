@@ -21,7 +21,7 @@ function AllFlights() {
   }, [flightsData]);
 
   const [filter, setFilter] = useState({
-    flightNumber: "",
+    flightIata: "",
     from: "",
     to: "",
     company: "",
@@ -29,7 +29,7 @@ function AllFlights() {
 
   function resetFilters() {
     setFilter({
-      flightNumber: "",
+      flightIata: "",
       from: "",
       to: "",
       company: "",
@@ -49,8 +49,8 @@ function AllFlights() {
       if (filter.company != "") {
         url += `company=${filter.company}&`;
       }
-      if (filter.flightNumber != "") {
-        url += `flightNumber=${filter.flightNumber}&`;
+      if (filter.flightIata != "") {
+        url += `flightIata=${filter.flightIata}&`;
       }
 
       const flightsDataFiltered = await fetch(url).then((res) => res.json());
@@ -85,12 +85,12 @@ function AllFlights() {
               <input
                 className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
                 type="text"
-                name="flightCode"
-                id="flightCode"
-                placeholder=" Code"
-                value={filter.flightNumber}
+                name="flightIata"
+                id="flightIata"
+                placeholder=" Flight Iata"
+                value={filter.flightIata}
                 onChange={(e) =>
-                  setFilter({ ...filter, flightNumber: e.target.value })
+                  setFilter({ ...filter, flightIata: e.target.value })
                 }
               />
             </div>
@@ -184,8 +184,8 @@ function AllFlights() {
             {flights &&
               flights.map((flight) => (
                 <Link
-                  to={`/flightInfo/${flight.flightNumber}`}
-                  key={flight.flightNumber}
+                  to={`/flightInfo/${flight.flightIata}`}
+                  key={flight.flightIata}
                   state={{ flightIata: flight.flightIata }}
                 >
                   <FlightCard flight={flight} />

@@ -25,39 +25,56 @@ async def db_adaptor_live_data(channel, collection):
                 direction = float(flight["dir"])
                 speed = float(flight["speed"])
                 vertical_speed = float(flight["v_speed"])
-                flight_number = int(flight["flight_number"])
+                flight_number = flight["flight_number"]
                 flight_iata = flight["flight_iata"]
                 departure_icao = flight["dep_icao"]
                 departure_iata = flight["dep_iata"]
                 arrive_icao = flight["arr_icao"]
                 arrive_iata = flight["arr_iata"]
+                airline_icao = flight["airline_icao"]
                 airline_iata = flight["airline_iata"]
 
-                if airline_iata == "QR":
+                airline_name = None
+                if airline_icao == "QTR":
                     airline_name = "Qatar Airways"
-                elif airline_iata == "BA":
+                elif airline_icao == "BAW":
                     airline_name = "British Airways"
-                elif airline_iata == "TP":
+                elif airline_icao == "TAP":
                     airline_name = "TAP Air Portugal"
-                elif airline_iata == "AF":
+                elif airline_icao == "AFR":
                     airline_name = "Air France"
-                elif airline_iata == "AA":
+                elif airline_icao == "AAL":
                     airline_name = "American Airlines"
+                elif airline_icao == "FPO":
+                    airline_name = "ASL Airlines France"
 
-                existing_flight = collection.find_one({"flightNumber": flight_number})
+                existing_flight = collection.find_one({"flightIata": flight_iata})
 
                 data_to_insert = {
-                    "flightIata": flight_iata,
+                    "flightNumber": flight_number,
                     "airlineIata": airline_iata,
+                    "airlineIcao": airline_icao,
                     "airlineName": airline_name,
                     "aircraftRegistration": reg_number,
                     "departure": {
                         "iata": departure_iata,
                         "icao": departure_icao,
+                        "terminal": None,
+                        "gate": None,
+                        "delay": None,
+                        "scheduled": None,
+                        "estimated": None,
+                        "actual": None,
                     },
                     "arrival": {
                         "iata": arrive_iata,
                         "icao": arrive_icao,
+                        "terminal": None,
+                        "gate": None,
+                        "delay": None,
+                        "scheduled": None,
+                        "estimated": None,
+                        "actual": None,
                     },
                     "live_data": {
                         "latitude": latitude,
@@ -71,15 +88,15 @@ async def db_adaptor_live_data(channel, collection):
 
                 if existing_flight is not None:
                     collection.update_one(
-                        {"flightNumber": flight_number}, {"$set": data_to_insert}
+                        {"flightIata": flight_iata}, {"$set": data_to_insert}
                     )
-                    logger.info("Updated document for flight number: %s", flight_number)
+                    logger.info("Updated document for flight iata: %s", flight_iata)
                 else:
-                    data_to_insert["flightNumber"] = flight_number
+                    data_to_insert["flightIata"] = flight_iata
 
                     collection.insert_one(data_to_insert)
                     logger.info(
-                        "Inserted new document for flight number: %s", flight_number
+                        "Inserted new document for flight iata: %s", flight_iata
                     )
 
         except json.JSONDecodeError as e:

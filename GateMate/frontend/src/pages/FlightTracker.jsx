@@ -24,7 +24,7 @@ function FlightTracker() {
   }, [flightsData]);
 
   const [filter, setFilter] = useState({
-    flightNumber: "",
+    flightIata: "",
     from: "",
     to: "",
     company: "",
@@ -32,7 +32,7 @@ function FlightTracker() {
 
   function resetFilters() {
     setFilter({
-      flightNumber: "",
+      flightIata: "",
       from: "",
       to: "",
       company: "",
@@ -52,8 +52,8 @@ function FlightTracker() {
       if (filter.company != "") {
         url += `company=${filter.company}&`;
       }
-      if (filter.flightNumber != "") {
-        url += `flightNumber=${filter.flightNumber}&`;
+      if (filter.flightIata != "") {
+        url += `flightIata=${filter.flightIata}&`;
       }
 
       console.log(url);
@@ -93,18 +93,18 @@ function FlightTracker() {
             </button>
           </div>
           <div className="pb-5 pt-2">
-            <div className="font-bold">Flight Number</div>
+            <div className="font-bold">Flight Iata</div>
             <hr />
             <div className="mt-3">
               <input
                 className="pl-2 appearance-none bg-gray-100 text-zinc-600 w-full h-10 text-xl font-normal outline-none inline-flex"
                 type="text"
-                name="flightCode"
-                id="flightCode"
+                name="flightIata"
+                id="flightIata"
                 placeholder=" Code"
-                value={filter.flightNumber}
+                value={filter.flightIata}
                 onChange={(e) =>
-                  setFilter({ ...filter, flightNumber: e.target.value })
+                  setFilter({ ...filter, flightIata: e.target.value })
                 }
               />
             </div>
@@ -216,7 +216,7 @@ function FlightTracker() {
             {flights &&
               flights.map((flight) => (
                 <Marker
-                  key={flight.flightNumber}
+                  key={flight.flightIata}
                   position={[
                     flight.liveData.latitude,
                     flight.liveData.longitude,
@@ -228,12 +228,12 @@ function FlightTracker() {
                 >
                   <Popup>
                     <Link
-                      to={`/flightInfo/${flight.flightNumber}`}
+                      to={`/flightInfo/${flight.flightIata}`}
                       state={{ flightData: flight }}
                     >
                       <div className="flex flex-col">
                         <div className="text-xl font-bold">
-                          {flight.flightNumber}
+                          {flight.flightIata}
                         </div>
                         <div className="text-sm">{flight.airlineName}</div>
                         <div className="text-sm">

@@ -1,7 +1,6 @@
 import React from "react";
 import plane from "../assets/plane.png";
 import arrow from "../assets/arrow.png";
-import useFetch from "../hooks/useFetch";
 
 function FlightCard({ flight }) {
   return (
@@ -13,7 +12,7 @@ function FlightCard({ flight }) {
           </h3>
         </div>
         <div className="mb-5">
-          <p className="text-base">{flight.flightNumber}</p>
+          <p className="text-base">{flight.flightIata}</p>
         </div>
         <div className="flex flex-row items-center">
           <img src={plane} alt="Plane" />
