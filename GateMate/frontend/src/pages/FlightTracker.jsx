@@ -229,7 +229,8 @@ function FlightTracker() {
                   <Popup>
                     <Link
                       to={`/flightInfo/${flight.flightIata}`}
-                      state={{ flightData: flight }}
+                      key={flight.flightIata}
+                      state={{ flightIata: flight.flightIata }}
                     >
                       <div className="flex flex-col">
                         <div className="text-xl font-bold">
