@@ -1,5 +1,7 @@
 package projetoIES.webapp.entities;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -18,6 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Document(collection = "flights")
 public class Flight {
+    @Id
+    private ObjectId id;
     private int flightNumber;
     private String flightIata;
     @Field("departure")
@@ -31,8 +35,9 @@ public class Flight {
     private LiveData liveData;
 
     // object mapping from api response
-    public Flight(JsonNode json, LiveData liveData) {
+    public Flight(JsonNode json, ObjectId id, LiveData liveData) {
         System.err.println("json: "+json.toPrettyString());
+        this.id=id;
         this.flightNumber = json.get("flight_number").asInt();
         this.flightIata = json.get("flight_iata").asText();
         this.airlineIata = json.get("airline_iata").asText();
