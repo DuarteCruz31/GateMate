@@ -1,7 +1,6 @@
 import React from "react";
 
 function FlightInfoArrival({ flight }) {
-  console.log(flight);
   return (
     <>
       <table className="table">
