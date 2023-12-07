@@ -50,6 +50,7 @@ public class Flight {
         departure = new AirportFlight();
         departure.setIata(json.get("dep_iata").asText());
         departure.setIcao(json.get("dep_icao").asText());
+        departure.setName(json.get("dep_name").asText());
         departure.setTerminal(json.get("dep_terminal").asText());
         departure.setGate(json.get("dep_gate").asText());
         departure.setDelay(json.get("dep_delayed").asInt(0));
@@ -59,6 +60,7 @@ public class Flight {
         arrival = new AirportFlight();
         arrival.setIata(json.get("arr_iata").asText());
         arrival.setIcao(json.get("arr_icao").asText());
+        arrival.setName(json.get("arr_name").asText());
         arrival.setTerminal(json.get("arr_terminal").asText());
         arrival.setGate(json.get("arr_gate").asText());
         arrival.setDelay(json.get("arr_delayed").asInt(0));

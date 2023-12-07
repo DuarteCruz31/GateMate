@@ -7,10 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AirportFlight {
     private String iata;
     private String icao;
+    private String name;
     private String terminal;
     private String gate;
     private int delay;
