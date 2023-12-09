@@ -17,6 +17,8 @@ user-friendly functionalities. Our application is designed to be more than just 
 tracker; it's a travel companion that offers an intelligent, context-aware experience for
 travelers.
 
+## [Arquitecure](./GateMate/docs/arquitecture.md)
+
 ## How to run
 
 cd into the root directory and run the following commands:
