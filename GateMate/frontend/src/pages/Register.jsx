@@ -6,10 +6,7 @@ import image1 from "../assets/register/1.jpeg";
 
 function Register() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
-    country: "",
     password: "",
     confirmPassword: "",
   });
@@ -18,10 +15,35 @@ function Register() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica processar dados
-    console.log(formData);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Registo bem-sucedido");
+
+        // Armazenar token no localStorage
+        const token = await response.text();
+        localStorage.setItem("token", token);
+      } else {
+        console.error("Erro no login");
+        // Trate os erros de registro aqui
+      }
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
   };
   return (
     <div className="flex flex-col min-h-screen">
@@ -38,35 +60,10 @@ function Register() {
             </div>
           </div>
         </div>
-        <form className="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md">
-          <div className="mb-4">
-            <label htmlFor="firstName" className="block text-gray-700">
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="lastName" className="block text-gray-700">
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
+        <form
+          className="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Email
@@ -76,20 +73,6 @@ function Register() {
               id="email"
               name="email"
               value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="country" className="block text-gray-700">
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={formData.country}
               onChange={handleChange}
               className="w-full p-2 border rounded"
               required

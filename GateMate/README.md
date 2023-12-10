@@ -42,3 +42,6 @@ docker-compose build
 ```bash
 docker-compose up
 ```
+
+## Documentation:
+* [Arquitecture](docs/arquitecture.md)

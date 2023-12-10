@@ -101,7 +101,7 @@ function FlightTracker() {
                 type="text"
                 name="flightIata"
                 id="flightIata"
-                placeholder=" Code"
+                placeholder=" Flight Iata"
                 value={filter.flightIata}
                 onChange={(e) =>
                   setFilter({ ...filter, flightIata: e.target.value })

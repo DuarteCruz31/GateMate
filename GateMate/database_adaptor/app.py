@@ -40,7 +40,7 @@ async def db_adaptor_live_data(channel, collection):
                 elif airline_icao == "BAW":
                     airline_name = "British Airways"
                 elif airline_icao == "TAP":
-                    airline_name = "TAP Air Portugal"
+                    airline_name = "TAP Portugal"
                 elif airline_icao == "AFR":
                     airline_name = "Air France"
                 elif airline_icao == "AAL":
