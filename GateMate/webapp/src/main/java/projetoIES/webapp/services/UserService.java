@@ -1,15 +1,18 @@
 package projetoIES.webapp.services;
 
 import java.security.SecureRandom;
-
+import java.util.Arrays;
 import java.util.Base64;
 
 import org.springframework.stereotype.Service;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 
 import org.bson.Document;
 
@@ -17,7 +20,6 @@ import static com.mongodb.client.model.Projections.*;
 
 import projetoIES.webapp.entities.User;
 import projetoIES.webapp.repositories.UserRepository;
-
 
 @Service
 public class UserService {
@@ -35,16 +37,16 @@ public class UserService {
 
     }
 
-    public void SubscribeFlights (User user, String flightIata) {
+    public void SubscribeFlights(User user, String flightIata) {
+        FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
 
-        Document doc = new Document("iata", flightIata)
-                .append("users", user.getEmail());
-        
-        if (subscribed_flights.find(doc).first() == null) {
+        if (flightIataDocument.first() == null) {
+            Document doc = new Document("flightIata", flightIata)
+                    .append("users", Arrays.asList(user.getEmail()));
             subscribed_flights.insertOne(doc);
         } else {
-            subscribed_flights.updateOne(doc, new Document("$push", new Document("users", user.getEmail())));
+            subscribed_flights.updateOne(new Document("flightIata", flightIata),
+                    Updates.addToSet("users", user.getEmail()));
         }
     }
-    
 }
