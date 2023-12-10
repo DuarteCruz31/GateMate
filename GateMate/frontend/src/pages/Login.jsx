@@ -31,6 +31,11 @@ function Login() {
 
       if (response.ok) {
         console.log("Login bem-sucedido");
+
+        // Armazenar token no localStorage
+        const token = await response.text();
+        localStorage.setItem("token", token);
+
         // Aqui você pode redirecionar ou realizar outras ações após o registro bem-sucedido
       } else {
         console.error("Erro no login");
