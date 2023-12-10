@@ -17,6 +17,36 @@ function Flight(props) {
     data: flightInfo,
   } = useFetch("http://localhost:8080/api/flight/" + flightIata);
 
+  // Função a ser executada quando o botão for clicado
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/auth/subscribed_flights",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            flightIata: flightIata,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Subscrito com sucesso");
+      } else {
+        console.error("Erro na subscrição");
+        // Trate os erros de registro aqui
+      }
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -62,7 +92,9 @@ function Flight(props) {
                 </div>
               </div>
               <div className="flex justify-center mb-10">
-                <button className="btn btn-primary"> Subscribe Flight </button>
+                <button className="btn btn-primary" onClick={handleSubscribe}>
+                  Subscribe Flight
+                </button>
               </div>
             </div>
           )}
