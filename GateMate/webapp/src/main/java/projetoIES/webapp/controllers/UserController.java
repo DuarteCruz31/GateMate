@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import projetoIES.webapp.entities.User;
 import projetoIES.webapp.services.AuthenticationService;
+import projetoIES.webapp.services.UserService;
+
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/auth")
 public class UserController {
     private AuthenticationService auth;
+    private UserService userService;
+
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> body) {
@@ -69,5 +73,22 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/subscribed_flights")
+    public ResponseEntity<String> subscribed_flights(@RequestBody Map<String, String> body) {
+
+        String token = body.get("token");
+        String flightIata = body.get("flightIata");
+
+        User user = auth.validateToken(token);
+
+        userService.SubscribeFlights(user, flightIata);
+
+        if (user == null) {
+            return new ResponseEntity<>("user not loged in", HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

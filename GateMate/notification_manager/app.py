@@ -7,12 +7,12 @@ from pymongo import MongoClient
 import webapp.src.main.java.projetoIES.webapp.services.AuthenticationService as auth
 
 
-def connect_to_redis():
-    return redis.StrictRedis(host='redis', port=6379, decode_responses=True)
+# def connect_to_redis():
+#     return redis.StrictRedis(host='redis', port=6379, decode_responses=True)
 
 def get_email(token):
-    user_email = auth.validateToken(token)
-    return user_email
+    user = auth.validateToken(token)
+    return user.email
 
 
 def get_flight_info(iata):
@@ -69,6 +69,6 @@ def notifications(user, flight):
 if __name__ == "__main__":
     mongo_client = MongoClientmongo_client = MongoClient(f"mongodb://mongodb:27017/")
     db = mongo_client["my_mongodb_database"]
-    if "flights_subscribed" not in db.list_collection_names():
-        db.create_collection("flights_subscribed")
-    collection = db["flights_subscribed"]
+    if "subscribed_flights" not in db.list_collection_names():
+        db.create_collection("subscribed_flights")
+    collection = db["subscribed_flights"]
