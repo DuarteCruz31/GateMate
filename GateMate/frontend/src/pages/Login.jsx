@@ -14,10 +14,31 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica processar dados
-    console.log(formData);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Login bem-sucedido");
+        // Aqui você pode redirecionar ou realizar outras ações após o registro bem-sucedido
+      } else {
+        console.error("Erro no login");
+        // Trate os erros de registro aqui
+      }
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
   };
   return (
     <div className="flex flex-col min-h-screen">
@@ -32,7 +53,10 @@ function Login() {
             <div className="text-blue-800 text-8xl font-bold mb-4">Login</div>
           </div>
         </div>
-        <form className="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md">
+        <form
+          className="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Email
