@@ -65,6 +65,7 @@ services:
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORS: ${RABBITMQ_PASSWORD}
       API_KEY: ${API_KEY}
+      FETCH_INTERVAL: ${FETCH_INTERVAL}
 
     working_dir: /webapp
     command: sh -c "./mvnw spring-boot:run"
@@ -95,6 +96,7 @@ services:
     environment:
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      FETCH_INTERVAL: ${FETCH_INTERVAL}
     command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
   database_adaptor:

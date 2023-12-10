@@ -28,7 +28,7 @@ async def data_grabber_live_data(api_key, channel, connection, airlines_icao):
 
             logger.info("LIVE DATA successfully grabbed at %s", datetime.datetime.now())
 
-            await asyncio.sleep(124901259157891075985291509)
+            await asyncio.sleep(int(os.environ["FETCH_INTERVAL"])*60)
         except ChannelWrongStateError as e:
             logger.info(f"Channel error: {e}")
             if not connection.is_closed:
