@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -15,6 +16,31 @@ import image10 from "../assets/home/10.png";
 function Home() {
   const token = localStorage.getItem("token");
 
+  const validateUserToken = async (token) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/user/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Token válido");
+        window.location.href = "/allflights";
+      } else {
+        console.error("Token inválido");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <div>
@@ -30,22 +56,18 @@ function Home() {
               Elevate Your Journey with Real-time Flight Intelligence and Ease
             </div>
             <div>
-              {!token && (
-                <Link
-                  to="/register"
-                  className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
-                >
-                  Get Started
-                </Link>
-              )}
-              {token && (
-                <Link
-                  to="/allflights"
-                  className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
-                >
-                  All Flights
-                </Link>
-              )}
+              <button
+                className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
+                onClick={() => {
+                  if (token) {
+                    validateUserToken(token);
+                  } else {
+                    window.location.href = "/login";
+                  }
+                }}
+              >
+                Get Started
+              </button>
             </div>
           </div>
         </div>
