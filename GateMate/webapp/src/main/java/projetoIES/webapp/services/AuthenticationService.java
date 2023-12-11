@@ -58,7 +58,6 @@ public class AuthenticationService {
             return null;
         } else {
             User user = new User(email, password);
-            System.out.println(user);
             repository.save(user);
             return this.generateToken(user);
         }

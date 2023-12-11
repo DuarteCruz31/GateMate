@@ -37,7 +37,7 @@ public class UserService {
 
     }
 
-    public void SubscribeFlights(User user, String flightIata) {
+    public void subscribeFlights(User user, String flightIata) {
         FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
 
         if (flightIataDocument.first() == null) {

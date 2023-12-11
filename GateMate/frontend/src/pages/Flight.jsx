@@ -21,29 +21,57 @@ function Flight(props) {
   const handleSubscribe = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/auth/subscribed_flights",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token: localStorage.getItem("token"),
-            flightIata: flightIata,
-          }),
+    if ((await validateUserToken(localStorage.getItem("token"))) === true) {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/auth/subscribe_flight",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token: localStorage.getItem("token"),
+              flightIata: flightIata,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          console.log("Subscrito com sucesso");
+        } else {
+          console.error("Erro na subscrição");
         }
-      );
+      } catch (error) {
+        console.error("Erro ao enviar dados:", error);
+      }
+    }
+  };
+
+  const validateUserToken = async (token) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+        }),
+      });
 
       if (response.ok) {
-        console.log("Subscrito com sucesso");
+        console.log("Token válido");
+        return true;
       } else {
-        console.error("Erro na subscrição");
-        // Trate os erros de registro aqui
+        console.error("Token inválido");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return false;
       }
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
+      console.error("Erro:", error);
+      return false;
     }
   };
 

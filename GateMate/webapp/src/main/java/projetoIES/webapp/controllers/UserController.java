@@ -17,14 +17,12 @@ import projetoIES.webapp.entities.User;
 import projetoIES.webapp.services.AuthenticationService;
 import projetoIES.webapp.services.UserService;
 
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/auth")
 public class UserController {
     private AuthenticationService auth;
     private UserService userService;
-
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> body) {
@@ -57,8 +55,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<User> authenticate(String token) {
+    @PostMapping("/")
+    public ResponseEntity<User> authenticate(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+
         User user = auth.validateToken(token);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -68,14 +68,16 @@ public class UserController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<Void> logout(String token) {
+    public ResponseEntity<Void> logout(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+
         if (auth.logout(token)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/subscribed_flights")
+    @PostMapping("/subscribe_flight")
     public ResponseEntity<String> subscribed_flights(@RequestBody Map<String, String> body) {
 
         String token = body.get("token");
@@ -83,7 +85,7 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
-        userService.SubscribeFlights(user, flightIata);
+        userService.subscribeFlights(user, flightIata);
 
         if (user == null) {
             return new ResponseEntity<>("user not loged in", HttpStatus.CONFLICT);
