@@ -3,7 +3,6 @@ import asyncio
 import json
 import pika
 from pika.exceptions import ChannelWrongStateError
-import datetime
 import os
 from pymongo import MongoClient
 import time
@@ -15,6 +14,20 @@ logger = logging.getLogger(__name__)
 
 async def db_adaptor_live_data(channel, collection):
     def callback(ch, method, properties, body):
+        current_time = time.time()
+        update_threshold = current_time - ((int(os.environ["FETCH_INTERVAL"]) + 1) * 60)
+
+        collection.delete_many({"updated": {"$lt": update_threshold}})
+        logger.info("Removed document for flight iata: %s", flight_iata)
+
+        if "subscribed_flights" in db.list_collection_names():
+            subscribed_flights = db["subscribed_flights"]
+            subscribed_flights.delete_many({"updated": {"$lt": update_threshold}})
+            logger.info(
+                "Removed subscribed flights for flight iata: %s",
+                flight_iata,
+            )
+
         try:
             data = json.loads(body)
 
@@ -51,8 +64,6 @@ async def db_adaptor_live_data(channel, collection):
                     airline_name = "ASL Airlines France"
 
                 existing_flight = collection.find_one({"flightIata": flight_iata})
-
-                current_time = time.time()
 
                 data_to_insert = {
                     "flightNumber": flight_number,
@@ -91,54 +102,36 @@ async def db_adaptor_live_data(channel, collection):
                     "updated": current_time,
                 }
 
-                update_threshold = current_time - (
-                    (int(os.environ["FETCH_INTERVAL"]) + 1) * 60
-                )
-
                 if existing_flight is not None:
-                    if existing_flight["updated"] < update_threshold:
-                        # Remover o documento se não foi atualizado recentemente
-                        collection.delete_one({"flightIata": flight_iata})
-                        logger.info("Removed document for flight iata: %s", flight_iata)
+                    # Atualizar documento
+                    existing_flight_departure = existing_flight["departure"]
+                    existing_flight_arrival = existing_flight["arrival"]
+                    existing_flight_live_data = existing_flight["live_data"]
 
-                        if "subscribed_flights" in db.list_collection_names():
-                            subscribed_flights = db["subscribed_flights"]
-                            subscribed_flights.delete_many({"flightIata": flight_iata})
-                            logger.info(
-                                "Removed subscribed flights for flight iata: %s",
-                                flight_iata,
+                    if existing_flight_live_data != data_to_insert["live_data"]:
+                        try:
+                            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                            s.connect(("notification_manager", 1234))
+                            s.sendall(
+                                json.dumps(
+                                    {
+                                        "flightIata": flight_iata,
+                                        "departure": data_to_insert["departure"],
+                                        "arrival": data_to_insert["arrival"],
+                                    }
+                                ).encode()
                             )
-                    else:
-                        # Atualizar documento
+                            logger.info(
+                                "Sent notification for flight iata: %s", flight_iata
+                            )
+                            s.close()
+                        except Exception as e:
+                            logger.error(f"Error sending notification: {e}")
 
-                        existing_flight_departure = existing_flight["departure"]
-                        existing_flight_arrival = existing_flight["arrival"]
-                        existing_flight_live_data = existing_flight["live_data"]
-
-                        if existing_flight_live_data != data_to_insert["live_data"]:
-                            try:
-                                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                                s.connect(("notification_manager", 1234))
-                                s.sendall(
-                                    json.dumps(
-                                        {
-                                            "flightIata": flight_iata,
-                                            "departure": data_to_insert["departure"],
-                                            "arrival": data_to_insert["arrival"],
-                                        }
-                                    ).encode()
-                                )
-                                logger.info(
-                                    "Sent notification for flight iata: %s", flight_iata
-                                )
-                                s.close()
-                            except Exception as e:
-                                logger.error(f"Error sending notification: {e}")
-
-                        collection.update_one(
-                            {"flightIata": flight_iata}, {"$set": data_to_insert}
-                        )
-                        logger.info("Updated document for flight iata: %s", flight_iata)
+                    collection.update_one(
+                        {"flightIata": flight_iata}, {"$set": data_to_insert}
+                    )
+                    logger.info("Updated document for flight iata: %s", flight_iata)
                 else:
                     data_to_insert["flightIata"] = flight_iata
 
