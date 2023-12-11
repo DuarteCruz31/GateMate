@@ -142,7 +142,7 @@ services:
       EMAIL_USERNAME: ${EMAIL}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       API_KEY: ${API_KEY}
-    command: sh -c "pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+    command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
 
 volumes:
   node_modules:
