@@ -6,6 +6,7 @@ from pika.exceptions import ChannelWrongStateError
 import datetime
 import os
 from pymongo import MongoClient
+import time
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -50,6 +51,8 @@ async def db_adaptor_live_data(channel, collection):
 
                 existing_flight = collection.find_one({"flightIata": flight_iata})
 
+                current_time = time.time()
+
                 data_to_insert = {
                     "flightNumber": flight_number,
                     "airlineIata": airline_iata,
@@ -84,13 +87,32 @@ async def db_adaptor_live_data(channel, collection):
                         "speed": speed,
                         "vertical_speed": vertical_speed,
                     },
+                    "updated": current_time,
                 }
 
+                update_threshold = current_time - (
+                    (os.environ["FETCH_INTERVAL"] + 1) * 60
+                )
+
                 if existing_flight is not None:
-                    collection.update_one(
-                        {"flightIata": flight_iata}, {"$set": data_to_insert}
-                    )
-                    logger.info("Updated document for flight iata: %s", flight_iata)
+                    if existing_flight["updated"] < update_threshold:
+                        # Remover o documento se não foi atualizado recentemente
+                        collection.delete_one({"flightIata": flight_iata})
+                        logger.info("Removed document for flight iata: %s", flight_iata)
+
+                        if "subscribed_flights" in db.list_collection_names():
+                            subscribed_flights = db["subscribed_flights"]
+                            subscribed_flights.delete_many({"flightIata": flight_iata})
+                            logger.info(
+                                "Removed subscribed flights for flight iata: %s",
+                                flight_iata,
+                            )
+                    else:
+                        # Atualizar documento
+                        collection.update_one(
+                            {"flightIata": flight_iata}, {"$set": data_to_insert}
+                        )
+                        logger.info("Updated document for flight iata: %s", flight_iata)
                 else:
                     data_to_insert["flightIata"] = flight_iata
 

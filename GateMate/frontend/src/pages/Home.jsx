@@ -13,6 +13,8 @@ import image9 from "../assets/home/9.png";
 import image10 from "../assets/home/10.png";
 
 function Home() {
+  const token = localStorage.getItem("token");
+
   return (
     <div className="flex flex-col min-h-screen">
       <div>
@@ -28,12 +30,22 @@ function Home() {
               Elevate Your Journey with Real-time Flight Intelligence and Ease
             </div>
             <div>
-              <Link
-                to="/register"
-                className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
-              >
-                Get Started
-              </Link>
+              {!token && (
+                <Link
+                  to="/register"
+                  className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
+                >
+                  Get Started
+                </Link>
+              )}
+              {token && (
+                <Link
+                  to="/allflights"
+                  className="bg-teal-500 text-black text-center px-6 py-5 rounded-lg font-bold text-lg hover:text-white hover:bg-teal-600 transition duration-300 ease-in-out mr-6"
+                >
+                  All Flights
+                </Link>
+              )}
             </div>
           </div>
         </div>

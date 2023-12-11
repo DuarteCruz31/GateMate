@@ -107,6 +107,14 @@ function Register() {
               required
             />
           </div>
+          <div className="text-center">
+            <span>
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-800">
+                Login here
+              </Link>
+            </span>
+          </div>
           <div className="w-full bg-teal-500 rounded-sm border border-teal-500 justify-start items-start inline-flex">
             <button
               type="submit"

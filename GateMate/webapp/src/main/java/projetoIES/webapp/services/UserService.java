@@ -29,7 +29,6 @@ public class UserService {
         this.mongoClient = MongoClients.create("mongodb://mongodb:27017/");
         this.database = mongoClient.getDatabase("my_mongodb_database");
         this.subscribed_flights = database.getCollection("subscribed_flights");
-
     }
 
     public void subscribeFlights(User user, String flightIata) {
@@ -48,6 +47,11 @@ public class UserService {
     public void unsubscribeFlights(User user, String flightIata) {
         subscribed_flights.updateOne(new Document("flightIata", flightIata),
                 Updates.pull("users", user.getEmail()));
+
+        FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
+        if (flightIataDocument.first().getList("users", String.class).isEmpty()) {
+            subscribed_flights.deleteOne(new Document("flightIata", flightIata));
+        }
     }
 
     public boolean isSubscribed(User user, String flightIata) {
