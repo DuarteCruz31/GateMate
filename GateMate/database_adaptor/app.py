@@ -116,10 +116,6 @@ async def db_adaptor_live_data(channel, collection):
                         existing_flight_live_data = existing_flight["live_data"]
 
                         if existing_flight_live_data != data_to_insert["live_data"]:
-                            logger.info(
-                                "Updated live data for flight iata: %s", flight_iata
-                            )
-
                             try:
                                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                                 s.connect(("notification_manager", 1234))
@@ -131,6 +127,9 @@ async def db_adaptor_live_data(channel, collection):
                                             "arrival": data_to_insert["arrival"],
                                         }
                                     ).encode()
+                                )
+                                logger.info(
+                                    "Sent notification for flight iata: %s", flight_iata
                                 )
                                 s.close()
                             except Exception as e:
