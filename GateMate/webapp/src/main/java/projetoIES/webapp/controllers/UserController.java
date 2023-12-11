@@ -5,11 +5,9 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +17,7 @@ import projetoIES.webapp.services.UserService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 public class UserController {
     private AuthenticationService auth;
     private UserService userService;
@@ -78,7 +76,7 @@ public class UserController {
     }
 
     @PostMapping("/subscribe_flight")
-    public ResponseEntity<String> subscribed_flights(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> subscribe_flight(@RequestBody Map<String, String> body) {
 
         String token = body.get("token");
         String flightIata = body.get("flightIata");
@@ -88,7 +86,54 @@ public class UserController {
         userService.subscribeFlights(user, flightIata);
 
         if (user == null) {
-            return new ResponseEntity<>("user not loged in", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/subscribed_flights")
+    public ResponseEntity<String> subscribed_flights(@RequestBody Map<String, String> body) {
+
+        String token = body.get("token");
+
+        User user = auth.validateToken(token);
+
+        if (user == null) {
+            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/unsubscribe_flight")
+    public ResponseEntity<String> unsubscribe_flight(@RequestBody Map<String, String> body) {
+
+        String token = body.get("token");
+        String flightIata = body.get("flightIata");
+
+        User user = auth.validateToken(token);
+
+        userService.unsubscribeFlights(user, flightIata);
+
+        if (user == null) {
+            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/is_subscribed")
+    public ResponseEntity<String> is_subscribed(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String flightIata = body.get("flightIata");
+
+        User user = auth.validateToken(token);
+
+        boolean isSubscribed = userService.isSubscribed(user, flightIata);
+
+        if (!isSubscribed) {
+            return new ResponseEntity<>("User not subscribed", HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }

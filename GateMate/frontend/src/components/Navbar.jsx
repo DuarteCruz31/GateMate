@@ -9,7 +9,7 @@ function Navbar() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/logout", {
+      const response = await fetch("http://localhost:8080/api/user/logout", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -32,14 +32,14 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar bg-blue-600 text-white h-20">
+    <div className="navbar bg-blue-600 text-white h-20 flex items-center">
       <div className="flex-1">
         <Link to="/">
           <img src={logo} alt="Logo" className="w-60 h-50" />
         </Link>
       </div>
       <div className="flex-none">
-        <div className="menu menu-horizontal">
+        <div className="menu menu-horizontal flex items-center">
           <div className="px-4 text-2xl">
             <Link to="/allflights">All Flights</Link>
           </div>

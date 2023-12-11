@@ -1,8 +1,6 @@
 package projetoIES.webapp.services;
 
-import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Base64;
 
 import org.springframework.stereotype.Service;
 
@@ -11,12 +9,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 
 import org.bson.Document;
-
-import static com.mongodb.client.model.Projections.*;
 
 import projetoIES.webapp.entities.User;
 import projetoIES.webapp.repositories.UserRepository;
@@ -47,6 +42,21 @@ public class UserService {
         } else {
             subscribed_flights.updateOne(new Document("flightIata", flightIata),
                     Updates.addToSet("users", user.getEmail()));
+        }
+    }
+
+    public void unsubscribeFlights(User user, String flightIata) {
+        subscribed_flights.updateOne(new Document("flightIata", flightIata),
+                Updates.pull("users", user.getEmail()));
+    }
+
+    public boolean isSubscribed(User user, String flightIata) {
+        FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
+
+        if (flightIataDocument.first() == null) {
+            return false;
+        } else {
+            return flightIataDocument.first().getList("users", String.class).contains(user.getEmail());
         }
     }
 }

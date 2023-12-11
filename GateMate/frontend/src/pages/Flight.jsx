@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -6,6 +6,7 @@ import FlightInfo from "../components/FlightInfo";
 import FlightInfoTable from "../components/FlightInfoTable";
 import FlightLiveDataTable from "../components/FlightLiveDataTable";
 import useFetch from "../hooks/useFetch";
+import "../css/flight.css";
 
 function Flight(props) {
   const location = useLocation();
@@ -17,6 +18,43 @@ function Flight(props) {
     data: flightInfo,
   } = useFetch("http://localhost:8080/api/flight/" + flightIata);
 
+  const [isSubscribed, setIsSubscribed] = useState();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationText, setConfirmationText] = useState("");
+
+  const flightSubscribed = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/user/is_subscribed",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            flightIata: flightIata,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Subscrito");
+        setIsSubscribed(true);
+        setConfirmationText("Subscrito com sucesso");
+      } else {
+        console.error("Não subscrito");
+        setIsSubscribed(false);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  };
+
+  useEffect(() => {
+    flightSubscribed();
+  }, []);
+
   // Função a ser executada quando o botão for clicado
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -24,7 +62,7 @@ function Flight(props) {
     if ((await validateUserToken(localStorage.getItem("token"))) === true) {
       try {
         const response = await fetch(
-          "http://localhost:8080/api/auth/subscribe_flight",
+          "http://localhost:8080/api/user/subscribe_flight",
           {
             method: "POST",
             headers: {
@@ -39,6 +77,8 @@ function Flight(props) {
 
         if (response.ok) {
           console.log("Subscrito com sucesso");
+          setIsSubscribed(true);
+          setConfirmationText("Subscrito com sucesso");
         } else {
           console.error("Erro na subscrição");
         }
@@ -46,11 +86,46 @@ function Flight(props) {
         console.error("Erro ao enviar dados:", error);
       }
     }
+    setShowConfirmation(true);
+  };
+
+  const handleUnsubscribe = async (e) => {
+    e.preventDefault();
+
+    if ((await validateUserToken(localStorage.getItem("token"))) === true) {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/user/unsubscribe_flight",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token: localStorage.getItem("token"),
+              flightIata: flightIata,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          console.log("Desubscrito com sucesso");
+          setIsSubscribed(false);
+          setConfirmationText("Desubscrito com sucesso");
+        } else {
+          console.error("Erro na desubscrição");
+        }
+      } catch (error) {
+        console.error("Erro:", error);
+      }
+    }
+
+    setShowConfirmation(true);
   };
 
   const validateUserToken = async (token) => {
     try {
-      const response = await fetch("http://localhost:8080/api/auth/", {
+      const response = await fetch("http://localhost:8080/api/user/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,6 +148,10 @@ function Flight(props) {
       console.error("Erro:", error);
       return false;
     }
+  };
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -119,11 +198,20 @@ function Flight(props) {
                   <FlightInfoTable flight={flightInfo.arrival} />
                 </div>
               </div>
-              <div className="flex justify-center mb-10">
-                <button className="btn btn-primary" onClick={handleSubscribe}>
-                  Subscribe Flight
-                </button>
-              </div>
+              {!isSubscribed && (
+                <div className="flex justify-center mb-10">
+                  <button className="btn btn-primary" onClick={handleSubscribe}>
+                    Subscribe Flight
+                  </button>
+                </div>
+              )}
+              {isSubscribed && (
+                <div className="flex justify-center mb-10">
+                  <button className="btn btn-error" onClick={handleUnsubscribe}>
+                    Unsubscribe Flight
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -131,6 +219,14 @@ function Flight(props) {
           <Footer />
         </div>
       </div>
+      {showConfirmation && (
+        <div className="popup">
+          <div className="popup-content">
+            <p>{confirmationText}</p>
+            <button onClick={handleConfirmationClose}>Fechar</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
