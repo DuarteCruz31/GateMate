@@ -27,7 +27,6 @@ def start_server(collection):
 
     while True:
         conn, addr = s.accept()
-        logging.info(f"Connection from {addr} accepted!")
         data = conn.recv(1024)
         sent_email(data, collection)
         conn.close()

@@ -18,15 +18,12 @@ async def db_adaptor_live_data(channel, collection):
         update_threshold = current_time - ((int(os.environ["FETCH_INTERVAL"]) + 1) * 60)
 
         collection.delete_many({"updated": {"$lt": update_threshold}})
-        logger.info("Removed document for flight iata: %s", flight_iata)
+        logger.info("Deleted old documents")
 
         if "subscribed_flights" in db.list_collection_names():
             subscribed_flights = db["subscribed_flights"]
             subscribed_flights.delete_many({"updated": {"$lt": update_threshold}})
-            logger.info(
-                "Removed subscribed flights for flight iata: %s",
-                flight_iata,
-            )
+            logger.info("Deleted old subscribed flights")
 
         try:
             data = json.loads(body)
