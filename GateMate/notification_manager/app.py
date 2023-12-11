@@ -1,10 +1,15 @@
-import requests
+import socket
+import logging
+import threading
+
 import time
 import os
-import redis
 from pymongo import MongoClient
 
-import webapp.src.main.java.projetoIES.webapp.services.AuthenticationService as auth
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+""" import webapp.src.main.java.projetoIES.webapp.services.AuthenticationService as auth
 
 
 # def connect_to_redis():
@@ -63,7 +68,24 @@ def notifications(user, flight):
         except requests.RequestException as e:
             print(f"Request failed: {e}")
             # Wait for 5 seconds
-            time.sleep(5)
+            time.sleep(5) """
+
+
+def start_server():
+    PORT = 1234
+    ADDRESS = "0.0.0.0"
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((ADDRESS, PORT))
+    s.listen(5)
+
+    logging.info(f"Server listening on {ADDRESS}:{PORT}")
+
+    while True:
+        conn, addr = s.accept()
+        logging.info(f"Connection from {addr} accepted!")
+        data = conn.recv(1024)
+        logging.info(f"Received {data} from {addr}")
+        conn.close()
 
 
 if __name__ == "__main__":
@@ -72,3 +94,5 @@ if __name__ == "__main__":
     if "subscribed_flights" not in db.list_collection_names():
         db.create_collection("subscribed_flights")
     collection = db["subscribed_flights"]
+
+    threading.Thread(target=start_server).start()

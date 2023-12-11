@@ -7,6 +7,7 @@ import datetime
 import os
 from pymongo import MongoClient
 import time
+import socket
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -91,7 +92,7 @@ async def db_adaptor_live_data(channel, collection):
                 }
 
                 update_threshold = current_time - (
-                    (os.environ["FETCH_INTERVAL"] + 1) * 60
+                    (int(os.environ["FETCH_INTERVAL"]) + 1) * 60
                 )
 
                 if existing_flight is not None:
@@ -109,6 +110,32 @@ async def db_adaptor_live_data(channel, collection):
                             )
                     else:
                         # Atualizar documento
+
+                        existing_flight_departure = existing_flight["departure"]
+                        existing_flight_arrival = existing_flight["arrival"]
+                        existing_flight_live_data = existing_flight["live_data"]
+
+                        if existing_flight_live_data != data_to_insert["live_data"]:
+                            logger.info(
+                                "Updated live data for flight iata: %s", flight_iata
+                            )
+
+                            try:
+                                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                s.connect(("notification_manager", 1234))
+                                s.sendall(
+                                    json.dumps(
+                                        {
+                                            "flightIata": flight_iata,
+                                            "departure": data_to_insert["departure"],
+                                            "arrival": data_to_insert["arrival"],
+                                        }
+                                    ).encode()
+                                )
+                                s.close()
+                            except Exception as e:
+                                logger.error(f"Error sending notification: {e}")
+
                         collection.update_one(
                             {"flightIata": flight_iata}, {"$set": data_to_insert}
                         )
