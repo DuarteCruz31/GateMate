@@ -23,7 +23,10 @@ def sent_email(data, collection, servidor_email, remetente):
         logger.info("No document found")
         return
     logger.info(doc)
-    servidor_email.sendmail(remetente, doc["users"], json_data) 
+    message = """From: %s\r\nTo: %s\r\nSubject: %s\r\n\
+%s
+""" % (remetente, ", ".join(doc["users"]), "Flight Updates", json.dumps(json_data))
+    servidor_email.sendmail(remetente, doc["users"], message) 
     print("Email sent")
 
 
