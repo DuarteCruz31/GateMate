@@ -16,13 +16,15 @@ logger = logging.getLogger(__name__)
 def sent_email(data, collection, servidor_email, remetente):
     data = data.decode()
     json_data = json.loads(data)
-    logger.info(json_data)
-    logger.info(json_data["flightIata"])
+    # logger.info(json_data)
+    # logger.info(json_data["flightIata"])
     doc = collection.find_one({"flightIata": json_data["flightIata"]})
     if doc is None:
         logger.info("No document found")
         return
-    logger.info(doc)
+    # logger.info(doc)
+    # logger.info(type(json.dumps(json_data)))
+    # logger.info(type(doc["users"]))
     message = """From: %s\r\nTo: %s\r\nSubject: %s\r\n\
 %s
 """ % (remetente, ", ".join(doc["users"]), "Flight Updates", json.dumps(json_data))
