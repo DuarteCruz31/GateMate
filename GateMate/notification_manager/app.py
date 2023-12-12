@@ -27,8 +27,13 @@ def sent_email(data, collection, servidor_email, remetente):
     # logger.info(type(doc["users"]))
     message = """From: %s\r\nTo: %s\r\nSubject: %s\r\n\
 %s
-""" % (remetente, ", ".join(doc["users"]), "Flight Updates", json.dumps(json_data))
-    servidor_email.sendmail(remetente, doc["users"], message) 
+""" % (
+        remetente,
+        ", ".join(doc["users"]),
+        "Flight Updates",
+        json.dumps(json_data),
+    )
+    servidor_email.sendmail(remetente, doc["users"], message)
     print("Email sent")
 
 
@@ -59,8 +64,8 @@ if __name__ == "__main__":
     servidor_email.starttls()
     logger.info(servidor_email)
 
-    servidor_email.login('gatemate4.2023@outlook.pt', 'GateMate4_2023.')
+    servidor_email.login("gatemate4.2023@outlook.pt", "GateMate4_2023.")
 
-    remetente = 'gatemate4.2023@outlook.pt'
+    remetente = "gatemate4.2023@outlook.pt"
 
     threading.Thread(target=start_server(collection)).start()
