@@ -27,10 +27,9 @@ EMAIL=my_email@example.com
 EMAIL_PASSWORD=my_email_password
 
 # API Key Configuration
-API_KEY=api_key
+API_KEY=your_api_key
 
-# Flight Tracker API key
-FLIGHT_TRACKER_API_KEY=flight_tracker_api_key
+FETCH_INTERVAL = 1
 ```
 
 After that, run the following commands:
