@@ -1,18 +1,29 @@
 import socket
 import logging
 import threading
+import json
 
 import time
 import os
 from pymongo import MongoClient
+import smtplib
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def sent_email(data, collection):
+def sent_email(data, collection, servidor_email, remetente):
     data = data.decode()
-    print(data)
+    json_data = json.loads(data)
+    logger.info(json_data)
+    logger.info(json_data["flightIata"])
+    doc = collection.find_one({"flightIata": json_data["flightIata"]})
+    if doc is None:
+        logger.info("No document found")
+        return
+    logger.info(doc)
+    servidor_email.sendmail(remetente, doc["users"], json_data) 
     print("Email sent")
 
 
@@ -28,7 +39,7 @@ def start_server(collection):
     while True:
         conn, addr = s.accept()
         data = conn.recv(1024)
-        sent_email(data, collection)
+        sent_email(data, collection, servidor_email, remetente)
         conn.close()
 
 
@@ -38,5 +49,13 @@ if __name__ == "__main__":
     if "subscribed_flights" not in db.list_collection_names():
         db.create_collection("subscribed_flights")
     collection = db["subscribed_flights"]
+
+    servidor_email = smtplib.SMTP("smtp-mail.outlook.com", 587)
+    servidor_email.starttls()
+    logger.info(servidor_email)
+
+    servidor_email.login('gatemate4.2023@outlook.pt', 'GateMate4_2023.')
+
+    remetente = 'gatemate4.2023@outlook.pt'
 
     threading.Thread(target=start_server(collection)).start()
