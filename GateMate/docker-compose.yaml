@@ -59,6 +59,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    
 
     environment:
       SPRING_APPLICATION_JSON: '{"spring.data.mongodb.uri" : "mongodb://mongodb:27017/${MONGODB_DATABASE}"}'
@@ -75,7 +76,7 @@ services:
       context: frontend
     container_name: frontend
     ports:
-      - 8083:8083
+      - ${FRONTEND_PORT}:8083
     volumes:
       - node_modules:/frontend/node_modules
       - ./frontend:/frontend
@@ -143,6 +144,20 @@ services:
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
       API_KEY: ${API_KEY}
     command: sh -c "python -m venv venv && source venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && python app.py"
+
+  nginx-proxy:
+    image: nginx:latest
+    container_name: proxy
+    ports: 
+      - ${NGINX_PORT}:80
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      spring:
+        condition: service_started
+      frontend:
+        condition: service_started
+    env_file: .env
 
 volumes:
   node_modules:
