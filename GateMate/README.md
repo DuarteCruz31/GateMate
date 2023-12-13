@@ -34,13 +34,10 @@ FETCH_INTERVAL = 1
 
 After that, run the following commands:
 
-```bash
-docker-compose build
-```
-
-```bash
-docker-compose up
-```
+´´´bash
+chmod +x run.sh
+./run.sh
+´´´
 
 ## Documentation:
 * [Arquitecture](docs/arquitecture.md)
