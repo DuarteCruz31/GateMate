@@ -103,9 +103,11 @@ async def db_adaptor_live_data(channel, collection):
                     # Atualizar documento
                     existing_flight_departure = existing_flight["departure"]
                     existing_flight_arrival = existing_flight["arrival"]
-                    existing_flight_live_data = existing_flight["live_data"]
 
-                    if existing_flight_live_data != data_to_insert["live_data"]:
+                    if (
+                        existing_flight_departure != data_to_insert["departure"]
+                        or existing_flight_arrival != data_to_insert["arrival"]
+                    ):
                         try:
                             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                             s.connect(("notification_manager", 1234))
