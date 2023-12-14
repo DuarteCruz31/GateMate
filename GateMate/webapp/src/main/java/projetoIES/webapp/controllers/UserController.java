@@ -89,7 +89,7 @@ public class UserController {
         userService.subscribeFlights(user, flightIata);
 
         if (user == null) {
-            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not logged in", HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -126,7 +126,7 @@ public class UserController {
         userService.unsubscribeFlights(user, flightIata);
 
         if (user == null) {
-            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not logged in", HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }

@@ -16,11 +16,14 @@ RABBITMQ_USER=my_rabbitmq_user
 RABBITMQ_PASSWORD=my_rabbitmq_password
 RABBITMQ_MANAGEMENT_PORT=15672
 
+# Nginx Configuration
+NGINX_PORT=8080
+
 # Spring Configuration
-SPRING_PORT=8080
+SPRING_PORT=8081
 
 # React Configuration
-REACT_PORT=3000
+FRONTEND_PORT=8082
 
 # Email Configuration
 EMAIL=my_email@example.com
@@ -29,7 +32,7 @@ EMAIL_PASSWORD=my_email_password
 # API Key Configuration
 API_KEY=your_api_key
 
-FETCH_INTERVAL = 1
+FETCH_INTERVAL = 5
 ```
 
 After that, run the following commands:

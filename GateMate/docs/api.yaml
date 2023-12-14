@@ -1,0 +1,318 @@
+openapi: 3.0.3
+info:
+  title: Gatemate
+  description: |-
+    This is the API specification for Gatemate, a flight information provider
+    Some useful links:
+    - [The Gatemate repository](https://github.com/DuarteCruz31/GateMate)
+servers:
+  - url: https://localhost:8080/api/
+tags:
+  - name: user
+    description: operations regarding authentication
+  - name: flight
+    description: Information about flights
+  - name: subscriptions
+    description: subscribing/unsubscribing to flights
+   
+paths:
+  /allflights:
+    get:
+      tags:
+        - flight
+      summary: Search flights
+      description: Search flights by different criteria
+      parameters:
+        - name: from
+          in: query
+          description: departure airport IATA
+          required: false
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: arrival airport IATA
+          required: false
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: name of the company
+          required: false
+          schema:
+            type: string
+        - name: flightIata
+          in: query
+          description: flight IATA
+          required: false
+          schema:
+            type: string
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'          
+        '404':
+          description: No flight matched the query
+  /flight/{iata}:
+    get:
+      tags:
+        - flight
+      summary: Get flight details
+      description: Get fight details of a flight, given its IATA code
+      parameters:
+        - name: iata
+          in: path
+          required: true
+          schema:
+            type: string
+          description: the IATA code of the flight
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/flight'
+        '404':
+          description: flight not found
+
+  /user/login:
+    post:
+      tags:
+        - user
+      description: login using email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string                
+      responses:
+        '200':
+          description: successful login
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: token
+        '401':
+          description: email or password not found
+  /user/register:
+    post:
+      tags:
+        - user
+      description: register using email and password (and confirm password)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+      responses:
+        '200':
+          description: successful register
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: token
+        '409':
+          description: email already exists
+        '400':
+          description: passwords don't match
+  /user/logout:
+    delete:
+      tags:
+        - user
+      description: logout using session token (manually expire token)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: successful operation
+        '204':
+          description: token doesn't exist or has already expired
+  /user/subscribe_flight:
+    post:
+      tags:
+        - subscriptions
+      description: subscribe to a flight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: invalid token
+  /user/subscribed_flights:
+    post:
+      tags:
+        - subscriptions
+      description: list subscribed flights
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token: 
+                  type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '409':
+          description: invalid token/no flights to return
+  /user/unsubscribe_flight:
+    post:
+      description: unsubscribe from a flight
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: user not logged in
+  /user/is_subscribed:
+    post:
+      description: check if user is subscribed
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: user not subscribed
+          
+        
+              
+components:
+  schemas:
+    flight:
+      type: object
+      properties:
+        id: 
+          type: object
+          properties:
+            timestamp:
+              type: integer
+            date:
+              type: string
+        flightNumber:
+          type: string
+        flightIata:
+          type: string
+        departure:
+          $ref: '#/components/schemas/airportFlight'
+        arrival:
+          $ref: '#/components/schemas/airportFlight'
+        airlineIata:
+          type: string
+        airlineIcao:
+          type: string
+        airlineName:
+          type: string
+        aircraftRegistration:
+          type: string
+        liveData:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+            altitude:
+              type: number
+              format: float
+            direction:
+              type: number
+              format: float
+            speed:
+              type: number
+              format: float
+            vertical_speed:
+              type: number
+              format: float
+            
+            
+    airportFlight:
+      type: object
+      properties:
+        iata:
+          type: string
+        icao:
+          type: string
+        name:
+          type: string
+        terminal:
+          type: string
+        gate:
+          type: string
+        delay:
+          type: integer
+        scheduled:
+          type: string
+        estimated:
+          type: string
+        actual:
+          type: string
