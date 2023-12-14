@@ -1,16 +1,19 @@
 package projetoIES.webapp.controllers;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import projetoIES.webapp.entities.Flight;
 import projetoIES.webapp.entities.User;
 import projetoIES.webapp.services.AuthenticationService;
 import projetoIES.webapp.services.UserService;
@@ -93,17 +96,23 @@ public class UserController {
     }
 
     @PostMapping("/subscribed_flights")
-    public ResponseEntity<String> subscribed_flights(@RequestBody Map<String, String> body) {
-
+    public ResponseEntity<ArrayList<Flight>> subscribed_flights(@RequestBody Map<String, String> body) {
         String token = body.get("token");
 
         User user = auth.validateToken(token);
 
         if (user == null) {
-            return new ResponseEntity<>("User not loged in", HttpStatus.CONFLICT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        ArrayList<Flight> flights = userService.getSubscribedFlights(user);
+
+        if (flights == null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(flights, HttpStatus.OK);
+        }
+
     }
 
     @PostMapping("/unsubscribe_flight")

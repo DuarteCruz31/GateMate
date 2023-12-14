@@ -1,5 +1,7 @@
 package projetoIES.webapp.entities;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -34,10 +36,10 @@ public class Flight {
     private String aircraftRegistration;
     @Field("live_data")
     private LiveData liveData;
+    private long updated;
 
     // object mapping from api response
     public Flight(JsonNode json, ObjectId id, LiveData liveData) {
-        System.err.println("json: " + json.toPrettyString());
         this.id = id;
         this.flightNumber = json.get("flight_number").asText();
         this.flightIata = json.get("flight_iata").asText();
@@ -45,6 +47,8 @@ public class Flight {
         this.airlineIcao = json.get("airline_icao").asText();
         this.airlineName = json.get("airline_name").asText();
         this.aircraftRegistration = json.get("reg_number").asText();
+        this.updated = System.currentTimeMillis();
+
         // no need to change the live data
         this.liveData = liveData;
         departure = new AirportFlight();
@@ -66,5 +70,15 @@ public class Flight {
         arrival.setDelay(json.get("arr_delayed").asInt(0));
         arrival.setActual(json.get("arr_time").asText());
         arrival.setEstimated(json.get("arr_estimated").asText(arrival.getActual()));
+    }
+
+    public Flight(String flightIata, String departureIata, String arrivalIata, String airlineName, long lastUpdate) {
+        this.flightIata = flightIata;
+        this.departure = new AirportFlight();
+        this.departure.setIata(departureIata);
+        this.arrival = new AirportFlight();
+        this.arrival.setIata(arrivalIata);
+        this.airlineName = airlineName;
+        this.updated = lastUpdate;
     }
 }

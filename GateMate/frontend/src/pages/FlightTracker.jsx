@@ -85,7 +85,7 @@ function FlightTracker() {
       <div className="mb-10">
         <Navbar />
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row z-0">
         <div className="w-1/3 p-5 mt-7 flex flex-col">
           <div>
             <button className="text-blue-400" onClick={() => resetFilters()}>

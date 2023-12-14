@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import AllFlights from "./pages/AllFlights";
 import Flight from "./pages/Flight";
 import FlightTracker from "./pages/FlightTracker";
+import UserSubscribedFlights from "./pages/UserSubscribedFlights";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
         <Route path="/allflights" Component={AllFlights} />
         <Route path="/flighttracker" Component={FlightTracker}></Route>
         <Route path="/flightInfo/:id" element={<Flight />} />
+        <Route
+          path="/UserSubscribedFlights"
+          Component={UserSubscribedFlights}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
