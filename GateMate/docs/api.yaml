@@ -86,7 +86,7 @@ paths:
     post:
       tags:
         - user
-      description: login using username and password
+      description: login using email and password
       requestBody:
         required: true
         content:
@@ -107,12 +107,59 @@ paths:
                 type: string
                 example: token
         '401':
-          description: wrong credentials
+          description: email or password not found
+  /user/register:
+    post:
+      tags:
+        - user
+      description: register using email and password (and confirm password)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+      responses:
+        '200':
+          description: successful register
           content:
             text/plain:
               schema:
                 type: string
-                example: "email or password not found"
+                example: token
+        '409':
+          description: email already exists
+        '400':
+          description: passwords don't match
+  /user/logout:
+    delete:
+      tags:
+        - user
+      description: logout using session token (manually expire token)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: successful operation
+        '204':
+          description: token doesn't exist or has already expired
+
+
+          
 
 
         
