@@ -1,44 +1,20 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
+  title: Gatemate
   description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-
-    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
-    
+    This is the API specification for Gatemate, a flight information provider
     Some useful links:
-    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
-  termsOfService: http://swagger.io/terms/
-  contact:
-    email: apiteam@swagger.io
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.11
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
+    - [The Gatemate repository](https://github.com/DuarteCruz31/GateMate)
 servers:
   - url: https://localhost:8080/api/
 tags:
-  - name: flight
-    description: Information about flights
-  - name: pet
-    description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
-  - name: store
-    description: Access to Petstore orders
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
   - name: user
     description: operations regarding authentication
+  - name: flight
+    description: Information about flights
+  - name: subscriptions
+    description: subscribing/unsubscribing to flights
+   
 paths:
   /allflights:
     get:
@@ -51,9 +27,27 @@ paths:
           in: query
           description: departure airport IATA
           required: false
-          explode: true
           schema:
             type: string
+        - name: to
+          in: query
+          description: arrival airport IATA
+          required: false
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: name of the company
+          required: false
+          schema:
+            type: string
+        - name: flightIata
+          in: query
+          description: flight IATA
+          required: false
+          schema:
+            type: string
+        
       responses:
         '200':
           description: successful operation
@@ -62,12 +56,75 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/allflights'          
+                  $ref: '#/components/schemas/flight'          
         '404':
           description: No flight matched the query
+  /flight/{iata}:
+    get:
+      tags:
+        - flight
+      summary: Get flight details
+      description: Get fight details of a flight, given its IATA code
+      parameters:
+        - name: iata
+          in: path
+          required: true
+          schema:
+            type: string
+          description: the IATA code of the flight
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/flight'
+        '404':
+          description: flight not found
+
+  /user/login:
+    post:
+      tags:
+        - user
+      description: login using username and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string                
+      responses:
+        '200':
+          description: successful login
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: token
+        '401':
+          description: wrong credentials
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "email or password not found"
+
+
+        
+
+  #TODO: add subscription docs
+                
+        
+
+              
 components:
   schemas:
-    allflights:
+    flight:
       type: object
       properties:
         id: 
@@ -85,6 +142,36 @@ components:
           $ref: '#/components/schemas/airportFlight'
         arrival:
           $ref: '#/components/schemas/airportFlight'
+        airlineIata:
+          type: string
+        airlineIcao:
+          type: string
+        airlineName:
+          type: string
+        aircraftRegistration:
+          type: string
+        liveData:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+            longitude:
+              type: number
+              format: float
+            altitude:
+              type: number
+              format: float
+            direction:
+              type: number
+              format: float
+            speed:
+              type: number
+              format: float
+            vertical_speed:
+              type: number
+              format: float
+            
             
     airportFlight:
       type: object
@@ -100,7 +187,7 @@ components:
         gate:
           type: string
         delay:
-          type: int
+          type: integer
         scheduled:
           type: string
         estimated:
