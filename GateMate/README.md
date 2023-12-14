@@ -38,11 +38,8 @@ FETCH_INTERVAL = 5
 After that, run the following commands:
 
 ```bash
-docker-compose build
-```
-
-```bash
-docker-compose up
+chmod +x run.sh
+./run.sh
 ```
 
 ## Documentation:

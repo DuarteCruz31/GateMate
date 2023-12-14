@@ -14,22 +14,30 @@ logger = logging.getLogger(__name__)
 
 async def db_adaptor_live_data(channel, collection):
     def callback(ch, method, properties, body):
-        current_time = time.time()
-        update_threshold = current_time - ((int(os.environ["FETCH_INTERVAL"]) + 1) * 60)
+        current_time = time.time() * 1000
+        update_threshold = current_time - 10 * 60 * 1000
 
         collection.delete_many({"updated": {"$lt": update_threshold}})
         logger.info("Deleted old documents")
 
         if "subscribed_flights" in db.list_collection_names():
             subscribed_flights = db["subscribed_flights"]
-            subscribed_flights.delete_many({"updated": {"$lt": update_threshold}})
+            all_subscrbed_flights = subscribed_flights.find()
+            for subscribed_flight in all_subscrbed_flights:
+                existing_flight = collection.find_one(
+                    {"flightIata": subscribed_flight["flightIata"]}
+                )
+                if existing_flight is None:
+                    subscribed_flights.delete_one(
+                        {"flightIata": subscribed_flight["flightIata"]}
+                    )
+
             logger.info("Deleted old subscribed flights")
 
         try:
             data = json.loads(body)
 
             for flight in data["response"]:
-                # logger.info(flight)
                 reg_number = flight["reg_number"]
                 latitude = float(flight["lat"])
                 longitude = float(flight["lng"])
@@ -96,7 +104,7 @@ async def db_adaptor_live_data(channel, collection):
                         "speed": speed,
                         "vertical_speed": vertical_speed,
                     },
-                    "updated": current_time,
+                    "updated": int(current_time),
                 }
 
                 if existing_flight is not None:

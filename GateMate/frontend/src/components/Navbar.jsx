@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import user from "../assets/user.png";
 
 function Navbar() {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const token = localStorage.getItem("token");
 
   const handleLogout = async (e) => {
@@ -31,8 +33,12 @@ function Navbar() {
     }
   };
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
   return (
-    <div className="navbar bg-blue-600 text-white h-20 flex items-center">
+    <div className="navbar bg-blue-600 text-white h-20 flex items-center relative">
       <div className="flex-1">
         <Link to="/">
           <img src={logo} alt="Logo" className="w-60 h-50" />
@@ -46,14 +52,35 @@ function Navbar() {
           <div className="px-4 text-2xl">
             <Link to="/flighttracker">Flight Tracker</Link>
           </div>
-          <div className="ml-4 text-2xl">
+          <div className="ml-2 text-2xl relative">
             {token && (
-              <button
-                onClick={handleLogout}
-                className="bg-white text-blue-600 px-4 py-2 rounded-lg font-bold text-lg hover:text-white hover:bg-blue-600 transition duration-300 ease-in-out"
-              >
-                Logout
-              </button>
+              <>
+                <button
+                  onClick={toggleDropdown}
+                  className="text-blue-600 py-2 rounded-lg font-bold text-lg hover:text-white hover:bg-blue-600 transition duration-300 ease-in-out"
+                >
+                  <img
+                    src={user}
+                    alt="User"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </button>
+                {dropdownVisible && (
+                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-md z-50">
+                    <Link to="/UserSubscribedFlights">
+                      <button className="block px-4 py-2 text-blue-600 hover:bg-gray-200 w-full text-left transition duration-300 ease-in-out">
+                        Subscribed Flights
+                      </button>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-red-500 hover:bg-gray-200 w-full text-left transition duration-300 ease-in-out"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </>
             )}
             {!token && (
               <Link
