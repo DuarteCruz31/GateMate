@@ -157,17 +157,92 @@ paths:
           description: successful operation
         '204':
           description: token doesn't exist or has already expired
-
-
+  /user/subscribe_flight:
+    post:
+      tags:
+        - subscriptions
+      description: subscribe to a flight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: invalid token
+  /user/subscribed_flights:
+    post:
+      tags:
+        - subscriptions
+      description: list subscribed flights
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token: 
+                  type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '409':
+          description: invalid token/no flights to return
+  /user/unsubscribe_flight:
+    post:
+      description: unsubscribe from a flight
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: user not logged in
+  /user/is_subscribed:
+    post:
+      description: check if user is subscribed
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                flightIata:
+                  type: string
+      responses:
+        '200':
+          description: success
+        '409':
+          description: user not subscribed
           
-
-
         
-
-  #TODO: add subscription docs
-                
-        
-
               
 components:
   schemas:
