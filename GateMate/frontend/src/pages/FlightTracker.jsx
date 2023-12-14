@@ -16,12 +16,37 @@ function FlightTracker() {
     error,
   } = useFetch("http://localhost:8080/api/allflights");
 
+  useEffect(() => {
+    setFlights(flightsData || []);
+  }, [flightsData]);
+
   const [flights, setFlights] = useState([]);
   const [flightNotFound, setFlightNotFound] = useState(false);
 
   useEffect(() => {
-    setFlights(flightsData || []);
-  }, [flightsData]);
+    const fetchData = async () => {
+      try {
+        const updatedFlightsData = await fetch(
+          "http://localhost:8080/api/allflights"
+        ).then((res) => res.json());
+        setFlights(updatedFlightsData || []);
+        setFlightNotFound(false);
+      } catch (error) {
+        setFlightNotFound(true);
+        setFlights([]);
+        console.error("Erro ao buscar voos:", error);
+      }
+    };
+
+    // Chama a função fetchData imediatamente para obter os dados inicialmente
+    fetchData();
+
+    // Configura o intervalo para chamar a função fetchData a cada 60 segundos
+    const intervalId = setInterval(fetchData, 60000);
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(intervalId);
+  }, []);
 
   const [filter, setFilter] = useState({
     flightIata: "",

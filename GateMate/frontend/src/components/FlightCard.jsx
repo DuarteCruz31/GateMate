@@ -20,11 +20,6 @@ function FlightCard({ flight }) {
     (lastUpdated - lastUpdatedTime) / 1000 / 60
   ); // Calcula o tempo decorrido em segundos
 
-  if (timeSinceLastUpdate < 0) {
-    console.log(lastUpdatedTime);
-    console.log(lastUpdated);
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-md p-6 m-4 flex flex-row items-center justify-between relative">
       <div className="flex flex-col">
