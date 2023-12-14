@@ -86,11 +86,11 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
-        userService.subscribeFlights(user, flightIata);
 
         if (user == null) {
-            return new ResponseEntity<>("User not logged in", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
         } else {
+            userService.subscribeFlights(user, flightIata);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -102,13 +102,13 @@ public class UserController {
         User user = auth.validateToken(token);
 
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         ArrayList<Flight> flights = userService.getSubscribedFlights(user);
 
         if (flights == null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(flights, HttpStatus.OK);
         }
@@ -123,11 +123,10 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
-        userService.unsubscribeFlights(user, flightIata);
-
         if (user == null) {
-            return new ResponseEntity<>("User not logged in", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
         } else {
+            userService.unsubscribeFlights(user, flightIata);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -139,10 +138,14 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
+        if(user==null){
+            return new ResponseEntity<>("User not logged in",HttpStatus.UNAUTHORIZED);
+        }
+
         boolean isSubscribed = userService.isSubscribed(user, flightIata);
 
         if (!isSubscribed) {
-            return new ResponseEntity<>("User not subscribed", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("User not subscribed", HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }

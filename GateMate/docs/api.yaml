@@ -178,7 +178,7 @@ paths:
           description: success
         '409':
           description: invalid token
-  /user/subscribed_flights:
+  /user/subscribed_flight:
     post:
       tags:
         - subscriptions
@@ -201,8 +201,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/flight'
-        '409':
-          description: invalid token/no flights to return
+        '401':
+          description: user not logged in
+        '204':
+          description: no flights to return
   /user/unsubscribe_flight:
     post:
       description: unsubscribe from a flight
@@ -220,7 +222,7 @@ paths:
       responses:
         '200':
           description: success
-        '409':
+        '401':
           description: user not logged in
   /user/is_subscribed:
     post:
@@ -239,9 +241,10 @@ paths:
       responses:
         '200':
           description: success
-        '409':
+        '204':
           description: user not subscribed
-          
+        '401':
+          description: user not logged in
         
               
 components:
