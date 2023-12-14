@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 async def db_adaptor_live_data(channel, collection):
     def callback(ch, method, properties, body):
         current_time = time.time() * 1000
-        update_threshold = current_time - 10 * 60 * 1000
+        update_threshold = current_time - 30 * 60 * 1000
 
         collection.delete_many({"updated": {"$lt": update_threshold}})
         logger.info("Deleted old documents")
