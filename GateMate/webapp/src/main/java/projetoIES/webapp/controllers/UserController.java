@@ -86,6 +86,7 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
+        userService.subscribeFlights(user, flightIata);
 
         if (user == null) {
             return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
@@ -138,8 +139,8 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
-        if(user==null){
-            return new ResponseEntity<>("User not logged in",HttpStatus.UNAUTHORIZED);
+        if (user == null) {
+            return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
         }
 
         boolean isSubscribed = userService.isSubscribed(user, flightIata);

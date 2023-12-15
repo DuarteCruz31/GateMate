@@ -19,10 +19,10 @@ def sent_email(data, collection, servidor_email, remetente):
 
     doc = collection.find_one({"flightIata": json_data["flightIata"]})
     if doc is None:
-        logger.info("No document found")
         return
 
     message = """From: %s\r\nTo: %s\r\nSubject: %s\r\n\
+    \r\n\n
     %s
     """ % (
         remetente,
@@ -30,9 +30,10 @@ def sent_email(data, collection, servidor_email, remetente):
         "Flight Updates",
         json.dumps(json_data),
     )
-    # Não funciona, pois otlook marca mail como spam
-    # servidor_email.sendmail(remetente, doc["users"], message)
-    print("Email sent")
+
+    logger.info(f"Sending email to {doc['users']}")
+
+    servidor_email.sendmail(remetente, doc["users"], message)
 
 
 def start_server(collection):
@@ -58,12 +59,11 @@ if __name__ == "__main__":
         db.create_collection("subscribed_flights")
     collection = db["subscribed_flights"]
 
-    servidor_email = smtplib.SMTP("smtp-mail.outlook.com", 587)
+    servidor_email = smtplib.SMTP("smtp-relay.brevo.com", 587)
     servidor_email.starttls()
-    logger.info(servidor_email)
-
-    servidor_email.login("gatemate4.2023@outlook.pt", "GateMate4_2023.")
 
     remetente = "gatemate4.2023@outlook.pt"
+
+    servidor_email.login(remetente, "MgGtR4v1hnDsJjW2")
 
     threading.Thread(target=start_server(collection)).start()

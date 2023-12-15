@@ -39,7 +39,7 @@ function Register() {
         localStorage.setItem("token", token);
         window.location.href = "/";
       } else {
-        console.error("Erro no login");
+        console.error("Erro no registo");
         // Trate os erros de registro aqui
       }
     } catch (error) {

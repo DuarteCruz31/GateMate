@@ -38,7 +38,8 @@ function Flight(props) {
         }
       );
 
-      if (response.ok) {
+      console.log(response);
+      if (response.ok && response.status === 200) {
         console.log("Subscrito");
         setIsSubscribed(true);
         setConfirmationText("Subscrito com sucesso");
