@@ -32,15 +32,16 @@ EMAIL_PASSWORD=my_email_password
 # API Key Configuration
 API_KEY=your_api_key
 
-FETCH_INTERVAL = 5
+FETCH_INTERVAL = 5 # in minutes
 ```
 
 After that, run the following commands:
 
 ```bash
-chmod +x run.sh
-./run.sh
+docker-compose up
+open http://localhost:8080
 ```
 
 ## Documentation:
-* [Arquitecture](docs/arquitecture.md)
+
+- [Arquitecture](docs/arquitecture.md)

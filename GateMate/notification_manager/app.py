@@ -62,8 +62,8 @@ if __name__ == "__main__":
     servidor_email = smtplib.SMTP("smtp-relay.brevo.com", 587)
     servidor_email.starttls()
 
-    remetente = "gatemate4.2023@outlook.pt"
+    remetente = os.environ["EMAIL"]
 
-    servidor_email.login(remetente, "MgGtR4v1hnDsJjW2")
+    servidor_email.login(remetente, os.environ["EMAIL_PASSWORD"])
 
     threading.Thread(target=start_server(collection)).start()
