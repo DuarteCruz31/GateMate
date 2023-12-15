@@ -84,7 +84,7 @@ function Register() {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               id="password"
               name="password"
               value={formData.password}
@@ -98,7 +98,7 @@ function Register() {
               Confirm Password
             </label>
             <input
-              type="text"
+              type="password"
               id="confirmPassword"
               name="confirmPassword"
               value={formData.confirmPassword}
