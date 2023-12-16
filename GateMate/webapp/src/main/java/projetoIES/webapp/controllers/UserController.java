@@ -20,7 +20,7 @@ import projetoIES.webapp.services.UserService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
     private AuthenticationService auth;
     private UserService userService;
