@@ -33,13 +33,24 @@ EMAIL_PASSWORD=my_email_password
 API_KEY=your_api_key
 
 FETCH_INTERVAL = 5 # in minutes
+
+FRONTEND_PORT = 8383
+
+NGINX_PORT = 7070
 ```
 
 After that, run the following commands:
 
+``` 
+chmod +x ./run.sh
+./run.sh
+```
+
+or
+
 ```bash
 docker-compose up
-open http://localhost:8080
+open http://localhost:8383
 ```
 
 ## Documentation:
