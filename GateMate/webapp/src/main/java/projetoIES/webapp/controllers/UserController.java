@@ -32,7 +32,7 @@ public class UserController {
 
         String token = auth.login(email, password);
         if (token == null) {
-            return new ResponseEntity<>("email or password not found", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Email or password not found", HttpStatus.UNAUTHORIZED);
         } else {
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
@@ -45,26 +45,26 @@ public class UserController {
         String confirmPassword = body.get("confirmPassword");
 
         if (!password.equals(confirmPassword)) {
-            return new ResponseEntity<>("passwords don't match", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Passwords deosn't match", HttpStatus.BAD_REQUEST);
         }
 
         String token = auth.register(email, password);
         if (token == null) {
-            return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Email already exists", HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> authenticate(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> authenticate(@RequestBody Map<String, String> body) {
         String token = body.get("token");
 
         User user = auth.validateToken(token);
         if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>("User loged in", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("User not loged in", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -86,20 +86,17 @@ public class UserController {
 
         User user = auth.validateToken(token);
 
-        userService.subscribeFlights(user, flightIata);
-
         if (user == null) {
             return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
         } else {
             userService.subscribeFlights(user, flightIata);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Successfully subscribed", HttpStatus.OK);
         }
     }
 
     @PostMapping("/subscribed_flights")
     public ResponseEntity<ArrayList<Flight>> subscribed_flights(@RequestBody Map<String, String> body) {
         String token = body.get("token");
-
         User user = auth.validateToken(token);
 
         if (user == null) {
@@ -123,12 +120,11 @@ public class UserController {
         String flightIata = body.get("flightIata");
 
         User user = auth.validateToken(token);
-
         if (user == null) {
             return new ResponseEntity<>("User not logged in", HttpStatus.UNAUTHORIZED);
         } else {
             userService.unsubscribeFlights(user, flightIata);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Successfully unsubscribed", HttpStatus.OK);
         }
     }
 
@@ -146,9 +142,9 @@ public class UserController {
         boolean isSubscribed = userService.isSubscribed(user, flightIata);
 
         if (!isSubscribed) {
-            return new ResponseEntity<>("User not subscribed", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("User subscribed", HttpStatus.OK);
         }
     }
 }

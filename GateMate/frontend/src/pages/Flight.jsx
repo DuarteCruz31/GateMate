@@ -5,24 +5,45 @@ import Footer from "../components/Footer";
 import FlightInfo from "../components/FlightInfo";
 import FlightInfoTable from "../components/FlightInfoTable";
 import FlightLiveDataTable from "../components/FlightLiveDataTable";
-import useFetch from "../hooks/useFetch";
 import "../css/flight.css";
 
 function Flight(props) {
   const location = useLocation();
   const flightIata = location.state?.flightIata;
-
-  const {
-    error,
-    isPending,
-    data: flightInfo,
-  } = useFetch("http://localhost:8080/api/flight/" + flightIata);
-
+  const token = localStorage.getItem("token");
+  const [flightInfo, setFlightInfo] = useState();
+  const [flightInfoNotFound, setflightInfoNotFound] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
 
-  const flightSubscribed = async () => {
+  const fetchFlightInfo = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/flight/" + flightIata,
+        {
+          method: "GET",
+        }
+      );
+
+      const responseContent = await response.json();
+      if (response.status === 200) {
+        console.log("FLight info found");
+        setFlightInfo(responseContent);
+        setflightInfoNotFound(false);
+      } else if (response.status === 404) {
+        console.error("Flight info not found");
+        setFlightInfo(null);
+        setflightInfoNotFound(true);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      setFlightInfo(null);
+      setflightInfoNotFound(true);
+    }
+  };
+
+  const flightSubscribed = async (token) => {
     try {
       const response = await fetch(
         "http://localhost:8080/api/user/is_subscribed",
@@ -32,19 +53,23 @@ function Flight(props) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            token: localStorage.getItem("token"),
+            token: token,
             flightIata: flightIata,
           }),
         }
       );
 
-      console.log(response);
-      if (response.ok && response.status === 200) {
-        console.log("Subscrito");
+      const responseContent = await response.text();
+      if (response.status === 200) {
+        console.log(responseContent);
         setIsSubscribed(true);
-        setConfirmationText("Subscrito com sucesso");
-      } else {
-        console.error("Não subscrito");
+      } else if (response.status === 401) {
+        console.error(responseContent);
+        localStorage.removeItem("token");
+        localStorage.setItem("invalidToken", true);
+        setIsSubscribed(false);
+      } else if (response.status === 204) {
+        console.error(responseContent);
         setIsSubscribed(false);
       }
     } catch (error) {
@@ -53,102 +78,77 @@ function Flight(props) {
   };
 
   useEffect(() => {
-    flightSubscribed();
+    fetchFlightInfo();
+    flightSubscribed(token);
   }, []);
 
   // Função a ser executada quando o botão for clicado
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-
-    if ((await validateUserToken(localStorage.getItem("token"))) === true) {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/user/subscribe_flight",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              token: localStorage.getItem("token"),
-              flightIata: flightIata,
-            }),
-          }
-        );
-
-        if (response.ok) {
-          console.log("Subscrito com sucesso");
-          setIsSubscribed(true);
-          setConfirmationText("Subscrito com sucesso");
-        } else {
-          console.error("Erro na subscrição");
-        }
-      } catch (error) {
-        console.error("Erro ao enviar dados:", error);
-      }
-    }
-    setShowConfirmation(true);
-  };
-
-  const handleUnsubscribe = async (e) => {
-    e.preventDefault();
-
-    if ((await validateUserToken(localStorage.getItem("token"))) === true) {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/user/unsubscribe_flight",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              token: localStorage.getItem("token"),
-              flightIata: flightIata,
-            }),
-          }
-        );
-
-        if (response.ok) {
-          console.log("Desubscrito com sucesso");
-          setIsSubscribed(false);
-          setConfirmationText("Desubscrito com sucesso");
-        } else {
-          console.error("Erro na desubscrição");
-        }
-      } catch (error) {
-        console.error("Erro:", error);
-      }
-    }
-
-    setShowConfirmation(true);
-  };
-
-  const validateUserToken = async (token) => {
+  const handleSubscribe = async (token) => {
     try {
-      const response = await fetch("http://localhost:8080/api/user/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/user/subscribe_flight",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: token,
+            flightIata: flightIata,
+          }),
+        }
+      );
 
-      if (response.ok) {
-        console.log("Token válido");
-        return true;
-      } else {
-        console.error("Token inválido");
+      const responseContent = await response.text();
+      if (response.status === 200) {
+        console.log(responseContent);
+        setConfirmationText(responseContent);
+        setIsSubscribed(true);
+      } else if (response.status === 401) {
+        console.error(responseContent);
         localStorage.removeItem("token");
+        setIsSubscribed(false);
         window.location.href = "/login";
-        return false;
       }
     } catch (error) {
       console.error("Erro:", error);
-      return false;
     }
+
+    setShowConfirmation(true);
+  };
+
+  const handleUnsubscribe = async (token) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/user/unsubscribe_flight",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: token,
+            flightIata: flightIata,
+          }),
+        }
+      );
+
+      const responseContent = await response.text();
+      if (response.status === 200) {
+        console.log(responseContent);
+        setConfirmationText(responseContent);
+        setIsSubscribed(false);
+      } else if (response.status === 401) {
+        console.error(responseContent);
+        localStorage.removeItem("token");
+        setIsSubscribed(false);
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+
+    setShowConfirmation(true);
   };
 
   const handleConfirmationClose = () => {
@@ -161,10 +161,18 @@ function Flight(props) {
         <div>
           <Navbar />
         </div>
-
         <div className="flex-1">
           <div className="h-10 bg-white"></div>
-          {flightInfo && (
+
+          {flightInfoNotFound && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto w-1/2 h-10 text-center flex items-center justify-center mt-10"
+              role="alert"
+            >
+              <strong className="font-bold">Flight info not found!</strong>
+            </div>
+          )}
+          {!flightInfoNotFound && flightInfo && (
             <div>
               <div className="bg-sky-950 text-white flex flex-col items-center justify-center mx-5">
                 <div className="mt-7">
@@ -201,14 +209,20 @@ function Flight(props) {
               </div>
               {!isSubscribed && (
                 <div className="flex justify-center mb-10">
-                  <button className="btn btn-primary" onClick={handleSubscribe}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleSubscribe(token)}
+                  >
                     Subscribe Flight
                   </button>
                 </div>
               )}
               {isSubscribed && (
                 <div className="flex justify-center mb-10">
-                  <button className="btn btn-error" onClick={handleUnsubscribe}>
+                  <button
+                    className="btn btn-error"
+                    onClick={() => handleUnsubscribe(token)}
+                  >
                     Unsubscribe Flight
                   </button>
                 </div>

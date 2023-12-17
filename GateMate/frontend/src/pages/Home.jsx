@@ -28,11 +28,12 @@ function Home() {
         }),
       });
 
-      if (response.ok) {
-        console.log("Token válido");
+      const responseContent = await response.text();
+      if (response.status === 200) {
+        console.log(responseContent);
         window.location.href = "/allflights";
-      } else {
-        console.error("Token inválido");
+      } else if (response.status === 401) {
+        console.error(responseContent);
         localStorage.removeItem("token");
         window.location.href = "/login";
       }
