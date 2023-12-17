@@ -35,6 +35,7 @@ function Home() {
       } else if (response.status === 401) {
         console.error(responseContent);
         localStorage.removeItem("token");
+        localStorage.setItem("invalidToken", true);
         window.location.href = "/login";
       }
     } catch (error) {

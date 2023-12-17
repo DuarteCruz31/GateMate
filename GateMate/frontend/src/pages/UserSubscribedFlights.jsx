@@ -29,7 +29,7 @@ function UserSubscribedFlights() {
       } else if (response.status === 401) {
         localStorage.removeItem("token");
         localStorage.setItem("invalidToken", true);
-        window.location.href = "/";
+        window.location.href = "/login";
       } else if (response.status === 204) {
         setSubscribedPlanes([]);
       }

@@ -66,7 +66,6 @@ function Flight(props) {
       } else if (response.status === 401) {
         console.error(responseContent);
         localStorage.removeItem("token");
-        localStorage.setItem("invalidToken", true);
         setIsSubscribed(false);
       } else if (response.status === 204) {
         console.error(responseContent);
@@ -107,6 +106,7 @@ function Flight(props) {
       } else if (response.status === 401) {
         console.error(responseContent);
         localStorage.removeItem("token");
+        localStorage.setItem("invalidToken", true);
         setIsSubscribed(false);
         window.location.href = "/login";
       }
@@ -142,6 +142,7 @@ function Flight(props) {
         console.error(responseContent);
         localStorage.removeItem("token");
         setIsSubscribed(false);
+        localStorage.setItem("invalidToken", true);
         window.location.href = "/login";
       }
     } catch (error) {
