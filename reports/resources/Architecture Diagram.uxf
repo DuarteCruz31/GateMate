@@ -83,7 +83,7 @@ Cache
       <h>90</h>
     </coordinates>
     <panel_attributes>symbol=component
-FlightStack API</panel_attributes>
+Airlabs API</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -94,7 +94,7 @@ FlightStack API</panel_attributes>
       <w>549</w>
       <h>216</h>
     </coordinates>
-    <panel_attributes>FlightStack API
+    <panel_attributes>Airlabs API
 (external)</panel_attributes>
     <additional_attributes/>
   </element>
