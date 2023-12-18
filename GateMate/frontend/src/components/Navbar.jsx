@@ -7,9 +7,7 @@ function Navbar() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const token = localStorage.getItem("token");
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-
+  const handleLogout = async (token) => {
     try {
       const response = await fetch("http://localhost:8080/api/user/logout", {
         method: "DELETE",
@@ -21,12 +19,12 @@ function Navbar() {
         }),
       });
 
-      if (response.ok) {
-        console.log("Logout bem-sucedido");
+      if (response.status === 200) {
         localStorage.removeItem("token");
         window.location.href = "/";
-      } else {
-        console.error("Erro no logout");
+      } else if (response.status === 204) {
+        localStorage.removeItem("token");
+        window.location.href = "/";
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -73,7 +71,9 @@ function Navbar() {
                       </button>
                     </Link>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout(token);
+                      }}
                       className="block px-4 py-2 text-red-500 hover:bg-gray-200 w-full text-left transition duration-300 ease-in-out"
                     >
                       Logout
