@@ -113,11 +113,10 @@ m2=0..*
 --
 -Email:String
 -Password:String
--Flights:List&lt;Flight&gt;
 --
 +Login(String email,String password)
 +Register(String email,String password)
-+AddFlight(Flight flight)</panel_attributes>
++Logout()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
