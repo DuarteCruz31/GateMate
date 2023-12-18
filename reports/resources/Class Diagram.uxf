@@ -4,46 +4,52 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>230</y>
+      <x>640</x>
+      <y>390</y>
       <w>210</w>
-      <h>160</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>Flight
 --
--IATA:String
--ICAO:String
--Aircraft:Aircraft
--Departure:AirportFlight
--Arrival:AirportFlight
--Latitude:Float
--Longitude:Float</panel_attributes>
+-flightNumber:String
+-flightIata:String
+-eeparture:AirportFlight
+-arrival:AirportFlight
+-airlineIata:String
+-airlineIcao:String
+-airlineName:String
+-aircraftRegistration:String
+-liveData:LiveData
+-updated:long</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>270</x>
-      <y>230</y>
+      <x>280</x>
+      <y>390</y>
       <w>210</w>
-      <h>150</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>AirportFlight
 --
--Airport:Airport
+-IATA:String
+-ICAO:String
+-Name:String
 -Scheduled:Date
 -Estimated:Date
 -Actual:Date
 -Terminal:String
 -Gate:String
--Baggage:String</panel_attributes>
+-Delay:Integer
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>270</y>
+      <x>480</x>
+      <y>430</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
@@ -57,124 +63,46 @@ m2=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>270</x>
-      <y>460</y>
-      <w>210</w>
-      <h>100</h>
-    </coordinates>
-    <panel_attributes>Airport
---
-- IATA:String
-- ICAO:String
-- Name:String
-- Timezone:String
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>390</x>
-      <y>370</y>
-      <w>70</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=0..*
--Airport</panel_attributes>
-    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1000</x>
-      <y>250</y>
-      <w>190</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>Aircraft
---
--IATA:String
--ICAO:String
--Registration:String</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>630</x>
-      <y>10</y>
+      <y>190</y>
       <w>270</w>
-      <h>130</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>User
 --
 -Email:String
--Password:String
+-Password:String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>650</y>
+      <w>230</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>LiveData
 --
-+Login(String email,String password)
-+Register(String email,String password)
-+Logout()</panel_attributes>
+-latitude:Float
+-longitude:Float
+-altitude:Float
+-direction:Float
+-vertical_speed:Float</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>740</x>
-      <y>130</y>
-      <w>70</w>
-      <h>120</h>
+      <y>570</y>
+      <w>80</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..*
-m2=0..*
--Flights
-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>830</x>
-      <y>280</y>
-      <w>190</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..*
+m1=1
 m2=1
--Aircraft</panel_attributes>
-    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>630</x>
-      <y>480</y>
-      <w>230</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>Airline
---
--IATA:String
--ICAO:String
--Name: String</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>730</x>
-      <y>380</y>
-      <w>70</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..*
-m2=1
--Airline</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+-liveData</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
 </diagram>
