@@ -70,23 +70,71 @@ public class Flight {
     // object mapping from api response
     public Flight(JsonNode json, ObjectId id, LiveData liveData) {
         this.id = id;
-        this.flightNumber = json.get("flight_number").asText();
-        this.flightIata = json.get("flight_iata").asText();
-        this.airlineIata = json.get("airline_iata").asText();
-        this.airlineIcao = json.get("airline_icao").asText();
-        this.airlineName = json.get("airline_name").asText();
-        this.aircraftRegistration = json.get("reg_number").asText();
+        if (json.has("flight_number")) {
+            this.flightNumber = json.get("flight_number").asText();
+        } else {
+            this.flightNumber = "";
+        }
+        if (json.has("flight_iata")) {
+            this.flightIata = json.get("flight_iata").asText();
+        } else {
+            this.flightIata = "";
+        }
+        if (json.has("airline_iata")) {
+            this.airlineIata = json.get("airline_iata").asText();
+        } else {
+            this.airlineIata = "";
+        }
+        if (json.has("airline_icao")) {
+            this.airlineIcao = json.get("airline_icao").asText();
+        } else {
+            this.airlineIcao = "";
+        }
+        if (json.has("airline_name")) {
+            this.airlineName = json.get("airline_name").asText();
+        } else {
+            this.airlineName = "";
+        }
+        if (json.has("reg_number")) {
+            this.aircraftRegistration = json.get("reg_number").asText();
+        } else {
+            this.aircraftRegistration = "";
+        }
         this.updated = System.currentTimeMillis();
 
         // no need to change the live data
         this.liveData = liveData;
         departure = new AirportFlight();
-        departure.setIata(json.get("dep_iata").asText());
-        departure.setIcao(json.get("dep_icao").asText());
-        departure.setName(json.get("dep_name").asText());
-        departure.setTerminal(json.get("dep_terminal").asText());
-        departure.setGate(json.get("dep_gate").asText());
-        departure.setDelay(json.get("dep_delayed").asInt(0));
+        if (json.has("dep_iata")) {
+            departure.setIata(json.get("dep_iata").asText());
+        } else {
+            departure.setIata("");
+        }
+        if (json.has("dep_icao")) {
+            departure.setIcao(json.get("dep_icao").asText());
+        } else {
+            departure.setIcao("");
+        }
+        if (json.has("dep_name")) {
+            departure.setName(json.get("dep_name").asText());
+        } else {
+            departure.setName("");
+        }
+        if (json.has("dep_terminal")) {
+            departure.setTerminal(json.get("dep_terminal").asText());
+        } else {
+            departure.setTerminal("");
+        }
+        if (json.has("dep_gate")) {
+            departure.setGate(json.get("dep_gate").asText());
+        } else {
+            departure.setGate("");
+        }
+        if (json.has("dep_delayed")) {
+            departure.setDelay(json.get("dep_delayed").asInt(0));
+        } else {
+            departure.setDelay(0);
+        }
         if (json.has("dep_time_ts")) {
             departure.setScheduled(json.get("dep_time_ts").asText());
         } else {
@@ -104,12 +152,36 @@ public class Flight {
         }
 
         arrival = new AirportFlight();
-        arrival.setIata(json.get("arr_iata").asText());
-        arrival.setIcao(json.get("arr_icao").asText());
-        arrival.setName(json.get("arr_name").asText());
-        arrival.setTerminal(json.get("arr_terminal").asText());
-        arrival.setGate(json.get("arr_gate").asText());
-        arrival.setDelay(json.get("arr_delayed").asInt(0));
+        if (json.has("arr_iata")) {
+            arrival.setIata(json.get("arr_iata").asText());
+        } else {
+            arrival.setIata("");
+        }
+        if (json.has("arr_icao")) {
+            arrival.setIcao(json.get("arr_icao").asText());
+        } else {
+            arrival.setIcao("");
+        }
+        if (json.has("arr_name")) {
+            arrival.setName(json.get("arr_name").asText());
+        } else {
+            arrival.setName("");
+        }
+        if (json.has("arr_terminal")) {
+            arrival.setTerminal(json.get("arr_terminal").asText());
+        } else {
+            arrival.setTerminal("");
+        }
+        if (json.has("arr_gate")) {
+            arrival.setGate(json.get("arr_gate").asText());
+        } else {
+            arrival.setGate("");
+        }
+        if (json.has("arr_delayed")) {
+            arrival.setDelay(json.get("arr_delayed").asInt(0));
+        } else {
+            arrival.setDelay(0);
+        }
         if (json.has("arr_time_ts")) {
             arrival.setScheduled(json.get("arr_time_ts").asText());
         } else {
