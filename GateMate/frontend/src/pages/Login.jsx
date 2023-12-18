@@ -5,6 +5,17 @@ import Footer from "../components/Footer";
 import image1 from "../assets/login/1.jpeg";
 
 function Login() {
+  if (localStorage.getItem("token")) {
+    window.location.href = "/";
+  }
+
+  const [invalidToken, setInvalidToken] = useState(
+    localStorage.getItem("invalidToken")
+  );
+  localStorage.removeItem("invalidToken");
+
+  const [loginError, setLoginError] = useState(null);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,6 +27,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setInvalidToken(null);
 
     try {
       const response = await fetch("http://localhost:8080/api/user/login", {
@@ -29,17 +42,17 @@ function Login() {
         }),
       });
 
-      if (response.ok) {
-        console.log("Login bem-sucedido");
-
-        const token = await response.text();
-        localStorage.setItem("token", token);
+      const responseContent = await response.text();
+      if (response.status === 200) {
+        localStorage.setItem("token", responseContent);
         window.location.href = "/";
-      } else {
-        console.error("Erro no login");
+        setLoginError(null);
+      } else if (response.status === 401) {
+        console.error(responseContent);
+        setLoginError(responseContent);
       }
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
+      console.error("Erro:", error);
     }
   };
   return (
@@ -55,6 +68,24 @@ function Login() {
             <div className="text-blue-800 text-8xl font-bold mb-4">Login</div>
           </div>
         </div>
+        {invalidToken != null && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto w-1/2 h-10 text-center flex items-center justify-center mt-10"
+            role="alert"
+          >
+            <strong className="font-bold">
+              Your session has expired. Please login again.
+            </strong>
+          </div>
+        )}
+        {loginError && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto w-1/2 h-10 text-center flex items-center justify-center mt-10"
+            role="alert"
+          >
+            <strong className="font-bold">{loginError}</strong>
+          </div>
+        )}
         <form
           className="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md"
           onSubmit={handleSubmit}

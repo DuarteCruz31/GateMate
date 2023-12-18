@@ -1,24 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FlightCard from "../components/FlightCard";
-import useFetch from "../hooks/useFetch";
 import image1 from "../assets/allflights/1.jpeg";
 
 function AllFlights() {
-  const {
-    data: flightsData,
-    isPending,
-    error,
-  } = useFetch("http://localhost:8080/api/allflights");
-
   const [flights, setFlights] = useState([]);
-  const [flightNotFound, setFlightNotFound] = useState(false);
+  const [flightsNotFound, setFlightsNotFound] = useState(true);
+  const [flightsUrl, setFlightsUrl] = useState(
+    "http://localhost:8080/api/allflights"
+  );
+
+  const fetchAllFlights = useCallback(async (url) => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+      });
+
+      const responseContent = await response.json();
+      if (response.status === 200) {
+        console.log("Flights found");
+        setFlights(responseContent);
+        setFlightsNotFound(false);
+      } else if (response.status === 404) {
+        console.error("Flights not found");
+        setFlights(null);
+        setFlightsNotFound(true);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      setFlights(null);
+      setFlightsNotFound(true);
+    }
+  }, []);
 
   useEffect(() => {
-    setFlights(flightsData || []);
-  }, [flightsData]);
+    fetchAllFlights(flightsUrl);
+
+    const id = setInterval(() => fetchAllFlights(flightsUrl), 3000);
+
+    return () => clearInterval(id);
+  }, [fetchAllFlights, flightsUrl]);
 
   const [filter, setFilter] = useState({
     flightIata: "",
@@ -34,34 +57,27 @@ function AllFlights() {
       to: "",
       company: "",
     });
-    setFlights(flightsData);
+    setFlightsUrl("http://localhost:8080/api/allflights");
+    fetchAllFlights(flightsUrl);
   }
 
   async function handleSearch() {
-    try {
-      var url = "http://localhost:8080/api/allflights?";
-      if (filter.from != "") {
-        url += `from=${filter.from}&`;
-      }
-      if (filter.to != "") {
-        url += `to=${filter.to}&`;
-      }
-      if (filter.company != "") {
-        url += `company=${filter.company}&`;
-      }
-      if (filter.flightIata != "") {
-        url += `flightIata=${filter.flightIata}&`;
-      }
-
-      const flightsDataFiltered = await fetch(url).then((res) => res.json());
-
-      setFlights(flightsDataFiltered ? flightsDataFiltered : []);
-      setFlightNotFound(false);
-    } catch (error) {
-      setFlightNotFound(true);
-      setFlights([]);
-      console.error("Erro ao buscar voos:", error);
+    var url = "http://localhost:8080/api/allflights?";
+    if (filter.from != "") {
+      url += `from=${filter.from}&`;
     }
+    if (filter.to != "") {
+      url += `to=${filter.to}&`;
+    }
+    if (filter.company != "") {
+      url += `company=${filter.company}&`;
+    }
+    if (filter.flightIata != "") {
+      url += `flightIata=${filter.flightIata}&`;
+    }
+
+    setFlightsUrl(url);
+    fetchAllFlights(url);
   }
 
   return (
@@ -173,15 +189,15 @@ function AllFlights() {
             </div>
           </div>
           <div>
-            {flightNotFound && (
-              <div className="bg-white p-6 m-4 flex flex-row items-center justify-between">
-                Flight not found
+            {flightsNotFound && (
+              <div
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto w-1/2 h-10 text-center flex items-center justify-center mt-10"
+                role="alert"
+              >
+                <strong className="font-bold">Flights not found!</strong>
               </div>
             )}
-
-            {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>}
-            {flights &&
+            {!flightsNotFound &&
               flights.map((flight) => (
                 <Link
                   to={`/flightInfo/${flight.flightIata}`}

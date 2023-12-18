@@ -1,0 +1,30 @@
+\chapter{Arquitecture}
+\hypertarget{md_docs_2arquitecture}{}\label{md_docs_2arquitecture}\index{Arquitecture@{Arquitecture}}
+\label{md_docs_2arquitecture_autotoc_md0}%
+\Hypertarget{md_docs_2arquitecture_autotoc_md0}%
+ \hypertarget{md_docs_2arquitecture_autotoc_md1}{}\doxysection{\texorpdfstring{Introduction}{Introduction}}\label{md_docs_2arquitecture_autotoc_md1}
+ When looking at the architectural view of the system we can divide into 4 main groups\+:
+
+
+\begin{DoxyItemize}
+\item The External API, a 3rd party API that gathers flight-\/related info.
+\item The Database Group that handles the extraction, processing and saving of the information from the API.
+\item The Web Application layer that deals with handling use requests and presenting the information in the browser. It uses a MVC arquitecture.
+\item The Notification manager that handles the email notifications. These groups are connected together using a rabbit\+MQ message broker.
+\end{DoxyItemize}\hypertarget{md_docs_2arquitecture_autotoc_md2}{}\doxysection{\texorpdfstring{Individual components}{Individual components}}\label{md_docs_2arquitecture_autotoc_md2}
+\hypertarget{md_docs_2arquitecture_autotoc_md3}{}\doxysubsection{\texorpdfstring{Rabbit\+MQ}{RabbitMQ}}\label{md_docs_2arquitecture_autotoc_md3}
+Message broker that connects the components of the Application\hypertarget{md_docs_2arquitecture_autotoc_md4}{}\doxysubsection{\texorpdfstring{Live Data Consumer}{Live Data Consumer}}\label{md_docs_2arquitecture_autotoc_md4}
+Regularly fetches data from the API regarding the live flight tracking. It was implemented in python and currently is restricted to a smaller group of companies to reduce the number of calls\hypertarget{md_docs_2arquitecture_autotoc_md5}{}\doxysubsection{\texorpdfstring{Database Adaptor}{Database Adaptor}}\label{md_docs_2arquitecture_autotoc_md5}
+Consumes the data sent by the Live Data COnsumer over AMQP, processes it and stores it in a database.\hypertarget{md_docs_2arquitecture_autotoc_md6}{}\doxysubsection{\texorpdfstring{Database}{Database}}\label{md_docs_2arquitecture_autotoc_md6}
+A Mongo\+DB that stores data and serves as the Model of the Web App. Mongo\+DB was chosen as the API responses were JSON objects, so using a JSON-\/like database reduces the amount of processing needed. It also supports "{}lazy fetching"{} (only fetching per-\/item information like flight info when someone requests it).\hypertarget{md_docs_2arquitecture_autotoc_md7}{}\doxysubsection{\texorpdfstring{Spring(\+Webapp)}{Spring(Webapp)}}\label{md_docs_2arquitecture_autotoc_md7}
+The Controller of the Web App. It handles most of the "{}backend"{} of the Web App, handling the fetching of information from the Model, authentication and flight subscription. Java Spring was used as Spring Boot allows us to easily make a REST API and Spring Data abstracts us from query construction.\hypertarget{md_docs_2arquitecture_autotoc_md8}{}\doxysubsection{\texorpdfstring{Frontend}{Frontend}}\label{md_docs_2arquitecture_autotoc_md8}
+A React-\/based that serves as the View of the Web App. It mainly fetches data from the Controller using a REST API and displays it using HTML pages. React was used mainly because of the developer\textquotesingle{}s personal preference and due to having past experience using it\hypertarget{md_docs_2arquitecture_autotoc_md9}{}\doxysubsection{\texorpdfstring{Cache}{Cache}}\label{md_docs_2arquitecture_autotoc_md9}
+A small cache used for session token management and tracking wether or not the flight information has been recently updated. Redis was used due to being a small and simple in-\/memory key-\/value store that is well suited for caching.\hypertarget{md_docs_2arquitecture_autotoc_md10}{}\doxysubsection{\texorpdfstring{Notification Manager}{Notification Manager}}\label{md_docs_2arquitecture_autotoc_md10}
+The notification manager handles sending email notifications to the client when the flight they are subscribed to is about to depart. This component consumes events trough AMQP and consumes from the database to fetch missing info/ check for delays. Python was used due it\textquotesingle{}s simple syntax and lack of boilerplate code.\hypertarget{md_docs_2arquitecture_autotoc_md11}{}\doxysection{\texorpdfstring{Folder Locations}{Folder Locations}}\label{md_docs_2arquitecture_autotoc_md11}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/DuarteCruz31/GateMate/tree/main/GateMate/webapp}{\texttt{ Web\+App}}
+\item \href{https://github.com/DuarteCruz31/GateMate/tree/main/GateMate/frontend}{\texttt{ Frontend}}
+\item \href{https://github.com/DuarteCruz31/GateMate/tree/main/GateMate/database_adaptor}{\texttt{ Database Adaptor}}
+\item \href{https://github.com/DuarteCruz31/GateMate/tree/main/GateMate/live_data_consumer}{\texttt{ Live Data Consumer}} 
+\end{DoxyItemize}

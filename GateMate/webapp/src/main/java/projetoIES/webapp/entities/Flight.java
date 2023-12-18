@@ -1,3 +1,24 @@
+/**
+ * @file
+ * @brief Flight class representing flight-related information.
+ *
+ * @brief Flight class.
+ *
+ * This class represents flight-related information, including an identifier, flight number, IATA code, departure and arrival airport information, airline IATA and ICAO codes, airline name, aircraft registration, live data, and the last update timestamp.
+ *
+ * @note
+ * This class uses Lombok annotations for automatic generation of getters, setters, constructors, and toString methods. It is also annotated for MongoDB document mapping.
+ *
+ * @warning
+ * Adjust the class-level comments based on your specific requirements and the functionality of the entity.
+ *
+ * @author André Oliveira <andreaoliveira@ua.pt>
+ * @author Bruno Páscoa <brunopascoa03@ua.pt>
+ * @author Duarte Cruz <duarteccruz@ua.pt>
+ * @author Sara Almeida <sarafalmeida@ua.pt>
+ * @date December 18, 2023
+ */
+
 package projetoIES.webapp.entities;
 
 import java.util.Date;
@@ -38,6 +59,14 @@ public class Flight {
     private LiveData liveData;
     private long updated;
 
+    /**
+     * @brief Constructor for object mapping from API response.
+     *
+     * @param json     API response in JSON format.
+     * @param id       MongoDB ObjectId.
+     * @param liveData LiveData object.
+     */
+
     // object mapping from api response
     public Flight(JsonNode json, ObjectId id, LiveData liveData) {
         this.id = id;
@@ -71,6 +100,16 @@ public class Flight {
         arrival.setActual(json.get("arr_time").asText());
         arrival.setEstimated(json.get("arr_estimated").asText(arrival.getActual()));
     }
+
+    /**
+     * @brief Constructor for creating a Flight object with minimal information.
+     *
+     * @param flightIata    Flight IATA code.
+     * @param departureIata Departure airport IATA code.
+     * @param arrivalIata   Arrival airport IATA code.
+     * @param airlineName   Airline name.
+     * @param lastUpdate    Timestamp of the last update.
+     */
 
     public Flight(String flightIata, String departureIata, String arrivalIata, String airlineName, long lastUpdate) {
         this.flightIata = flightIata;

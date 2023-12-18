@@ -1,3 +1,21 @@
+/**
+ * @file
+ * @brief UserService class providing user-related services.
+ *
+ * @brief UserService class.
+ *
+ * This class provides services related to users, including subscription management and retrieval of subscribed flights.
+ *
+ * @note
+ * Adjust the class-level comments based on your specific requirements and the functionality of the service.
+ *
+ * @author André Oliveira <andreaoliveira@ua.pt>
+ * @author Bruno Páscoa <brunopascoa03@ua.pt>
+ * @author Duarte Cruz <duarteccruz@ua.pt>
+ * @author Sara Almeida <sarafalmeida@ua.pt>
+ * @date December 18, 2023
+ */
+
 package projetoIES.webapp.services;
 
 import java.util.ArrayList;
@@ -26,12 +44,25 @@ public class UserService {
     private MongoDatabase database;
     private MongoCollection<Document> subscribed_flights;
 
+    /**
+     * @brief Constructor for the UserService class.
+     *
+     * @param repository UserRepository for accessing user data.
+     */
+
     public UserService(UserRepository repository) {
         this.repository = repository;
         this.mongoClient = MongoClients.create("mongodb://mongodb:27017/");
         this.database = mongoClient.getDatabase("my_mongodb_database");
         this.subscribed_flights = database.getCollection("subscribed_flights");
     }
+
+    /**
+     * @brief Subscribe a user to a flight.
+     *
+     * @param user       User to be subscribed.
+     * @param flightIata Flight IATA code.
+     */
 
     public void subscribeFlights(User user, String flightIata) {
         FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
@@ -46,6 +77,13 @@ public class UserService {
         }
     }
 
+    /**
+     * @brief Unsubscribe a user from a flight.
+     *
+     * @param user       User to be unsubscribed.
+     * @param flightIata Flight IATA code.
+     */
+
     public void unsubscribeFlights(User user, String flightIata) {
         subscribed_flights.updateOne(new Document("flightIata", flightIata),
                 Updates.pull("users", user.getEmail()));
@@ -56,6 +94,14 @@ public class UserService {
         }
     }
 
+    /**
+     * @brief Check if a user is subscribed to a flight.
+     *
+     * @param user       User to check subscription for.
+     * @param flightIata Flight IATA code.
+     * @return True if the user is subscribed, false otherwise.
+     */
+
     public boolean isSubscribed(User user, String flightIata) {
         FindIterable<Document> flightIataDocument = subscribed_flights.find(new Document("flightIata", flightIata));
 
@@ -65,6 +111,13 @@ public class UserService {
             return flightIataDocument.first().getList("users", String.class).contains(user.getEmail());
         }
     }
+
+    /**
+     * @brief Get the list of flights to which a user is subscribed.
+     *
+     * @param user User for whom to retrieve subscribed flights.
+     * @return ArrayList of subscribed flights.
+     */
 
     public ArrayList<Flight> getSubscribedFlights(User user) {
         String email = user.getEmail();

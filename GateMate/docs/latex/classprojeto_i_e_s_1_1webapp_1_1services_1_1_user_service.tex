@@ -1,0 +1,113 @@
+\doxysection{projeto\+IES.\+webapp.\+services.\+User\+Service Class Reference}
+\hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service}{}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service}\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_ae4fc6c2f6d53508119445000fff395cf}{User\+Service}} (User\+Repository repository)
+\begin{DoxyCompactList}\small\item\em Constructor for the User\+Service class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_aee7438301d238c5c06ad269d081f2b64}{subscribe\+Flights}} (User user, String flight\+Iata)
+\begin{DoxyCompactList}\small\item\em Subscribe a user to a flight. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a9f90049e2fadb36e13b4d7c96737f478}{unsubscribe\+Flights}} (User user, String flight\+Iata)
+\begin{DoxyCompactList}\small\item\em Unsubscribe a user from a flight. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a82fee27594c27de718cb38ce1703a24e}{is\+Subscribed}} (User user, String flight\+Iata)
+\begin{DoxyCompactList}\small\item\em Check if a user is subscribed to a flight. \end{DoxyCompactList}\item 
+Array\+List$<$ Flight $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a4cb283d5bc66814ca75bd2642a74111c}{get\+Subscribed\+Flights}} (User user)
+\begin{DoxyCompactList}\small\item\em Get the list of flights to which a user is subscribed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_ae4fc6c2f6d53508119445000fff395cf}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_ae4fc6c2f6d53508119445000fff395cf} 
+\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}!UserService@{UserService}}
+\index{UserService@{UserService}!projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection{\texorpdfstring{UserService()}{UserService()}}
+{\footnotesize\ttfamily projeto\+IES.\+webapp.\+services.\+User\+Service.\+User\+Service (\begin{DoxyParamCaption}\item[{User\+Repository}]{repository }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the User\+Service class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em repository} & User\+Repository for accessing user data. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a4cb283d5bc66814ca75bd2642a74111c}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a4cb283d5bc66814ca75bd2642a74111c} 
+\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}!getSubscribedFlights@{getSubscribedFlights}}
+\index{getSubscribedFlights@{getSubscribedFlights}!projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection{\texorpdfstring{getSubscribedFlights()}{getSubscribedFlights()}}
+{\footnotesize\ttfamily Array\+List$<$ Flight $>$ projeto\+IES.\+webapp.\+services.\+User\+Service.\+get\+Subscribed\+Flights (\begin{DoxyParamCaption}\item[{User}]{user }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the list of flights to which a user is subscribed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User for whom to retrieve subscribed flights. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Array\+List of subscribed flights. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a82fee27594c27de718cb38ce1703a24e}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a82fee27594c27de718cb38ce1703a24e} 
+\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}!isSubscribed@{isSubscribed}}
+\index{isSubscribed@{isSubscribed}!projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection{\texorpdfstring{isSubscribed()}{isSubscribed()}}
+{\footnotesize\ttfamily boolean projeto\+IES.\+webapp.\+services.\+User\+Service.\+is\+Subscribed (\begin{DoxyParamCaption}\item[{User}]{user,  }\item[{String}]{flight\+Iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check if a user is subscribed to a flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User to check subscription for. \\
+\hline
+{\em flight\+Iata} & Flight IATA code. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the user is subscribed, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_aee7438301d238c5c06ad269d081f2b64}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_aee7438301d238c5c06ad269d081f2b64} 
+\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}!subscribeFlights@{subscribeFlights}}
+\index{subscribeFlights@{subscribeFlights}!projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection{\texorpdfstring{subscribeFlights()}{subscribeFlights()}}
+{\footnotesize\ttfamily void projeto\+IES.\+webapp.\+services.\+User\+Service.\+subscribe\+Flights (\begin{DoxyParamCaption}\item[{User}]{user,  }\item[{String}]{flight\+Iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Subscribe a user to a flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User to be subscribed. \\
+\hline
+{\em flight\+Iata} & Flight IATA code. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a9f90049e2fadb36e13b4d7c96737f478}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_user_service_a9f90049e2fadb36e13b4d7c96737f478} 
+\index{projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}!unsubscribeFlights@{unsubscribeFlights}}
+\index{unsubscribeFlights@{unsubscribeFlights}!projetoIES.webapp.services.UserService@{projetoIES.webapp.services.UserService}}
+\doxysubsubsection{\texorpdfstring{unsubscribeFlights()}{unsubscribeFlights()}}
+{\footnotesize\ttfamily void projeto\+IES.\+webapp.\+services.\+User\+Service.\+unsubscribe\+Flights (\begin{DoxyParamCaption}\item[{User}]{user,  }\item[{String}]{flight\+Iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Unsubscribe a user from a flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User to be unsubscribed. \\
+\hline
+{\em flight\+Iata} & Flight IATA code. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/services/\mbox{\hyperlink{_user_service_8java}{User\+Service.\+java}}\end{DoxyCompactItemize}

@@ -2,7 +2,7 @@
 
 ## Abstract
   GateMate is centered around the collection, organization, and presentation of flight
-data obtained through the AvitionStack API. It addresses the high-level business problem
+data obtained through the AirLabs API. It addresses the high-level business problem
 of simplifying and enriching the airport experience for travelers. It achieves this by offering a
 comprehensive solution for gathering, organizing, and presenting real-time flight data.
 Travelers often face challenges in navigating through airports, keeping track of gate
@@ -12,7 +12,7 @@ their flight, after which they receive up-to-the-minute notifications and direct
 they are always in the right place at the right time.
 
   While several flight-tracking applications exist, our system differentiates itself by
-focusing on the integration of multiple services, combining AviationStack API data with
+focusing on the integration of multiple services, combining AirLabs API data with
 user-friendly functionalities. Our application is designed to be more than just a flight
 tracker; it's a travel companion that offers an intelligent, context-aware experience for
 travelers.

@@ -1,0 +1,173 @@
+\doxysection{projeto\+IES.\+webapp.\+controllers.\+User\+Controller Class Reference}
+\hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller}{}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller}\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ae1024c392495910c642bceb3c3766261}{login}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Authenticate user based on provided email and password. \end{DoxyCompactList}\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a2348c905845df9a68a02c72fdce5d456}{register}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Register a new user. \end{DoxyCompactList}\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af48ed7d69f873893ceeb9c51072ec2da}{authenticate}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Authenticate user based on provided token. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Void $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a5674968fdf9b3f067dfd71899f429a24}{logout}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Logout user based on provided token. \end{DoxyCompactList}\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af0b2c1851e497729670780886283a338}{subscribe\+\_\+flight}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Subscribe user to a specific flight. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Array\+List$<$ Flight $>$ $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a08d3912493c0f5d91cd7bcfc0de8eba0}{subscribed\+\_\+flights}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Get the list of flights to which the user is subscribed. \end{DoxyCompactList}\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a3e376ddf0a0497a1c8317a5d0ddad0c9}{unsubscribe\+\_\+flight}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Unsubscribe user from a specific flight. \end{DoxyCompactList}\item 
+Response\+Entity$<$ String $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ab4b1f46d61a251f2fc85fc908dd4bdff}{is\+\_\+subscribed}} (@Request\+Body Map$<$ String, String $>$ body)
+\begin{DoxyCompactList}\small\item\em Check if the user is subscribed to a specific flight. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af48ed7d69f873893ceeb9c51072ec2da}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af48ed7d69f873893ceeb9c51072ec2da} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!authenticate@{authenticate}}
+\index{authenticate@{authenticate}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{authenticate()}{authenticate()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+authenticate (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Authenticate user based on provided token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity indicating user authentication status. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ab4b1f46d61a251f2fc85fc908dd4bdff}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ab4b1f46d61a251f2fc85fc908dd4bdff} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!is\_subscribed@{is\_subscribed}}
+\index{is\_subscribed@{is\_subscribed}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{is\_subscribed()}{is\_subscribed()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+is\+\_\+subscribed (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Check if the user is subscribed to a specific flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token and flight\+Iata. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity indicating subscription status or NO\+\_\+\+CONTENT if not subscribed. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ae1024c392495910c642bceb3c3766261}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_ae1024c392495910c642bceb3c3766261} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!login@{login}}
+\index{login@{login}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+login (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Authenticate user based on provided email and password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing email and password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity containing authentication token or UNAUTHORIZED status if not authenticated. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a5674968fdf9b3f067dfd71899f429a24}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a5674968fdf9b3f067dfd71899f429a24} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!logout@{logout}}
+\index{logout@{logout}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{logout()}{logout()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Void $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+logout (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Logout user based on provided token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity indicating logout success or failure. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a2348c905845df9a68a02c72fdce5d456}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a2348c905845df9a68a02c72fdce5d456} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!register@{register}}
+\index{register@{register}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{register()}{register()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+register (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Register a new user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing email, password, and confirm\+Password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity containing registration token or BAD\+\_\+\+REQUEST/\+CONFLICT status for validation issues. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af0b2c1851e497729670780886283a338}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_af0b2c1851e497729670780886283a338} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!subscribe\_flight@{subscribe\_flight}}
+\index{subscribe\_flight@{subscribe\_flight}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{subscribe\_flight()}{subscribe\_flight()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+subscribe\+\_\+flight (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Subscribe user to a specific flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token and flight\+Iata. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity indicating subscription success or failure. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a08d3912493c0f5d91cd7bcfc0de8eba0}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a08d3912493c0f5d91cd7bcfc0de8eba0} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!subscribed\_flights@{subscribed\_flights}}
+\index{subscribed\_flights@{subscribed\_flights}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{subscribed\_flights()}{subscribed\_flights()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Array\+List$<$ Flight $>$ $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+subscribed\+\_\+flights (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the list of flights to which the user is subscribed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity containing the list of subscribed flights or NO\+\_\+\+CONTENT status if none. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a3e376ddf0a0497a1c8317a5d0ddad0c9}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_user_controller_a3e376ddf0a0497a1c8317a5d0ddad0c9} 
+\index{projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}!unsubscribe\_flight@{unsubscribe\_flight}}
+\index{unsubscribe\_flight@{unsubscribe\_flight}!projetoIES.webapp.controllers.UserController@{projetoIES.webapp.controllers.UserController}}
+\doxysubsubsection{\texorpdfstring{unsubscribe\_flight()}{unsubscribe\_flight()}}
+{\footnotesize\ttfamily Response\+Entity$<$ String $>$ projeto\+IES.\+webapp.\+controllers.\+User\+Controller.\+unsubscribe\+\_\+flight (\begin{DoxyParamCaption}\item[{@Request\+Body Map$<$ String, String $>$}]{body }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Unsubscribe user from a specific flight. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & Map containing authentication token and flight\+Iata. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity indicating unsubscription success or failure. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/controllers/\mbox{\hyperlink{_user_controller_8java}{User\+Controller.\+java}}\end{DoxyCompactItemize}

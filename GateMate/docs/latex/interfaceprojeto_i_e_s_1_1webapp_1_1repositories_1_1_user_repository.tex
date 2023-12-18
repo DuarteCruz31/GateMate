@@ -1,0 +1,81 @@
+\doxysection{projeto\+IES.\+webapp.\+repositories.\+User\+Repository Interface Reference}
+\hypertarget{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository}{}\label{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository}\index{projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}}
+Inheritance diagram for projeto\+IES.\+webapp.\+repositories.\+User\+Repository\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+User \mbox{\hyperlink{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a77b40fbf6bc1818de33d6908012f76e8}{find\+By\+Email\+And\+Password}} (String email, String password)
+\begin{DoxyCompactList}\small\item\em Custom query method to find a user by email and password. \end{DoxyCompactList}\item 
+User \mbox{\hyperlink{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a00ba327d028050c44b4a6bcc481918e3}{find\+By\+Email}} (String email)
+\begin{DoxyCompactList}\small\item\em Custom query method to find a user by email. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a2b61bde7eb93af37feefa2fea7d99536}{exists\+By\+Email}} (String email)
+\begin{DoxyCompactList}\small\item\em Check if a user exists by email. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a2b61bde7eb93af37feefa2fea7d99536}\label{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a2b61bde7eb93af37feefa2fea7d99536} 
+\index{projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}!existsByEmail@{existsByEmail}}
+\index{existsByEmail@{existsByEmail}!projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}}
+\doxysubsubsection{\texorpdfstring{existsByEmail()}{existsByEmail()}}
+{\footnotesize\ttfamily boolean projeto\+IES.\+webapp.\+repositories.\+User\+Repository.\+exists\+By\+Email (\begin{DoxyParamCaption}\item[{String}]{email }\end{DoxyParamCaption})}
+
+
+
+Check if a user exists by email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & User email. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a user with the specified email exists, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a00ba327d028050c44b4a6bcc481918e3}\label{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a00ba327d028050c44b4a6bcc481918e3} 
+\index{projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}!findByEmail@{findByEmail}}
+\index{findByEmail@{findByEmail}!projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findByEmail()}{findByEmail()}}
+{\footnotesize\ttfamily User projeto\+IES.\+webapp.\+repositories.\+User\+Repository.\+find\+By\+Email (\begin{DoxyParamCaption}\item[{String}]{email }\end{DoxyParamCaption})}
+
+
+
+Custom query method to find a user by email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & User email. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+User entity with the specified email or null if not found. 
+\end{DoxyReturn}
+\Hypertarget{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a77b40fbf6bc1818de33d6908012f76e8}\label{interfaceprojeto_i_e_s_1_1webapp_1_1repositories_1_1_user_repository_a77b40fbf6bc1818de33d6908012f76e8} 
+\index{projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}!findByEmailAndPassword@{findByEmailAndPassword}}
+\index{findByEmailAndPassword@{findByEmailAndPassword}!projetoIES.webapp.repositories.UserRepository@{projetoIES.webapp.repositories.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findByEmailAndPassword()}{findByEmailAndPassword()}}
+{\footnotesize\ttfamily User projeto\+IES.\+webapp.\+repositories.\+User\+Repository.\+find\+By\+Email\+And\+Password (\begin{DoxyParamCaption}\item[{String}]{email,  }\item[{String}]{password }\end{DoxyParamCaption})}
+
+
+
+Custom query method to find a user by email and password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & User email. \\
+\hline
+{\em password} & User password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+User entity with the specified email and password or null if not found. 
+\end{DoxyReturn}
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/repositories/\mbox{\hyperlink{_user_repository_8java}{User\+Repository.\+java}}\end{DoxyCompactItemize}

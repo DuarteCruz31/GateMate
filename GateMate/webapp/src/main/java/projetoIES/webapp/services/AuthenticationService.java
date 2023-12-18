@@ -1,3 +1,21 @@
+/**
+ * @file
+ * @brief AuthenticationService class providing user authentication services.
+ *
+ * @brief AuthenticationService class.
+ *
+ * This class provides user authentication services, including token generation, validation, user registration, user login, and token removal.
+ *
+ * @note
+ * Adjust the class-level comments based on your specific requirements and the functionality of the service.
+ *
+ * @author André Oliveira <andreaoliveira@ua.pt>
+ * @author Bruno Páscoa <brunopascoa03@ua.pt>
+ * @author Duarte Cruz <duarteccruz@ua.pt>
+ * @author Sara Almeida <sarafalmeida@ua.pt>
+ * @date December 18, 2023
+ */
+
 package projetoIES.webapp.services;
 
 import java.security.SecureRandom;
@@ -17,11 +35,25 @@ public class AuthenticationService {
     private JedisPool pool;
     private SecureRandom generator;
 
+    /**
+     * @brief Constructor for the AuthenticationService class.
+     *
+     * @param repository UserRepository for accessing user data.
+     */
+
     public AuthenticationService(UserRepository repository) {
         this.repository = repository;
         this.pool = new JedisPool("redis", 6379);
         this.generator = new SecureRandom();
     }
+
+    /**
+     * @brief Generate a token for the specified user.
+     *
+     * @param user User for whom the token is generated.
+     * @return Generated token.
+     * @throws JedisException If an issue occurs with the Redis database connection.
+     */
 
     // get token from user
     public String generateToken(User user) throws JedisException {
@@ -41,6 +73,14 @@ public class AuthenticationService {
 
     }
 
+    /**
+     * @brief Validate a token and retrieve the associated user.
+     *
+     * @param token Token to be validated.
+     * @return User associated with the token or null if the token is invalid.
+     * @throws JedisException If an issue occurs with the Redis database connection.
+     */
+
     // get user from token
     public User validateToken(String token) throws JedisException {
         try (Jedis jedis = pool.getResource()) {
@@ -53,6 +93,15 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * @brief Register a new user with the specified email and password.
+     *
+     * @param email    User email.
+     * @param password User password.
+     * @return Generated token for the registered user or null if the user already
+     *         exists.
+     */
+
     public String register(String email, String password) {
         if (repository.existsByEmail(email)) {
             return null;
@@ -63,6 +112,14 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * @brief Log in a user with the specified email and password.
+     *
+     * @param email    User email.
+     * @param password User password.
+     * @return Generated token for the logged-in user or null if login fails.
+     */
+
     public String login(String email, String password) {
         User user = repository.findByEmailAndPassword(email, password);
         if (user != null) {
@@ -70,6 +127,14 @@ public class AuthenticationService {
         }
         return null;
     }
+
+    /**
+     * @brief Log out a user by removing the associated token.
+     *
+     * @param token Token to be removed.
+     * @return True if the token was successfully removed, false otherwise.
+     * @throws JedisException If an issue occurs with the Redis database connection.
+     */
 
     // remove token
     public boolean logout(String token) throws JedisException {

@@ -23,16 +23,17 @@ NGINX_PORT=8080
 SPRING_PORT=8081
 
 # React Configuration
-FRONTEND_PORT=8082
+FRONTEND_PORT=3000
 
 # Email Configuration
-EMAIL=my_email@example.com
-EMAIL_PASSWORD=my_email_password
+EMAIL="gatemate4.2023@outlook.pt"
+EMAIL_PASSWORD="MgGtR4v1hnDsJjW2"
 
 # API Key Configuration
 API_KEY=your_api_key
 
-FETCH_INTERVAL = 5 # in minutes
+# Fetch Interval Configuration
+FETCH_INTERVAL = 1 # in minutes
 ```
 
 After that, run the following commands:

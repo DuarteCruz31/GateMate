@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import "../../node_modules/leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import useFetch from "../hooks/useFetch";
 import airplaneIcon from "../assets/plane.webp";
 import "leaflet-rotatedmarker";
 
 function FlightTracker() {
-  const {
-    data: flightsData,
-    isPending,
-    error,
-  } = useFetch("http://localhost:8080/api/allflights");
-
-  useEffect(() => {
-    setFlights(flightsData || []);
-  }, [flightsData]);
-
   const [flights, setFlights] = useState([]);
-  const [flightNotFound, setFlightNotFound] = useState(false);
+  const [flightsNotFound, setFlightsNotFound] = useState(false);
+  const [flightsUrl, setFlightsUrl] = useState(
+    "http://localhost:8080/api/allflights"
+  );
+
+  const fetchAllFlights = useCallback(async (url) => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+      });
+
+      const responseContent = await response.json();
+      if (response.status === 200) {
+        console.log("Flights found");
+        setFlights(responseContent);
+        setFlightsNotFound(false);
+      } else if (response.status === 404) {
+        console.error("Flights not found");
+        setFlights(null);
+        setFlightsNotFound(true);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      setFlights(null);
+      setFlightsNotFound(true);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const updatedFlightsData = await fetch(
-          "http://localhost:8080/api/allflights"
-        ).then((res) => res.json());
-        setFlights(updatedFlightsData || []);
-        setFlightNotFound(false);
-      } catch (error) {
-        setFlightNotFound(true);
-        setFlights([]);
-        console.error("Erro ao buscar voos:", error);
-      }
-    };
+    fetchAllFlights(flightsUrl);
 
-    // Chama a função fetchData imediatamente para obter os dados inicialmente
-    fetchData();
+    const id = setInterval(() => fetchAllFlights(flightsUrl), 3000);
 
-    // Configura o intervalo para chamar a função fetchData a cada 60 segundos
-    const intervalId = setInterval(fetchData, 60000);
-
-    // Limpa o intervalo quando o componente é desmontado
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => clearInterval(id);
+  }, [fetchAllFlights, flightsUrl]);
 
   const [filter, setFilter] = useState({
     flightIata: "",
@@ -62,35 +60,27 @@ function FlightTracker() {
       to: "",
       company: "",
     });
-    setFlights(flightsData);
+    setFlightsUrl("http://localhost:8080/api/allflights");
+    fetchAllFlights(flightsUrl);
   }
 
   async function handleSearch() {
-    try {
-      var url = "http://localhost:8080/api/allflights?";
-      if (filter.from != "") {
-        url += `from=${filter.from}&`;
-      }
-      if (filter.to != "") {
-        url += `to=${filter.to}&`;
-      }
-      if (filter.company != "") {
-        url += `company=${filter.company}&`;
-      }
-      if (filter.flightIata != "") {
-        url += `flightIata=${filter.flightIata}&`;
-      }
-
-      console.log(url);
-      const flightsDataFiltered = await fetch(url).then((res) => res.json());
-
-      setFlights(flightsDataFiltered ? flightsDataFiltered : []);
-      setFlightNotFound(false);
-    } catch (error) {
-      setFlightNotFound(true);
-      setFlights([]);
-      console.error("Erro ao buscar voos:", error);
+    var url = "http://localhost:8080/api/allflights?";
+    if (filter.from != "") {
+      url += `from=${filter.from}&`;
     }
+    if (filter.to != "") {
+      url += `to=${filter.to}&`;
+    }
+    if (filter.company != "") {
+      url += `company=${filter.company}&`;
+    }
+    if (filter.flightIata != "") {
+      url += `flightIata=${filter.flightIata}&`;
+    }
+
+    setFlightsUrl(url);
+    fetchAllFlights(url);
   }
 
   const planeIcon = new Icon({
@@ -225,68 +215,78 @@ function FlightTracker() {
             </button>
           </div>
         </div>
-        <div
-          className="flex-1 ml-4 mr-10"
-          style={{ height: "768px", width: "50%" }}
-        >
-          <MapContainer
-            center={[38.78, -9.135]}
-            zoom={13}
-            scrollWheelZoom={false}
+        {flightsNotFound && (
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mx-auto w-1/2 h-10 text-center flex items-center justify-center mt-10"
+            role="alert"
           >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {flights &&
-              flights.map((flight) => (
-                <Marker
-                  key={flight.flightIata}
-                  position={[
-                    flight.liveData.latitude,
-                    flight.liveData.longitude,
-                  ]}
-                  icon={planeIcon}
-                  rotationAngle={calculateRotation(
-                    flight.liveData.direction + 45
-                  )}
-                >
-                  <Popup>
-                    <Link
-                      to={`/flightInfo/${flight.flightIata}`}
-                      key={flight.flightIata}
-                      state={{ flightIata: flight.flightIata }}
-                    >
-                      <div className="flex flex-col">
-                        <div className="text-xl font-bold">
-                          {flight.flightIata}
+            <strong className="font-bold">Flights not found!</strong>
+          </div>
+        )}
+        {!flightsNotFound && (
+          <div
+            className="flex-1 ml-4 mr-10"
+            style={{ height: "768px", width: "50%" }}
+          >
+            <MapContainer
+              center={[38.78, -9.135]}
+              zoom={13}
+              scrollWheelZoom={false}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {flights &&
+                flights.map((flight) => (
+                  <Marker
+                    key={flight.flightIata}
+                    position={[
+                      flight.liveData.latitude,
+                      flight.liveData.longitude,
+                    ]}
+                    icon={planeIcon}
+                    rotationAngle={calculateRotation(
+                      flight.liveData.direction + 45
+                    )}
+                  >
+                    <Popup>
+                      <Link
+                        to={`/flightInfo/${flight.flightIata}`}
+                        key={flight.flightIata}
+                        state={{ flightIata: flight.flightIata }}
+                      >
+                        <div className="flex flex-col">
+                          <div className="text-xl font-bold">
+                            {flight.flightIata}
+                          </div>
+                          <div className="text-sm">{flight.airlineName}</div>
+                          <div className="text-sm">
+                            Altitude: {flight.liveData.altitude}
+                          </div>
+                          <div className="text-sm">
+                            Arrival Airport Iata: {flight.arrival.iata}
+                          </div>
+                          <div className="text-sm">
+                            Departure Airport Iata: {flight.departure.iata}
+                          </div>
+                          <div className="text-sm">
+                            Direction: {flight.liveData.direction}
+                          </div>
+                          <div className="text-sm">
+                            Speed: {flight.liveData.speed}
+                          </div>
+                          <div className="text-sm">
+                            Vertical Speed: {flight.liveData.vertical_speed}
+                          </div>
                         </div>
-                        <div className="text-sm">{flight.airlineName}</div>
-                        <div className="text-sm">
-                          Altitude: {flight.liveData.altitude}
-                        </div>
-                        <div className="text-sm">
-                          Arrival Airport Iata: {flight.arrival.iata}
-                        </div>
-                        <div className="text-sm">
-                          Departure Airport Iata: {flight.departure.iata}
-                        </div>
-                        <div className="text-sm">
-                          Direction: {flight.liveData.direction}
-                        </div>
-                        <div className="text-sm">
-                          Speed: {flight.liveData.speed}
-                        </div>
-                        <div className="text-sm">
-                          Vertical Speed: {flight.liveData.vertical_speed}
-                        </div>
-                      </div>
-                    </Link>
-                  </Popup>
-                </Marker>
-              ))}
-          </MapContainer>
-        </div>
+                      </Link>
+                    </Popup>
+                  </Marker>
+                ))}
+            </MapContainer>
+          </div>
+        )}
       </div>
       <div className="mt-10">
         <Footer />

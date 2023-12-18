@@ -1,0 +1,152 @@
+\doxysection{projeto\+IES.\+webapp.\+services.\+Authentication\+Service Class Reference}
+\hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service}{}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service}\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8c7ad68256782346e2f361e449eafb43}{Authentication\+Service}} (User\+Repository repository)
+\begin{DoxyCompactList}\small\item\em Constructor for the Authentication\+Service class. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_ad50ab020cb603a9f427181996513f657}{generate\+Token}} (User user)  throws Jedis\+Exception 
+\begin{DoxyCompactList}\small\item\em Generate a token for the specified user. \end{DoxyCompactList}\item 
+User \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a6bac12a2abba45506265d0b1dcbd9e1a}{validate\+Token}} (String token)  throws Jedis\+Exception 
+\begin{DoxyCompactList}\small\item\em Validate a token and retrieve the associated user. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a59dc6968c6739d3291340f917e75906c}{register}} (String email, String password)
+\begin{DoxyCompactList}\small\item\em Register a new user with the specified email and password. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8ba42c1668f8d0407d2c069c78a72fb8}{login}} (String email, String password)
+\begin{DoxyCompactList}\small\item\em Log in a user with the specified email and password. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a490b9c9758998edd30d8c9127ccce494}{logout}} (String token)  throws Jedis\+Exception 
+\begin{DoxyCompactList}\small\item\em Log out a user by removing the associated token. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8c7ad68256782346e2f361e449eafb43}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8c7ad68256782346e2f361e449eafb43} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!AuthenticationService@{AuthenticationService}}
+\index{AuthenticationService@{AuthenticationService}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{AuthenticationService()}{AuthenticationService()}}
+{\footnotesize\ttfamily projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+Authentication\+Service (\begin{DoxyParamCaption}\item[{User\+Repository}]{repository }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the Authentication\+Service class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em repository} & User\+Repository for accessing user data. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_ad50ab020cb603a9f427181996513f657}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_ad50ab020cb603a9f427181996513f657} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!generateToken@{generateToken}}
+\index{generateToken@{generateToken}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{generateToken()}{generateToken()}}
+{\footnotesize\ttfamily String projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+generate\+Token (\begin{DoxyParamCaption}\item[{User}]{user }\end{DoxyParamCaption}) throws Jedis\+Exception\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Generate a token for the specified user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User for whom the token is generated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Generated token. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Jedis\+Exception} & If an issue occurs with the Redis database connection. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8ba42c1668f8d0407d2c069c78a72fb8}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a8ba42c1668f8d0407d2c069c78a72fb8} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!login@{login}}
+\index{login@{login}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily String projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+login (\begin{DoxyParamCaption}\item[{String}]{email,  }\item[{String}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Log in a user with the specified email and password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & User email. \\
+\hline
+{\em password} & User password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Generated token for the logged-\/in user or null if login fails. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a490b9c9758998edd30d8c9127ccce494}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a490b9c9758998edd30d8c9127ccce494} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!logout@{logout}}
+\index{logout@{logout}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{logout()}{logout()}}
+{\footnotesize\ttfamily boolean projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+logout (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption}) throws Jedis\+Exception\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Log out a user by removing the associated token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & Token to be removed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the token was successfully removed, false otherwise. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Jedis\+Exception} & If an issue occurs with the Redis database connection. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a59dc6968c6739d3291340f917e75906c}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a59dc6968c6739d3291340f917e75906c} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!register@{register}}
+\index{register@{register}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{register()}{register()}}
+{\footnotesize\ttfamily String projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+register (\begin{DoxyParamCaption}\item[{String}]{email,  }\item[{String}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Register a new user with the specified email and password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & User email. \\
+\hline
+{\em password} & User password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Generated token for the registered user or null if the user already exists. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a6bac12a2abba45506265d0b1dcbd9e1a}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_authentication_service_a6bac12a2abba45506265d0b1dcbd9e1a} 
+\index{projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}!validateToken@{validateToken}}
+\index{validateToken@{validateToken}!projetoIES.webapp.services.AuthenticationService@{projetoIES.webapp.services.AuthenticationService}}
+\doxysubsubsection{\texorpdfstring{validateToken()}{validateToken()}}
+{\footnotesize\ttfamily User projeto\+IES.\+webapp.\+services.\+Authentication\+Service.\+validate\+Token (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption}) throws Jedis\+Exception\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Validate a token and retrieve the associated user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & Token to be validated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+User associated with the token or null if the token is invalid. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Jedis\+Exception} & If an issue occurs with the Redis database connection. \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/services/\mbox{\hyperlink{_authentication_service_8java}{Authentication\+Service.\+java}}\end{DoxyCompactItemize}
