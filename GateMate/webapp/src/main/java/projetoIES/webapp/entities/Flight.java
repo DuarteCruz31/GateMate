@@ -87,9 +87,21 @@ public class Flight {
         departure.setTerminal(json.get("dep_terminal").asText());
         departure.setGate(json.get("dep_gate").asText());
         departure.setDelay(json.get("dep_delayed").asInt(0));
-        departure.setScheduled(json.get("dep_time_ts").asText());
-        departure.setActual(json.get("dep_actual_ts").asText());
-        departure.setEstimated(json.get("dep_estimated_ts").asText(departure.getActual()));
+        if (json.has("dep_time_ts")) {
+            departure.setScheduled(json.get("dep_time_ts").asText());
+        } else {
+            departure.setScheduled("");
+        }
+        if (json.has("dep_actual_ts")) {
+            departure.setActual(json.get("dep_actual_ts").asText());
+        } else {
+            departure.setActual("");
+        }
+        if (json.has("dep_estimated_ts")) {
+            departure.setEstimated(json.get("dep_estimated_ts").asText());
+        } else {
+            departure.setEstimated("");
+        }
 
         arrival = new AirportFlight();
         arrival.setIata(json.get("arr_iata").asText());
@@ -98,9 +110,21 @@ public class Flight {
         arrival.setTerminal(json.get("arr_terminal").asText());
         arrival.setGate(json.get("arr_gate").asText());
         arrival.setDelay(json.get("arr_delayed").asInt(0));
-        arrival.setScheduled(json.get("arr_time_ts").asText());
-        arrival.setActual(json.get("dep_actual_ts").asText());
-        arrival.setEstimated(json.get("dep_estimated_ts").asText(arrival.getActual()));
+        if (json.has("arr_time_ts")) {
+            arrival.setScheduled(json.get("arr_time_ts").asText());
+        } else {
+            arrival.setScheduled("");
+        }
+        if (json.has("arr_actual_ts")) {
+            arrival.setActual(json.get("arr_actual_ts").asText());
+        } else {
+            arrival.setActual("");
+        }
+        if (json.has("arr_estimated_ts")) {
+            arrival.setEstimated(json.get("arr_estimated_ts").asText());
+        } else {
+            arrival.setEstimated("");
+        }
     }
 
     /**

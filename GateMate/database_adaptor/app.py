@@ -88,7 +88,6 @@ async def db_adaptor_live_data(channel, collection):
 
         try:
             data = json.loads(body)
-
             for flight in data["response"]:
                 # Extracting relevant data from the incoming message
                 reg_number = flight["reg_number"]
