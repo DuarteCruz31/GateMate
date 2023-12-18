@@ -9,7 +9,7 @@ function AllFlights() {
   const [flights, setFlights] = useState([]);
   const [flightsNotFound, setFlightsNotFound] = useState(true);
   const [flightsUrl, setFlightsUrl] = useState(
-    "http://localhost:8080/api/allflights"
+    "http://deti-ies-18:8080/api/allflights"
   );
 
   const fetchAllFlights = useCallback(async (url) => {
@@ -57,12 +57,12 @@ function AllFlights() {
       to: "",
       company: "",
     });
-    setFlightsUrl("http://localhost:8080/api/allflights");
+    setFlightsUrl("http://deti-ies-18:8080/api/allflights");
     fetchAllFlights(flightsUrl);
   }
 
   async function handleSearch() {
-    var url = "http://localhost:8080/api/allflights?";
+    var url = "http://deti-ies-18:8080/api/allflights?";
     if (filter.from != "") {
       url += `from=${filter.from}&`;
     }

@@ -90,7 +90,7 @@ def start_server(collection):
     The function binds a socket to a specified address and port, listens for incoming connections, and processes received flight update data by calling the send_email function.
     """
     PORT = 1234
-    ADDRESS = "0.0.0.0"
+    ADDRESS = "deti-ies-18"
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((ADDRESS, PORT))
     s.listen(5)

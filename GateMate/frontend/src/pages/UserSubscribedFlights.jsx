@@ -11,7 +11,7 @@ function UserSubscribedFlights() {
   const fetchSubscribedPlanes = async (token) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/user/subscribed_flights",
+        "http://deti-ies-18:8080/api/user/subscribed_flights",
         {
           method: "POST",
           headers: {
