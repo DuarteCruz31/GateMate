@@ -1,3 +1,21 @@
+/**
+ * @file
+ * @brief Main application class for the web application.
+ *
+ * @brief WebappApplication class.
+ *
+ * This class represents the main application class for the web application. It configures Spring Boot and sets up CORS.
+ *
+ * @note
+ * Adjust the class-level comments based on your specific requirements and the functionality of your web application.
+ *
+ * @author André Oliveira <andreaoliveira@ua.pt>
+ * @author Bruno Páscoa <brunopascoa03@ua.pt>
+ * @author Duarte Cruz <duarteccruz@ua.pt>
+ * @author Sara Almeida <sarafalmeida@ua.pt>
+ * @date December 18, 2023
+ */
+
 package projetoIES.webapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +39,20 @@ public class WebappApplication {
 	@Autowired
 	UserRepository userRepository;
 
+	/**
+	 * @brief Main method to run the Spring Boot application.
+	 *
+	 * @param args Command line arguments.
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(WebappApplication.class, args);
 	}
 
+	/**
+	 * @brief Configure CORS for the application.
+	 *
+	 * @return WebMvcConfigurer instance with CORS configuration.
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
