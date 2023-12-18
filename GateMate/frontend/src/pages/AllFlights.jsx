@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -8,10 +8,11 @@ import image1 from "../assets/allflights/1.jpeg";
 function AllFlights() {
   const [flights, setFlights] = useState([]);
   const [flightsNotFound, setFlightsNotFound] = useState(true);
+  const [flightsUrl, setFlightsUrl] = useState(
+    "http://localhost:8080/api/allflights"
+  );
 
-  const fetchAllFlights = async (
-    url = "http://localhost:8080/api/allflights"
-  ) => {
+  const fetchAllFlights = useCallback(async (url) => {
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -19,7 +20,7 @@ function AllFlights() {
 
       const responseContent = await response.json();
       if (response.status === 200) {
-        console.log("FLights found");
+        console.log("Flights found");
         setFlights(responseContent);
         setFlightsNotFound(false);
       } else if (response.status === 404) {
@@ -32,15 +33,15 @@ function AllFlights() {
       setFlights(null);
       setFlightsNotFound(true);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchAllFlights();
+    fetchAllFlights(flightsUrl);
 
-    const intervalId = setInterval(fetchAllFlights, 60000);
+    const id = setInterval(() => fetchAllFlights(flightsUrl), 3000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => clearInterval(id);
+  }, [fetchAllFlights, flightsUrl]);
 
   const [filter, setFilter] = useState({
     flightIata: "",
@@ -56,7 +57,8 @@ function AllFlights() {
       to: "",
       company: "",
     });
-    fetchAllFlights();
+    setFlightsUrl("http://localhost:8080/api/allflights");
+    fetchAllFlights(flightsUrl);
   }
 
   async function handleSearch() {
@@ -74,6 +76,7 @@ function AllFlights() {
       url += `flightIata=${filter.flightIata}&`;
     }
 
+    setFlightsUrl(url);
     fetchAllFlights(url);
   }
 
