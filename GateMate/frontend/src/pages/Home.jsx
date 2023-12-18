@@ -18,7 +18,7 @@ function Home() {
 
   const validateUserToken = async (token) => {
     try {
-      const response = await fetch("http://deti-ies-18:8080/api/user/", {
+      const response = await fetch("http://deti-ies-18/api/user/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

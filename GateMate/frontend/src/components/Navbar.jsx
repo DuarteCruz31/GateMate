@@ -9,7 +9,7 @@ function Navbar() {
 
   const handleLogout = async (token) => {
     try {
-      const response = await fetch("http://deti-ies-18:8080/api/user/logout", {
+      const response = await fetch("http://deti-ies-18/api/user/logout", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

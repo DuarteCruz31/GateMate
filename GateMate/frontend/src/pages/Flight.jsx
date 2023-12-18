@@ -20,7 +20,7 @@ function Flight(props) {
   const fetchFlightInfo = async () => {
     try {
       const response = await fetch(
-        "http://deti-ies-18:8080/api/flight/" + flightIata,
+        "http://deti-ies-18/api/flight/" + flightIata,
         {
           method: "GET",
         }
@@ -46,7 +46,7 @@ function Flight(props) {
   const flightSubscribed = async (token) => {
     try {
       const response = await fetch(
-        "http://deti-ies-18:8080/api/user/is_subscribed",
+        "http://deti-ies-18/api/user/is_subscribed",
         {
           method: "POST",
           headers: {
@@ -85,7 +85,7 @@ function Flight(props) {
   const handleSubscribe = async (token) => {
     try {
       const response = await fetch(
-        "http://deti-ies-18:8080/api/user/subscribe_flight",
+        "http://deti-ies-18/api/user/subscribe_flight",
         {
           method: "POST",
           headers: {
@@ -120,7 +120,7 @@ function Flight(props) {
   const handleUnsubscribe = async (token) => {
     try {
       const response = await fetch(
-        "http://deti-ies-18:8080/api/user/unsubscribe_flight",
+        "http://deti-ies-18/api/user/unsubscribe_flight",
         {
           method: "POST",
           headers: {
