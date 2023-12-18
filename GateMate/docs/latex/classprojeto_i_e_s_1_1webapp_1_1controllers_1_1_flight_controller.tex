@@ -1,0 +1,59 @@
+\doxysection{projeto\+IES.\+webapp.\+controllers.\+Flight\+Controller Class Reference}
+\hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller}{}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller}\index{projetoIES.webapp.controllers.FlightController@{projetoIES.webapp.controllers.FlightController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Response\+Entity$<$ Flight $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_a1cbc53af8da953cc0d8db921ddd93068}{get\+Flight\+Info}} (@Path\+Variable(value="{}iata"{}) String iata)
+\begin{DoxyCompactList}\small\item\em Get flight information by IATA code. \end{DoxyCompactList}\item 
+Response\+Entity$<$ List$<$ Flight $>$ $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_ac739adf3c76e4d189319fec32859bcca}{get\+Filtered\+Flights}} ( @Request\+Param(name="{}from"{}, required=false) String from, @Request\+Param(name="{}to"{}, required=false) String to, @Request\+Param(name="{}company"{}, required=false) String company, @Request\+Param(name="{}flight\+Iata"{}, required=false) String flight\+Iata)
+\begin{DoxyCompactList}\small\item\em Get filtered flights based on optional parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_ac739adf3c76e4d189319fec32859bcca}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_ac739adf3c76e4d189319fec32859bcca} 
+\index{projetoIES.webapp.controllers.FlightController@{projetoIES.webapp.controllers.FlightController}!getFilteredFlights@{getFilteredFlights}}
+\index{getFilteredFlights@{getFilteredFlights}!projetoIES.webapp.controllers.FlightController@{projetoIES.webapp.controllers.FlightController}}
+\doxysubsubsection{\texorpdfstring{getFilteredFlights()}{getFilteredFlights()}}
+{\footnotesize\ttfamily Response\+Entity$<$ List$<$ Flight $>$ $>$ projeto\+IES.\+webapp.\+controllers.\+Flight\+Controller.\+get\+Filtered\+Flights (\begin{DoxyParamCaption}\item[{@Request\+Param(name="{}from"{}, required=false) String}]{from,  }\item[{@Request\+Param(name="{}to"{}, required=false) String}]{to,  }\item[{@Request\+Param(name="{}company"{}, required=false) String}]{company,  }\item[{@Request\+Param(name="{}flight\+Iata"{}, required=false) String}]{flight\+Iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get filtered flights based on optional parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & Departure location (optional). \\
+\hline
+{\em to} & Arrival location (optional). \\
+\hline
+{\em company} & Airline company (optional). \\
+\hline
+{\em flight\+Iata} & Flight IATA code (optional). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity containing a list of filtered flights or NOT\+\_\+\+FOUND status if no flights match the criteria. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_a1cbc53af8da953cc0d8db921ddd93068}\label{classprojeto_i_e_s_1_1webapp_1_1controllers_1_1_flight_controller_a1cbc53af8da953cc0d8db921ddd93068} 
+\index{projetoIES.webapp.controllers.FlightController@{projetoIES.webapp.controllers.FlightController}!getFlightInfo@{getFlightInfo}}
+\index{getFlightInfo@{getFlightInfo}!projetoIES.webapp.controllers.FlightController@{projetoIES.webapp.controllers.FlightController}}
+\doxysubsubsection{\texorpdfstring{getFlightInfo()}{getFlightInfo()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Flight $>$ projeto\+IES.\+webapp.\+controllers.\+Flight\+Controller.\+get\+Flight\+Info (\begin{DoxyParamCaption}\item[{@Path\+Variable(value="{}iata"{}) String}]{iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get flight information by IATA code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em iata} & IATA code of the flight. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response\+Entity containing Flight information or NOT\+\_\+\+FOUND status if not found. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/controllers/\mbox{\hyperlink{_flight_controller_8java}{Flight\+Controller.\+java}}\end{DoxyCompactItemize}

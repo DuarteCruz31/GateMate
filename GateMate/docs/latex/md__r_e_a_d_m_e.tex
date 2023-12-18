@@ -1,0 +1,68 @@
+\chapter{GATE MATE}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{GATE MATE@{GATE MATE}}
+\label{md__r_e_a_d_m_e_autotoc_md13}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md13}%
+ \hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysection{\texorpdfstring{HOW TO RUN}{HOW TO RUN}}\label{md__r_e_a_d_m_e_autotoc_md14}
+In this directory create a .env file with the following variables\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ .env\ file}
+\DoxyCodeLine{\#\ MongoDB\ Configuration}
+\DoxyCodeLine{MONGODB\_USER=my\_mongodb\_user}
+\DoxyCodeLine{MONGODB\_PASSWORD=my\_mongodb\_password}
+\DoxyCodeLine{MONGODB\_DATABASE=my\_mongodb\_database}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ RabbitMQ\ Configuration}
+\DoxyCodeLine{RABBITMQ\_USER=my\_rabbitmq\_user}
+\DoxyCodeLine{RABBITMQ\_PASSWORD=my\_rabbitmq\_password}
+\DoxyCodeLine{RABBITMQ\_MANAGEMENT\_PORT=15672}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Nginx\ Configuration}
+\DoxyCodeLine{NGINX\_PORT=8080}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Spring\ Configuration}
+\DoxyCodeLine{SPRING\_PORT=8081}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ React\ Configuration}
+\DoxyCodeLine{FRONTEND\_PORT=8082}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Email\ Configuration}
+\DoxyCodeLine{EMAIL=my\_email@example.com}
+\DoxyCodeLine{EMAIL\_PASSWORD=my\_email\_password}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ API\ Key\ Configuration}
+\DoxyCodeLine{API\_KEY=your\_api\_key}
+\DoxyCodeLine{}
+\DoxyCodeLine{FETCH\_INTERVAL\ =\ 5\ \#\ in\ minutes}
+\DoxyCodeLine{}
+\DoxyCodeLine{FRONTEND\_PORT\ =\ 8383}
+\DoxyCodeLine{}
+\DoxyCodeLine{NGINX\_PORT\ =\ 7070}
+
+\end{DoxyCode}
+
+
+After that, run the following commands\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{chmod\ +x\ ./run.sh}
+\DoxyCodeLine{./run.sh}
+
+\end{DoxyCode}
+
+
+or
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker-\/compose\ up}
+\DoxyCodeLine{open\ http://localhost:8383}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md15}{}\doxysection{\texorpdfstring{Documentation\+:}{Documentation:}}\label{md__r_e_a_d_m_e_autotoc_md15}
+
+\begin{DoxyItemize}
+\item \doxysectlink{md_docs_2arquitecture}{Arquitecture}{0} 
+\end{DoxyItemize}

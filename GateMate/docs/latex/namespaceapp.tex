@@ -1,0 +1,238 @@
+\doxysection{app Namespace Reference}
+\hypertarget{namespaceapp}{}\label{namespaceapp}\index{app@{app}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceapp_a2a669c9d417866fb0f3495c7bc45cb60}{db\+\_\+adaptor\+\_\+live\+\_\+data}} (channel, collection)
+\item 
+\mbox{\hyperlink{namespaceapp_a4077d762eff17ccd0e9f52634f5c28da}{data\+\_\+grabber\+\_\+live\+\_\+data}} (api\+\_\+key, channel, connection, airlines\+\_\+icao)
+\item 
+\mbox{\hyperlink{namespaceapp_a63052ce351661731b4884c7698a4ac12}{send\+\_\+email}} (data, collection, email\+\_\+server, sender\+\_\+email)
+\item 
+\mbox{\hyperlink{namespaceapp_a60aad8df554d80cf5b3fdd3887332def}{start\+\_\+server}} (collection)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespaceapp_a945cd6638431171676cc257366416b8d}\label{namespaceapp_a945cd6638431171676cc257366416b8d} 
+{\bfseries level}
+\item 
+\Hypertarget{namespaceapp_abe1dee20bb0404dca01cb33164d39182}\label{namespaceapp_abe1dee20bb0404dca01cb33164d39182} 
+{\bfseries logger} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+\Hypertarget{namespaceapp_a1e0381482b0f9ed1a57b6662bb8fa3c5}\label{namespaceapp_a1e0381482b0f9ed1a57b6662bb8fa3c5} 
+{\bfseries mongo\+\_\+client} = Mongo\+Client(f"{}mongodb\+://mongodb\+:27017/"{})
+\item 
+\Hypertarget{namespaceapp_a75341a4bc0e8e239f299316136af3466}\label{namespaceapp_a75341a4bc0e8e239f299316136af3466} 
+{\bfseries db} = mongo\+\_\+client\mbox{[}"{}my\+\_\+mongodb\+\_\+database"{}\mbox{]}
+\item 
+\Hypertarget{namespaceapp_a2d712c0620b4a93c74287b457e40f518}\label{namespaceapp_a2d712c0620b4a93c74287b457e40f518} 
+{\bfseries collection} = db\mbox{[}"{}flights"{}\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceapp_a92973b8ba9dace2b2cba734c8b57c01b}{connection}}
+\item 
+\Hypertarget{namespaceapp_ace6821f50f062a7dc0bac6735f7152dc}\label{namespaceapp_ace6821f50f062a7dc0bac6735f7152dc} 
+{\bfseries channel} = connection.\+channel()
+\item 
+\Hypertarget{namespaceapp_af398f1db6f6b5f1e1f681e88cbb95c71}\label{namespaceapp_af398f1db6f6b5f1e1f681e88cbb95c71} 
+{\bfseries queue}
+\item 
+\Hypertarget{namespaceapp_a5ef6e3607a75a7a88d5a65b31e3e0b67}\label{namespaceapp_a5ef6e3607a75a7a88d5a65b31e3e0b67} 
+list {\bfseries airlines\+\_\+icao} = \mbox{[}"{}TAP"{}, "{}AFR"{}, "{}AAL"{}, "{}FPO"{}, "{}BAW"{}, "{}QTR"{}\mbox{]}
+\item 
+\Hypertarget{namespaceapp_ac2e5348c34b4cb858cccf6927551ec35}\label{namespaceapp_ac2e5348c34b4cb858cccf6927551ec35} 
+{\bfseries live\+\_\+data\+\_\+key} = os.\+environ\mbox{[}"{}API\+\_\+\+KEY"{}\mbox{]}
+\item 
+\Hypertarget{namespaceapp_aab232f2ecaba0cd1ea3169720c2073e2}\label{namespaceapp_aab232f2ecaba0cd1ea3169720c2073e2} 
+{\bfseries email\+\_\+server} = smtplib.\+SMTP("{}smtp-\/relay.\+brevo.\+com"{}, 587)
+\item 
+\Hypertarget{namespaceapp_af26b923818f8544e5471f3c2280c00ce}\label{namespaceapp_af26b923818f8544e5471f3c2280c00ce} 
+{\bfseries sender\+\_\+email} = os.\+environ\mbox{[}"{}EMAIL"{}\mbox{]}
+\item 
+\Hypertarget{namespaceapp_ada3a013fd7fa54cf41c12dbf2542da7d}\label{namespaceapp_ada3a013fd7fa54cf41c12dbf2542da7d} 
+{\bfseries target}
+\item 
+\Hypertarget{namespaceapp_a00ead87cd947b4efb6ac05951c325e36}\label{namespaceapp_a00ead87cd947b4efb6ac05951c325e36} 
+{\bfseries start\+\_\+server}
+\item 
+\Hypertarget{namespaceapp_a939a815788b8a38cf2c820fa3667d6bf}\label{namespaceapp_a939a815788b8a38cf2c820fa3667d6bf} 
+{\bfseries args}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@file
+@brief Description of the script/module.
+
+@brief Description of the module.
+
+This module contains a script that retrieves live flight data from a RabbitMQ queue, processes the data, and updates a MongoDB collection.
+
+@details
+The script subscribes to a RabbitMQ queue named "flights," receives JSON-formatted messages, and updates a MongoDB collection named "flights" with the live flight data. The script also performs cleanup tasks by deleting old documents and unsubscribing from outdated flights.
+
+@note
+Make sure to set the required environment variables:
+- RABBITMQ_USER: RabbitMQ username.
+- RABBITMQ_PASSWORD: RabbitMQ password.
+
+@pre
+- MongoDB instance is running and accessible at mongodb:27017.
+- RabbitMQ instance is running and accessible at rabbitmq.
+- Required Python packages are installed (pika, pymongo).
+
+@warning
+Ensure the MongoDB and RabbitMQ instances are correctly configured and running before executing this script.
+
+@author André Oliveira <andreaoliveira@ua.pt>
+@author Bruno Páscoa <brunopascoa03@ua.pt>
+@author Duarte Cruz <duarteccruz@ua.pt>
+@author Sara Almeida <sarafalmeida@ua.pt>
+@date December 18, 2023
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}@file
+@brief Description of the script/module.
+
+@brief Description of the module.
+
+This module contains a script that continuously grabs live flight data from the AirLabs API, sends the data to a RabbitMQ queue, and handles potential errors.
+
+@details
+The script retrieves live flight data for specified airlines from the AirLabs API using the provided API key. The data is then sent to the "flights" RabbitMQ queue for further processing. The script includes error handling for channel state errors and other exceptions. It runs indefinitely with a specified fetch interval.
+
+@note
+Make sure to set the required environment variables:
+- RABBITMQ_USER: RabbitMQ username.
+- RABBITMQ_PASSWORD: RabbitMQ password.
+- API_KEY: AirLabs API key.
+- FETCH_INTERVAL: Interval (in minutes) for fetching live data.
+
+@pre
+- RabbitMQ instance is running and accessible at rabbitmq.
+- Required Python packages are installed (requests, pika).
+
+@warning
+Ensure the RabbitMQ instance is correctly configured and running before executing this script.
+
+@author André Oliveira <andreaoliveira@ua.pt>
+         Bruno Páscoa <brunopascoa03@ua.pt>
+         Duarte Cruz <duarteccruz@ua.pt>
+         Sara Almeida <sarafalmeida@ua.pt>
+@date December 18, 2023
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}@file
+@brief Description of the script/module.
+
+@brief Description of the module.
+
+This module contains a script that listens for incoming socket connections, receives flight update data, and sends email notifications to subscribed users.
+
+@details
+The script starts a server that listens for incoming socket connections on a specified port. When a connection is established, it receives flight update data, extracts relevant information, and sends email notifications to subscribed users. The email notifications include details about the flight updates. The script uses a MongoDB collection to store information about subscribed flights and their associated users.
+
+@note
+Make sure to set the required environment variables:
+- EMAIL: Sender's email address.
+- EMAIL_PASSWORD: Sender's email password.
+
+@pre
+- MongoDB instance is running and accessible at mongodb:27017.
+- SMTP server is configured and accessible at smtp-relay.brevo.com:587.
+- Required Python packages are installed (pymongo).
+
+@warning
+Ensure the MongoDB instance and SMTP server are correctly configured and running before executing this script.
+
+@author André Oliveira <andreaoliveira@ua.pt>
+@author Bruno Páscoa <brunopascoa03@ua.pt>
+@author Duarte Cruz <duarteccruz@ua.pt>
+@author Sara Almeida <sarafalmeida@ua.pt>
+@date December 18, 2023
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceapp_a4077d762eff17ccd0e9f52634f5c28da}\label{namespaceapp_a4077d762eff17ccd0e9f52634f5c28da} 
+\index{app@{app}!data\_grabber\_live\_data@{data\_grabber\_live\_data}}
+\index{data\_grabber\_live\_data@{data\_grabber\_live\_data}!app@{app}}
+\doxysubsubsection{\texorpdfstring{data\_grabber\_live\_data()}{data\_grabber\_live\_data()}}
+{\footnotesize\ttfamily app.\+data\+\_\+grabber\+\_\+live\+\_\+data (\begin{DoxyParamCaption}\item[{}]{api\+\_\+key,  }\item[{}]{channel,  }\item[{}]{connection,  }\item[{}]{airlines\+\_\+icao }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Asynchronous function to continuously grab live flight data and send it to RabbitMQ.
+
+@param api_key: AirLabs API key.
+@param channel: RabbitMQ channel object.
+@param connection: RabbitMQ connection object.
+@param airlines_icao: List of airline ICAO codes to fetch live data for.
+
+@details
+The function continuously retrieves live flight data for specified airlines from the AirLabs API and sends the data to the "flights" RabbitMQ queue. It handles errors, including channel state errors, and runs with a specified fetch interval.
+\end{DoxyVerb}
+ \Hypertarget{namespaceapp_a2a669c9d417866fb0f3495c7bc45cb60}\label{namespaceapp_a2a669c9d417866fb0f3495c7bc45cb60} 
+\index{app@{app}!db\_adaptor\_live\_data@{db\_adaptor\_live\_data}}
+\index{db\_adaptor\_live\_data@{db\_adaptor\_live\_data}!app@{app}}
+\doxysubsubsection{\texorpdfstring{db\_adaptor\_live\_data()}{db\_adaptor\_live\_data()}}
+{\footnotesize\ttfamily app.\+db\+\_\+adaptor\+\_\+live\+\_\+data (\begin{DoxyParamCaption}\item[{}]{channel,  }\item[{}]{collection }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Asynchronous function to adapt live flight data from RabbitMQ and update MongoDB.
+
+@param channel: RabbitMQ channel object.
+@param collection: MongoDB collection object.
+
+@details
+The function subscribes to the "flights" queue, processes incoming messages, updates the MongoDB collection with live flight data, and sends notifications for changes in flight details.
+\end{DoxyVerb}
+ \Hypertarget{namespaceapp_a63052ce351661731b4884c7698a4ac12}\label{namespaceapp_a63052ce351661731b4884c7698a4ac12} 
+\index{app@{app}!send\_email@{send\_email}}
+\index{send\_email@{send\_email}!app@{app}}
+\doxysubsubsection{\texorpdfstring{send\_email()}{send\_email()}}
+{\footnotesize\ttfamily app.\+send\+\_\+email (\begin{DoxyParamCaption}\item[{}]{data,  }\item[{}]{collection,  }\item[{}]{email\+\_\+server,  }\item[{}]{sender\+\_\+email }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Function to send email notifications based on received flight update data.
+
+@param data: Received flight update data.
+@param collection: MongoDB collection for subscribed flights.
+@param email_server: SMTP server for sending emails.
+@param sender_email: Sender's email address.
+
+@details
+The function decodes the received data, extracts relevant information, and sends email notifications to subscribed users based on the flight update data.
+\end{DoxyVerb}
+ \Hypertarget{namespaceapp_a60aad8df554d80cf5b3fdd3887332def}\label{namespaceapp_a60aad8df554d80cf5b3fdd3887332def} 
+\index{app@{app}!start\_server@{start\_server}}
+\index{start\_server@{start\_server}!app@{app}}
+\doxysubsubsection{\texorpdfstring{start\_server()}{start\_server()}}
+{\footnotesize\ttfamily app.\+start\+\_\+server (\begin{DoxyParamCaption}\item[{}]{collection }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Function to start the socket server for receiving flight update data.
+
+@param collection: MongoDB collection for subscribed flights.
+
+@details
+The function binds a socket to a specified address and port, listens for incoming connections, and processes received flight update data by calling the send_email function.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceapp_a92973b8ba9dace2b2cba734c8b57c01b}\label{namespaceapp_a92973b8ba9dace2b2cba734c8b57c01b} 
+\index{app@{app}!connection@{connection}}
+\index{connection@{connection}!app@{app}}
+\doxysubsubsection{\texorpdfstring{connection}{connection}}
+{\footnotesize\ttfamily app.\+connection}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ pika.BlockingConnection(}
+\DoxyCodeLine{00002\ \ \ \ \ \ \ \ \ pika.ConnectionParameters(}
+\DoxyCodeLine{00003\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rabbitmq"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \ \ \ \ credentials=pika.PlainCredentials(}
+\DoxyCodeLine{00005\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ os.environ[\textcolor{stringliteral}{"{}RABBITMQ\_USER"{}}],\ os.environ[\textcolor{stringliteral}{"{}RABBITMQ\_PASSWORD"{}}]}
+\DoxyCodeLine{00006\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00008\ \ \ \ \ )}
+
+\end{DoxyCode}

@@ -1,0 +1,109 @@
+\doxysection{projeto\+IES.\+webapp.\+services.\+Flight\+Service Class Reference}
+\hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service}{}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service}\index{projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a0c7fa7fab035602833f4035858637caf}{Flight\+Service}} (Flight\+Repository flight\+Repository)
+\begin{DoxyCompactList}\small\item\em Constructor for the Flight\+Service class. \end{DoxyCompactList}\item 
+List$<$ Flight $>$ \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a30a60658bcb9b27163b67f5e7e204161}{get\+Filtered\+Flights\+All\+Flights}} (String from, String to, String company, String flight\+Iata)
+\begin{DoxyCompactList}\small\item\em Get filtered flights based on specified criteria. \end{DoxyCompactList}\item 
+Flight \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a622093e7529868e5e24e6cf5efc9b99c}{get\+Flight\+Info}} (String flight\+Iata)  throws Jedis\+Exception 
+\begin{DoxyCompactList}\small\item\em Get information for a specific flight by its IATA code. \end{DoxyCompactList}\item 
+Json\+Node \mbox{\hyperlink{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_adbe90ad7e674f0f7c67ee3af250de2ec}{fetch\+Info}} (String flight\+Iata)  throws Rest\+Client\+Exception 
+\begin{DoxyCompactList}\small\item\em Fetch flight information from an external API. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a0c7fa7fab035602833f4035858637caf}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a0c7fa7fab035602833f4035858637caf} 
+\index{projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}!FlightService@{FlightService}}
+\index{FlightService@{FlightService}!projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}}
+\doxysubsubsection{\texorpdfstring{FlightService()}{FlightService()}}
+{\footnotesize\ttfamily projeto\+IES.\+webapp.\+services.\+Flight\+Service.\+Flight\+Service (\begin{DoxyParamCaption}\item[{Flight\+Repository}]{flight\+Repository }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor for the Flight\+Service class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flight\+Repository} & Flight\+Repository for accessing flight data. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_adbe90ad7e674f0f7c67ee3af250de2ec}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_adbe90ad7e674f0f7c67ee3af250de2ec} 
+\index{projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}!fetchInfo@{fetchInfo}}
+\index{fetchInfo@{fetchInfo}!projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}}
+\doxysubsubsection{\texorpdfstring{fetchInfo()}{fetchInfo()}}
+{\footnotesize\ttfamily Json\+Node projeto\+IES.\+webapp.\+services.\+Flight\+Service.\+fetch\+Info (\begin{DoxyParamCaption}\item[{String}]{flight\+Iata }\end{DoxyParamCaption}) throws Rest\+Client\+Exception\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Fetch flight information from an external API. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flight\+Iata} & Flight IATA code. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Json\+Node containing flight information. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rest\+Client\+Exception} & If an issue occurs with the REST client. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a30a60658bcb9b27163b67f5e7e204161}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a30a60658bcb9b27163b67f5e7e204161} 
+\index{projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}!getFilteredFlightsAllFlights@{getFilteredFlightsAllFlights}}
+\index{getFilteredFlightsAllFlights@{getFilteredFlightsAllFlights}!projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}}
+\doxysubsubsection{\texorpdfstring{getFilteredFlightsAllFlights()}{getFilteredFlightsAllFlights()}}
+{\footnotesize\ttfamily List$<$ Flight $>$ projeto\+IES.\+webapp.\+services.\+Flight\+Service.\+get\+Filtered\+Flights\+All\+Flights (\begin{DoxyParamCaption}\item[{String}]{from,  }\item[{String}]{to,  }\item[{String}]{company,  }\item[{String}]{flight\+Iata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get filtered flights based on specified criteria. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & Departure airport IATA code (optional). \\
+\hline
+{\em to} & Arrival airport IATA code (optional). \\
+\hline
+{\em company} & Airline name (optional). \\
+\hline
+{\em flight\+Iata} & Flight IATA code (optional). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of filtered flights. 
+\end{DoxyReturn}
+\Hypertarget{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a622093e7529868e5e24e6cf5efc9b99c}\label{classprojeto_i_e_s_1_1webapp_1_1services_1_1_flight_service_a622093e7529868e5e24e6cf5efc9b99c} 
+\index{projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}!getFlightInfo@{getFlightInfo}}
+\index{getFlightInfo@{getFlightInfo}!projetoIES.webapp.services.FlightService@{projetoIES.webapp.services.FlightService}}
+\doxysubsubsection{\texorpdfstring{getFlightInfo()}{getFlightInfo()}}
+{\footnotesize\ttfamily Flight projeto\+IES.\+webapp.\+services.\+Flight\+Service.\+get\+Flight\+Info (\begin{DoxyParamCaption}\item[{String}]{flight\+Iata }\end{DoxyParamCaption}) throws Jedis\+Exception\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get information for a specific flight by its IATA code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flight\+Iata} & Flight IATA code. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Flight entity with updated information. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Jedis\+Exception} & If an issue occurs with the Redis database connection. \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+webapp/src/main/java/projeto\+IES/webapp/services/\mbox{\hyperlink{_flight_service_8java}{Flight\+Service.\+java}}\end{DoxyCompactItemize}
