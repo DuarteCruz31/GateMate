@@ -74,7 +74,7 @@ function Login() {
             role="alert"
           >
             <strong className="font-bold">
-              Your session has expired. Please login again.
+              Your session has expired or you are not loged in. Please login
             </strong>
           </div>
         )}

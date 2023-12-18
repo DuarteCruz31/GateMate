@@ -112,13 +112,15 @@ if __name__ == "__main__":
         db.create_collection("subscribed_flights")
     collection = db["subscribed_flights"]
 
-    # Connecting to SMTP server
-    email_server = smtplib.SMTP("smtp-relay.brevo.com", 587)
-    email_server.starttls()
-
     sender_email = os.environ["EMAIL"]
 
-    email_server.login(sender_email, os.environ["EMAIL_PASSWORD"])
+    # Connecting to SMTP server
+    try:
+        email_server = smtplib.SMTP("smtp-relay.brevo.com", 587)
+        email_server.starttls()
+        email_server.login(sender_email, os.environ["EMAIL_PASSWORD"])
+    except Exception as e:
+        logger.error(f"Error connecting to SMTP server: {e}")
 
     # Starting the socket server in a separate thread
     threading.Thread(target=start_server, args=(collection,)).start()
