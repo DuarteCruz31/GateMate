@@ -1,5 +1,28 @@
 import React from "react";
 
+function formatTimestamp(timestamp) {
+  if (!timestamp) {
+    return "Unavailable information";
+  }
+
+  let currentTimestamp = new Date(timestamp * 1000);
+
+  if (isNaN(currentTimestamp.getTime())) {
+    return "Invalid date";
+  }
+
+  let date = new Intl.DateTimeFormat(undefined, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(currentTimestamp);
+
+  return date;
+}
+
 function FlightInfoArrival({ flight }) {
   return (
     <>
@@ -7,38 +30,43 @@ function FlightInfoArrival({ flight }) {
         <tbody>
           <tr className="bg-base-200">
             <th>Airport Name</th>
-            {flight.name == null && <td>Unavailable information</td>}
-            {flight.name != null && <td>{flight.name}</td>}
+            <td>
+              {flight.name == null ? "Unavailable information" : flight.name}
+            </td>
           </tr>
           <tr>
             <th>Terminal</th>
-            {flight.terminal == null && <td>Unavailable information</td>}
-            {flight.terminal != null && <td>{flight.terminal}</td>}
+            <td>
+              {flight.terminal == null
+                ? "Unavailable information"
+                : flight.terminal}
+            </td>
           </tr>
           <tr className="bg-base-200">
             <th>Gate</th>
-            {flight.gate == null && <td>Unavailable information</td>}
-            {flight.gate != null && <td>{flight.gate}</td>}
+            <td>
+              {flight.gate == null ? "Unavailable information" : flight.gate}
+            </td>
           </tr>
           <tr>
             <th>Delay</th>
-            {flight.delay == null && <td>Unavailable information</td>}
-            {flight.delay != null && <td>{flight.delay}</td>}
+            <td>
+              {flight.delay == null
+                ? "Unavailable information"
+                : `${flight.delay} minutes`}
+            </td>
           </tr>
           <tr className="bg-base-200">
             <th>Scheduled</th>
-            {flight.scheduled == null && <td>Unavailable information</td>}
-            {flight.scheduled != null && <td>{flight.scheduled}</td>}
+            <td>{formatTimestamp(flight.scheduled)}</td>
           </tr>
           <tr>
             <th>Estimated</th>
-            {flight.estimated == null && <td>Unavailable information</td>}
-            {flight.estimated != null && <td>{flight.estimated}</td>}
+            <td>{formatTimestamp(flight.estimated)}</td>
           </tr>
           <tr className="bg-base-200">
             <th>Actual</th>
-            {flight.actual == null && <td>Unavailable information</td>}
-            {flight.actual != null && <td>{flight.actual}</td>}
+            <td>{formatTimestamp(flight.actual)}</td>
           </tr>
         </tbody>
       </table>

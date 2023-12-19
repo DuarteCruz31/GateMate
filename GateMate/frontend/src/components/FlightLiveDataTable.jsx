@@ -24,7 +24,7 @@ function FlightLiveDataTable({ flight }) {
             <tr className="bg-base-200">
               <th>Altitude</th>
               {flight.altitude == null && <td>Unavailable information</td>}
-              {flight.altitude != null && <td>{flight.altitude}</td>}
+              {flight.altitude != null && <td>{flight.altitude} meters</td>}
             </tr>
             <tr>
               <th>Direction</th>
@@ -34,7 +34,7 @@ function FlightLiveDataTable({ flight }) {
             <tr className="bg-base-200">
               <th>Horizontal Speed</th>
               {flight.speed == null && <td>Unavailable information</td>}
-              {flight.speed != null && <td>{flight.speed}</td>}
+              {flight.speed != null && <td>{flight.speed} Km/h</td>}
             </tr>
             <tr>
               <th>Vertical Speed</th>
@@ -42,7 +42,7 @@ function FlightLiveDataTable({ flight }) {
                 <td>Unavailable information</td>
               )}
               {flight.vertical_speed != null && (
-                <td>{flight.vertical_speed}</td>
+                <td>{flight.vertical_speed} Km/h</td>
               )}
             </tr>
           </tbody>
