@@ -31,13 +31,13 @@ function FlightInfoArrival({ flight }) {
           <tr className="bg-base-200">
             <th>Airport Name</th>
             <td>
-              {flight.name == null ? "Unavailable information" : flight.name}
+              {flight.name == "null" ? "Unavailable information" : flight.name}
             </td>
           </tr>
           <tr>
             <th>Terminal</th>
             <td>
-              {flight.terminal == null
+              {flight.terminal == "null"
                 ? "Unavailable information"
                 : flight.terminal}
             </td>
@@ -45,13 +45,13 @@ function FlightInfoArrival({ flight }) {
           <tr className="bg-base-200">
             <th>Gate</th>
             <td>
-              {flight.gate == null ? "Unavailable information" : flight.gate}
+              {flight.gate == "null" ? "Unavailable information" : flight.gate}
             </td>
           </tr>
           <tr>
             <th>Delay</th>
             <td>
-              {flight.delay == null
+              {flight.delay == "null"
                 ? "Unavailable information"
                 : `${flight.delay} minutes`}
             </td>
